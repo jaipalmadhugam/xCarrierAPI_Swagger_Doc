@@ -1,0 +1,219 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Elemica Api Documentation",
+    "description": "",
+    "termsOfService": "",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://xcdemo.myxcarrier.com:8443/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Print",
+      "description": "To print the labels"
+    }
+  ],
+  "paths": {
+    "/print": {
+      "post": {
+        "tags": [
+          "Print"
+        ],
+        "summary": "Get the label",
+        "operationId": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintLabelsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string"
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "enum": [
+                        200
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        ""
+                      ]
+                    },
+                    "Result": {
+                      "$ref": "#/components/schemas/PrintResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PrintResponse": {
+        "type": "array",
+        "example": [
+          {
+            "Version": "1.0.0.0",
+            "StatusCode": 200,
+            "Message": "SUCCESS",
+            "Result": [
+              {
+                "Provider": "FedEx",
+                "DocumentType": "FedEx Label",
+                "NumberOfDocuments": 3,
+                "Documents": [
+                  {
+                    "URL": "https://demo.myxcarrier.com/ECSAPI/Labels/794604547511.PNG"
+                  },
+                  {
+                    "URL": "https://demo.myxcarrier.com/ECSAPI/Labels/794604547522.PNG"
+                  },
+                  {
+                    "URL": "https://demo.myxcarrier.com/ECSAPI/Labels/794604547555.PNG"
+                  }
+                ]
+              },
+              {
+                "Provider": "Internal",
+                "DocumentType": "Packing Slip",
+                "NumberOfDocuments": 1,
+                "Documents": [
+                  {
+                    "URL": "https://demo.myxcarrier.com/ECSAPI/Labels/PackingSlipReport_.pdf"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "items": {
+          "type": "object",
+          "properties": {
+            "Provider": {
+              "type": "string"
+            },
+            "DocumentType": {
+              "type": "string"
+            },
+            "NumberOfDocuments": {
+              "type": "number"
+            },
+            "Documents": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "Base64": {
+                    "type": "string"
+                  },
+                  "URL": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "ERRORRESPONSE": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PrintLabelsRequest": {
+        "type": "object",
+        "properties": {
+          "PlantId": {
+            "type": "string",
+            "description": "Location ID"
+          },
+          "TrackingNumber": {
+            "type": "string",
+            "description": "TrackingNumber of Shipment"
+          },
+          "ShipmentType": {
+            "type": "string",
+            "description": "Type of Shipment",
+            "enum": [
+              "BOTH",
+              "INTERNAL",
+              "OUTBOUND"
+            ]
+          },
+          "DocumentType": {
+            "type": "string",
+            "description": "Document Type is document description.",
+            "example": ""
+          },
+          "Base64": {
+            "type": "boolean",
+            "description": "Document is in base 64 format."
+          },
+          "ShipmentNumber": {
+            "type": "string",
+            "description": "ShipmentNumber is shipping number."
+          },
+          "LPNNumber": {
+            "type": "string",
+            "description": "License Plate Number, this is used to identify items that are being tracked for return and assosiate it to the correct seller."
+          }
+        },
+        "example": {
+          "PlantId": "1",
+          "TrackingNumber": "",
+          "ShipmentType": "OUTBOUND",
+          "DocumentType": "",
+          "Base64": false,
+          "ShipmentNumber": "1160",
+          "LPNNumber": ""
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "name": "XCARRIER-SECURITY-KEY",
+        "in": "header"
+      }
+    }
+  }
+}

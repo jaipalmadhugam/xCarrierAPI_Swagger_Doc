@@ -1,0 +1,557 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Elemica Api Documentation",
+    "description": "",
+    "termsOfService": "",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://xcdemo.myxcarrier.com:8443/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Mail Forwarding",
+      "description": "Mail Forwarding"
+    }
+  ],
+  "paths": {
+    "/mailforwarding": {
+      "get": {
+        "tags": [
+          "Mail Forwarding"
+        ],
+        "summary": "Get Mail Forwarding Request",
+        "operationId": "GetMailForwardingRequest",
+        "parameters": [
+          {
+            "name": "useralias",
+            "in": "query",
+            "description": "User Alias or Email Address",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "enum": [
+                        "1.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "description": "Status Code Dependes on API Response like:200(OK.),201 (Created),400(Bad Request),401(Unauthorized)",
+                      "format": "int32",
+                      "enum": [
+                        200,
+                        201,
+                        400,
+                        401,
+                        500
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "description": "Message depends on API response",
+                      "enum": [
+                        "SUCCESS"
+                      ]
+                    },
+                    "Result": {
+                      "$ref": "#/components/schemas/MailForwardingResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "enum": [
+                        "1.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "enum": [
+                        400
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "Invalid User"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Mail Forwarding"
+        ],
+        "summary": "Create Mail Forwarding Request",
+        "operationId": "CreateMailForwardingRequest",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MailForwardingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "enum": [
+                        "1.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "description": "Status Code Dependes on API Response like:200(OK.),201 (Created),400(Bad Request),401(Unauthorized)",
+                      "format": "int32",
+                      "enum": [
+                        200,
+                        201,
+                        400,
+                        401,
+                        500
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "description": "Dependes on API Response"
+                    },
+                    "Result": {
+                      "$ref": "#/components/schemas/MailForwardingResult"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "enum": [
+                        "1.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "enum": [
+                        400
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "Invalid User"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": [
+          "Mail Forwarding"
+        ],
+        "summary": "Delete Mail Forwarding Request",
+        "operationId": "DeleteMailForwardingRequest",
+        "parameters": [
+          {
+            "name": "useralias",
+            "in": "query",
+            "description": "User Alias or Email Address",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "enum": [
+                        "1.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "enum": [
+                        200
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "Mail Forwarding Successfully Deleted"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "enum": [
+                        "1.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "enum": [
+                        400
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "Invalid User"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MailForwardingResult": {
+        "type": "string",
+        "example": "SAVESUCCESS"
+      },
+      "MailForwardingRequest": {
+        "required": [
+          "ActiveFromDate",
+          "ActiveToDate",
+          "Status",
+          "UserFrom",
+          "UserTo"
+        ],
+        "type": "object",
+        "properties": {
+          "UserFrom": {
+            "type": "string",
+            "description": "Name of the user who wants to active mail forwarding."
+          },
+          "UserTo": {
+            "type": "string",
+            "description": "Name of the person to whom the mail will be forwarded to."
+          },
+          "ForwardingAddress": {
+            "type": "object",
+            "properties": {
+              "FirstName": {
+                "type": "string",
+                "description": "FirstName"
+              },
+              "LastName": {
+                "type": "string",
+                "description": "LastName"
+              },
+              "AddressLine1": {
+                "type": "string",
+                "description": "AddressLine1"
+              },
+              "AddressLine2": {
+                "type": "string",
+                "description": "AddressLine2"
+              },
+              "MailStop": {
+                "type": "string",
+                "description": "Delivery point where mail service delivers and collect"
+              },
+              "Building": {
+                "type": "string",
+                "description": "Building"
+              },
+              "City": {
+                "type": "string",
+                "description": "City"
+              },
+              "State": {
+                "type": "string",
+                "description": "State"
+              },
+              "Country": {
+                "type": "string",
+                "description": "Country"
+              },
+              "ZipCode": {
+                "type": "string",
+                "description": "ZipCode"
+              },
+              "Phone": {
+                "type": "string",
+                "description": "Phone"
+              },
+              "Email": {
+                "type": "string",
+                "description": "Email"
+              }
+            }
+          },
+          "Status": {
+            "type": "string",
+            "description": "Status of the Mail Forwarding.",
+            "enum": [
+              "Acive",
+              "InActive"
+            ]
+          },
+          "ActiveFromDate": {
+            "type": "string",
+            "description": "Mail Forwarding Active From Date."
+          },
+          "ActiveToDate": {
+            "type": "string",
+            "description": "Mail Forwarding Active To Date."
+          }
+        },
+        "example": {
+          "UserFrom": "MANDEL",
+          "UserTo": "MARCODI",
+          "ForwardingAddress": {
+            "FirstName": "AAAA",
+            "LastName": "U",
+            "AddressLine1": "6750 North Andrews Avenue",
+            "AddressLine2": "Suite 400",
+            "MailStop": "1165",
+            "Building": "1",
+            "City": "Redmond",
+            "State": "WA",
+            "Country": "US",
+            "ZipCode": "33309",
+            "Phone": "234567",
+            "Email": "mahesh.utlapalli@elemica.com"
+          },
+          "Status": "Active",
+          "ActiveFromDate": "04/15/2023",
+          "ActiveToDate": "04/20/2023"
+        }
+      },
+      "MailForwardingResponse": {
+        "type": "object",
+        "properties": {
+          "UserFrom": {
+            "type": "string",
+            "description": "Name of the user who wants to active mail forwarding."
+          },
+          "ForwardingAddress": {
+            "type": "object",
+            "properties": {
+              "FirstName": {
+                "type": "string",
+                "description": "FirstName of Forwarding Address"
+              },
+              "LastName": {
+                "type": "string",
+                "description": "LastName of Forwarding Address"
+              },
+              "AddressLine1": {
+                "type": "string",
+                "description": "AddressLine1 of Forwarding Address"
+              },
+              "AddressLine2": {
+                "type": "string",
+                "description": "AddressLine2 of Forwarding Address"
+              },
+              "MailStop": {
+                "type": "string",
+                "description": "Delivery point for mail service delivers and collect"
+              },
+              "Building": {
+                "type": "string",
+                "description": "Building number of Forwarding Address"
+              },
+              "City": {
+                "type": "string",
+                "description": "City of Forwarding Address"
+              },
+              "State": {
+                "type": "string",
+                "description": "State of Forwarding Address"
+              },
+              "Country": {
+                "type": "string",
+                "description": "Country of Forwarding Address"
+              },
+              "ZipCode": {
+                "type": "string",
+                "description": "ZipCode of Forwarding Address"
+              },
+              "Phone": {
+                "type": "string",
+                "description": "Phone of Forwarding Address"
+              },
+              "Email": {
+                "type": "string",
+                "description": "Email of Forwarding Address"
+              }
+            }
+          },
+          "Status": {
+            "type": "string",
+            "description": "Status Forwarding Address",
+            "example": ""
+          },
+          "ActiveFromDate": {
+            "type": "string",
+            "description": "Mail Forwarding Active From Date."
+          },
+          "ActiveToDate": {
+            "type": "string",
+            "description": "Mail Forwarding Active To Date."
+          }
+        },
+        "example": {
+          "UserFrom": "MANDEL",
+          "ForwardingAddress": {
+            "FirstName": "AAAA",
+            "LastName": "U",
+            "AddressLine1": "6750 North Andrews Avenue",
+            "AddressLine2": "Suite 400",
+            "MailStop": "1165",
+            "Building": "1",
+            "City": "Redmond",
+            "State": "WA",
+            "Country": "US",
+            "ZipCode": "33309",
+            "Phone": "234567",
+            "Email": "mahesh.utlapalli@elemica.com"
+          },
+          "Status": "Active",
+          "ActiveFromDate": "08/18/2022",
+          "ActiveToDate": "08/25/2022"
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "name": "XCARRIER-SECURITY-KEY",
+        "in": "header"
+      }
+    }
+  }
+}

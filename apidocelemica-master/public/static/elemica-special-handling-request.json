@@ -1,0 +1,701 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Elemica Api Documentation",
+    "description": "",
+    "termsOfService": "",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://xcdemo.myxcarrier.com:8443/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Special Handling",
+      "description": "Special Handling"
+    }
+  ],
+  "paths": {
+    "/specialhandling/inactive/{specialhandlingid}/": {
+      "delete": {
+        "tags": [
+          "Special Handling"
+        ],
+        "summary": "Make Special Handling Request inactive",
+        "description": "It makes the Specialhandling request Inactive.",
+        "operationId": "MakeSpecialHandlingRequestInactive",
+        "parameters": [
+          {
+            "name": "specialhandlingid",
+            "in": "path",
+            "description": "SpecialHandling Id.Unique Id generated for Special Handling request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "API version",
+                      "enum": [
+                        "1.0.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "string",
+                      "description": "API status code",
+                      "enum": [
+                        "200",
+                        "400",
+                        "401",
+                        "500"
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "description": "API response",
+                      "enum": [
+                        "Special Handling Request Successfully Marked Inactive"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "description": "API result"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "API version",
+                      "enum": [
+                        "1.0.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "string",
+                      "description": "API status code",
+                      "enum": [
+                        "400",
+                        "200",
+                        "401",
+                        "500"
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "description": "API response",
+                      "enum": [
+                        "Invalid SpecialHandling ID"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "description": "API result"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/specialhandling/{specialhandlingid}/": {
+      "delete": {
+        "tags": [
+          "Special Handling"
+        ],
+        "summary": "Delete Special Handling Request",
+        "description": "It deletes the SpecialHandling request",
+        "operationId": "DeleteSpecialHandlingRequest",
+        "parameters": [
+          {
+            "name": "specialhandlingid",
+            "in": "path",
+            "description": "SpecialHandling Id.Unique Id generated for Special Handling request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "API version",
+                      "enum": [
+                        "1.0.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "string",
+                      "description": "API status code",
+                      "enum": [
+                        "200",
+                        "400",
+                        "401",
+                        "500"
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "description": "API response",
+                      "enum": [
+                        "Special Handling Request Successfully Deleted"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "description": "API result"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "API version",
+                      "enum": [
+                        "1.0.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "string",
+                      "description": "API status code",
+                      "enum": [
+                        "400",
+                        "200",
+                        "401",
+                        "500"
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "description": "API response",
+                      "enum": [
+                        "Invalid SpecialHandling ID"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "description": "API result"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/specialhandling/": {
+      "get": {
+        "tags": [
+          "Special Handling"
+        ],
+        "summary": "Get Special Handling Details",
+        "description": "It is used to fetch the SpecialHandling Request associated with the given filters",
+        "operationId": "GetSpecialHandlingRequest",
+        "parameters": [
+          {
+            "name": "shipmentid",
+            "in": "query",
+            "description": "Ship request Number",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "internaltrackingId",
+            "in": "query",
+            "description": "Internal Tracking Number generated by the company for Internal shipments",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "carriertrackingId",
+            "in": "query",
+            "description": "External Tracking Number generated by the third party/Carrier service",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user",
+            "in": "query",
+            "description": "User Name Or User Email Id Or User Alias",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "plantid",
+            "in": "query",
+            "description": "Plant Id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "activefrom",
+            "in": "query",
+            "description": "Active From Date in MM/dd/yyyy format",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "activeto",
+            "in": "query",
+            "description": "Active To Date in MM/dd/yyyy format",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "API version",
+                      "enum": [
+                        "1.0.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "string",
+                      "description": "API status code",
+                      "enum": [
+                        "200",
+                        "400",
+                        "401",
+                        "500"
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "description": "API response",
+                      "enum": [
+                        "SUCCESS"
+                      ]
+                    },
+                    "Result": {
+                      "type": "array",
+                      "description": "API result",
+                      "items": {
+                        "$ref": "#/components/schemas/SpecialHandlingResponse"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed Operation. When user does not pass any parameters to process the operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "API version",
+                      "enum": [
+                        "1.0.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "string",
+                      "description": "API status code",
+                      "enum": [
+                        "400",
+                        "200",
+                        "401",
+                        "500"
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "description": "API response",
+                      "enum": [
+                        "Please send atleast one query parameter"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "description": "API result"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Special Handling"
+        ],
+        "summary": "Add Special Handling Request",
+        "description": "It creates new SpecialHandling request",
+        "operationId": "AddSpecialHandlingRequest",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SpecialHandlingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "API version",
+                      "enum": [
+                        "1.0.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "string",
+                      "description": "API status code",
+                      "enum": [
+                        "200",
+                        "400",
+                        "401",
+                        "500"
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "description": "API response",
+                      "enum": [
+                        "SUCCESS"
+                      ]
+                    },
+                    "Result": {
+                      "$ref": "#/components/schemas/SpecialHandlingResult"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed Operation. When passed User which is not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "API version",
+                      "enum": [
+                        "1.0.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "string",
+                      "description": "API status code",
+                      "enum": [
+                        "400",
+                        "200",
+                        "401",
+                        "500"
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "description": "API response",
+                      "enum": [
+                        "Invalid User"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "description": "API result"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SpecialHandlingResult": {
+        "type": "string",
+        "description": "API result",
+        "example": "Data Saved Successfully"
+      },
+      "SpecialHandlingRequest": {
+        "required": [
+          "ActiveFrom",
+          "ActiveTo",
+          "SpecialHandlingInstructions",
+          "UserAlias"
+        ],
+        "type": "object",
+        "properties": {
+          "UserAlias": {
+            "type": "string",
+            "description": "User Name Or User Email Id Or User Alias"
+          },
+          "ShipmentId": {
+            "type": "string",
+            "description": "Ship request Number"
+          },
+          "InternalTrackingId": {
+            "type": "string",
+            "description": "Internal Tracking Number generated by the company for Internal shipments"
+          },
+          "CarrierTrackingId": {
+            "type": "string",
+            "description": "External Tracking Number generated by the third party/Carrier service"
+          },
+          "SpecialHandlingInstructions": {
+            "type": "string",
+            "description": "SpecialHandling Instructions/Notification text"
+          },
+          "PackageStatus": {
+            "type": "string",
+            "description": "Status of the Package",
+            "enum": [
+              "All",
+              "<Any vaild status>"
+            ]
+          },
+          "ActiveFrom": {
+            "type": "string",
+            "description": "Active From Date in MM/dd/yyyy format"
+          },
+          "ActiveTo": {
+            "type": "string",
+            "description": "Active To Date in MM/dd/yyyy format"
+          }
+        },
+        "example": {
+          "UserAlias": "MANDEL",
+          "ShipmentID": "12345",
+          "InternalTrackingID": "1234",
+          "CarrierTrackingID": "444444",
+          "SpecialHandlingInstructions": "Please handle with care. Breakable components inside.",
+          "PackageStatus": "All",
+          "ActiveFrom": "08/07/2022",
+          "ActiveTo": "08/11/2022"
+        }
+      },
+      "SpecialHandlingResponse": {
+        "type": "object",
+        "properties": {
+          "SpecialHandlingId": {
+            "type": "integer",
+            "description": "Unique Id assigned to special handling request"
+          },
+          "ShipmentId": {
+            "type": "string",
+            "description": "Ship request Number"
+          },
+          "InternalTrackingId": {
+            "type": "string",
+            "description": "Internal Tracking Number generated by the company for Internal shipments"
+          },
+          "CarrierTrackingId": {
+            "type": "string",
+            "description": "External Tracking Number generated by the third party/Carrier service"
+          },
+          "SpecialHandlingInstructions": {
+            "type": "string",
+            "description": "SpecialHandling Instructions/Notification text"
+          },
+          "PackageStatus": {
+            "type": "string",
+            "description": "Status of the Package",
+            "enum": [
+              "All",
+              "<Any vaild status>"
+            ]
+          },
+          "ShipFrom": {
+            "type": "string",
+            "description": "Ship From date in MM/dd/yyyy format"
+          },
+          "ShipTo": {
+            "type": "string",
+            "description": "Ship to date in MM/dd/yyyy format"
+          },
+          "ServiceType": {
+            "type": "string",
+            "description": "Carrier Service level name"
+          },
+          "OrderType": {
+            "type": "string",
+            "description": "Order Type Code. Value should be based on Location and Company.",
+            "enum": [
+              "PO",
+              "SR",
+              "PWS",
+              "HAND",
+              "SALES",
+              "STO",
+              "DN",
+              "RE",
+              "HU",
+              "SO",
+              "PWSS",
+              "TEST"
+            ]
+          },
+          "ActiveFrom": {
+            "type": "string",
+            "description": "Active From Date in MM/dd/yyyy format"
+          },
+          "ActiveTo": {
+            "type": "string",
+            "description": "Active To Date in MM/dd/yyyy format"
+          },
+          "NotificationType": {
+            "type": "string",
+            "description": "Special Handling Type",
+            "enum": [
+              "All",
+              "Web",
+              "<Any vaild status>"
+            ]
+          }
+        },
+        "example": {
+          "SpecialHandlingId": 5,
+          "ShipmentId": "12345",
+          "InternalTrackingId": "1234",
+          "CarrierTrackingId": "444444",
+          "SpecialHandlingInstructions": "Test Popup",
+          "ActiveFrom": "07/29/2022",
+          "ActiveTo": "08/29/2022",
+          "PackageStatus": "All",
+          "ShipFrom": "",
+          "ShipTo": "",
+          "ServiceType": "",
+          "NotificationType": "All",
+          "OrderType": "Ship Request Number"
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "name": "XCARRIER-SECURITY-KEY",
+        "in": "header"
+      }
+    }
+  }
+}

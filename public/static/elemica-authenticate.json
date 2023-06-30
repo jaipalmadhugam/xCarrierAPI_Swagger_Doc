@@ -1,0 +1,180 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Elemica Api Documentation",
+    "description": "",
+    "termsOfService": "",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://xcdemo.myxcarrier.com:8443/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authenticate",
+      "description": "To generate JWT token"
+    }
+  ],
+  "paths": {
+    "/authenticate": {
+      "post": {
+        "tags": [
+          "Authenticate"
+        ],
+        "summary": "To generate JWT token",
+        "operationId": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "API version",
+                      "enum": [
+                        "1.0.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "string",
+                      "description": "API status code",
+                      "enum": [
+                        "200",
+                        "400",
+                        "401",
+                        "500"
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "description": "API response",
+                      "enum": [
+                        "Token Generated Successfully",
+                        "Unauthorized Access"
+                      ]
+                    },
+                    "Result": {
+                      "$ref": "#/components/schemas/Response"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "API version",
+                      "enum": [
+                        "1.0.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "string",
+                      "description": "API status code",
+                      "enum": [
+                        "200",
+                        "400",
+                        "401",
+                        "500"
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "description": "API response",
+                      "enum": [
+                        "Token Generated Successfully",
+                        "Unauthorized Access"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "description": "API result"
+                    }
+                  },
+                  "example": {
+                    "Version": "1.0.0.0",
+                    "StatusCode": 401,
+                    "Message": "Unauthorized Access",
+                    "Result": "No Authentication Found"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Response": {
+        "type": "string",
+        "description": "API result",
+        "example": "[eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1haGVzaC51dGxhcGFsbGlAZWxlbWljYS5jb20iLCJuYmYiOjE2NzUxNTY0NDUsImV4cCI6MTY3NTE1NzA0NSwiaWF0IjoxNjc1MTU2NDQ1fQ.LyFnejk0hfB7OTz-1ErV1JQNXGysPmrfwnrmuA_hgH8]"
+      },
+      "Request": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "User name or User Email id"
+          },
+          "password": {
+            "type": "string",
+            "description": "Login password"
+          }
+        },
+        "example": {
+          "username": "xxxx@elemica.com",
+          "password": "******"
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "name": "XCARRIER-SECURITY-KEY",
+        "in": "header"
+      }
+    }
+  }
+}

@@ -1,0 +1,722 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Elemica Api Documentation",
+    "description": "",
+    "termsOfService": "",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://xcdemo.myxcarrier.com:8443/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Paccurate",
+      "description": "To pack the items"
+    }
+  ],
+  "paths": {
+    "/pack": {
+      "post": {
+        "tags": [
+          "Paccurate"
+        ],
+        "summary": "Pack the Items",
+        "operationId": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PackRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "API version",
+                      "enum": [
+                        "1.0.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "string",
+                      "description": "API status code",
+                      "enum": [
+                        "200",
+                        "400",
+                        "401",
+                        "500"
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "description": "API response",
+                      "enum": [
+                        "SUCCESS",
+                        "No Packing Material Found"
+                      ]
+                    },
+                    "Result": {
+                      "$ref": "#/components/schemas/PackResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed operation where no box details/Packing material is found in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "API version",
+                      "enum": [
+                        "1.0.0.0"
+                      ]
+                    },
+                    "StatusCode": {
+                      "type": "string",
+                      "description": "API status code",
+                      "enum": [
+                        "200",
+                        "400",
+                        "401",
+                        "500"
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "description": "API response",
+                      "enum": [
+                        "No Packing Material Found",
+                        "SUCCESS"
+                      ]
+                    },
+                    "Result": {
+                      "$ref": "#/components/schemas/PackResponse"
+                    }
+                  },
+                  "example": {
+                    "Version": "string",
+                    "StatusCode": 400,
+                    "Message": "No Packing Material Found",
+                    "Result": ""
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PackResponse": {
+        "type": "object",
+        "properties": {
+          "Message": {
+            "type": "string",
+            "description": "Error Response message from Paccurate, if any"
+          },
+          "PreviewURL": {
+            "type": "string",
+            "description": "URl for the interactive Packing Preview"
+          },
+          "TotalItemsPacked": {
+            "type": "number",
+            "description": "Total number of items packed in the packages"
+          },
+          "TotalItemsRemaining": {
+            "type": "number",
+            "description": "Total number of items Remaining to be packed"
+          },
+          "Box": {
+            "type": "array",
+            "description": "List of Packed Box details",
+            "items": {
+              "type": "object",
+              "properties": {
+                "BoxNumber": {
+                  "type": "number",
+                  "description": "Box Number"
+                },
+                "BoxSize": {
+                  "type": "string",
+                  "description": "Box dimension. Format is Length X Breadth X Height."
+                },
+                "boxWeight": {
+                  "type": "number",
+                  "description": "Box Weight"
+                },
+                "boxweightMax": {
+                  "type": "number",
+                  "description": "Box Weight"
+                },
+                "boxweightRemaining": {
+                  "type": "number",
+                  "description": "Box Weight"
+                },
+                "boxweightTare": {
+                  "type": "number",
+                  "description": "Box Weight"
+                },
+                "boxweightUsed": {
+                  "type": "number",
+                  "description": "Box Weight"
+                },
+                "item": {
+                  "type": "object",
+                  "properties": {
+                    "centerOfMass": {
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "type": "string",
+                          "description": "X coordinate, used as height."
+                        },
+                        "y": {
+                          "type": "string",
+                          "description": "Y coordinate, used as width."
+                        },
+                        "z": {
+                          "type": "string",
+                          "description": "Z coordinate, used as length."
+                        }
+                      }
+                    },
+                    "color": {
+                      "type": "string",
+                      "description": "item's Color Type"
+                    },
+                    "deltaCost": {
+                      "type": "integer",
+                      "description": "DeltaCoste"
+                    },
+                    "dimensions": {
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "type": "string",
+                          "description": "X coordinate, used as height."
+                        },
+                        "y": {
+                          "type": "string",
+                          "description": "Y coordinate, used as width."
+                        },
+                        "z": {
+                          "type": "string",
+                          "description": "Z coordinate, used as length."
+                        }
+                      },
+                      "description": "dimensions of Item"
+                    },
+                    "index": {
+                      "type": "integer",
+                      "description": "item's index"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "item's message"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "item's name"
+                    },
+                    "Origin": {
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "type": "string",
+                          "description": "X coordinate, used as height."
+                        },
+                        "y": {
+                          "type": "string",
+                          "description": "Y coordinate, used as width."
+                        },
+                        "z": {
+                          "type": "string",
+                          "description": "Z coordinate, used as length."
+                        }
+                      },
+                      "description": "origin of Item"
+                    },
+                    "refId": {
+                      "type": "integer",
+                      "description": "Reference Id"
+                    },
+                    "sequence": {
+                      "type": "string",
+                      "description": "sequence"
+                    },
+                    "uniqueId": {
+                      "type": "string",
+                      "description": "uniqueId"
+                    }
+                  },
+                  "description": "Item"
+                },
+                "TotalItems": {
+                  "type": "number",
+                  "description": "Total number of items packed in the box"
+                },
+                "BoxType": {
+                  "type": "string",
+                  "description": "Type of Box used for packing.Can have dimension.Format is Length X Breadth X Height."
+                },
+                "svg": {
+                  "type": "string",
+                  "description": "Image of Box in SVG format"
+                }
+              }
+            }
+          },
+          "leftovers": {
+            "type": "array",
+            "description": "Items left over that could not be packed into any available boxes.",
+            "items": {
+              "$ref": "#/components/schemas/Item"
+            }
+          }
+        },
+        "description": "API result",
+        "example": {
+          "PreviewURL": "HTTP://LOCALHOST:8080/LABELS/111513_2012023.html",
+          "TotalBoxes": 1,
+          "TotalItemsPacked": 8,
+          "TotalItemsRemaining": 0,
+          "Box": [
+            {
+              "BoxNumber": 1,
+              "BoxType": "20X20X20",
+              "BoxSize": "20X20X20",
+              "boxWeight": 100,
+              "boxweightMax": 150,
+              "boxweightRemaining": 40,
+              "boxweightTare": 10,
+              "boxweightUsed": 110,
+              "TotalItems": 8,
+              "svg": "<figure class='box-figure' data-box-index=0><svg viewBox='-152.27669529663686,-179.62414523193146,353.5533905932737,408.24829046386293'>[<line data-volume-index='0' class='volume-line' x1='24.5' y1='24.5' x2='24.5' y2='14.293792738403425'/>\n <line data-volume-index='0' class='volume-line' x1='24.5' y1='24.5' x2='15.661165235168156' y2='29.603103630798287'/>\n <line data-volume-index='0' class='volume-line' x1='24.5' y1='24.5' x2='33.338834764831844' y2='29.603103630798287'/>\n <line data-volume-index='0' class='volume-line' x1='24.5' y1='24.5' x2='201.27669529663686' y2='126.56207261596573'/>\n <line data-volume-index='0' class='volume-line' x1='24.5' y1='24.5' x2='-152.27669529663686' y2='126.56207261596573'/>\n <line data-volume-index='0' class='volume-line' x1='24.5' y1='24.5' x2='24.5' y2='-179.62414523193146'/>\n] <polygon vector-effect='non-scaling-stroke' data-item-ref-id='3' data-volume-index='1' data-side='[6 4 8] [1 0 0]' data-direction='0 [6 4 8] [1 0 0] [] [] [1,0,0]' data-max-depth='6.562177827357096' data-min-depth='3.0980762122193415' class='volume-line' points='59.85533905932737,24.499999999999993 95.21067811865474,4.087585476806849 24.5,-36.73724356957945 -10.855339059327374,-16.324829046386302' style='fill:black;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='3' data-volume-index='1' data-side='[6 4 8] [0 1 0]' data-direction='1 [6 4 8] [0 1 0] [] [] [0,1,0]' data-max-depth='6.562177827357096' data-min-depth='2.5207259430297153' class='volume-line' points='59.85533905932737,85.73724356957945 59.85533905932737,24.499999999999993 -10.855339059327374,-16.324829046386302 -10.855339059327374,44.91241452319314' style='fill:black;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='3' data-volume-index='1' data-side='[6 4 8] [0 0 1]' data-direction='2 [6 4 8] [0 0 1] [] [] [0,0,1]' data-max-depth='6.562177827357096' data-min-depth='3.6754264814089668' class='volume-line' points='95.21067811865474,65.3248290463863 95.21067811865474,4.087585476806849 59.85533905932737,24.499999999999993 59.85533905932737,85.73724356957945' style='fill:black;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='3' data-volume-index='2' data-side='[6 4 16] [1 0 0]' data-direction='3 [6 4 16] [1 0 0] [] [] [1,0,0]' data-max-depth='8.8715789041156' data-min-depth='5.4074772889778435' class='volume-line' points='130.56601717798213,65.3248290463863 165.92135623730948,44.91241452319314 95.21067811865474,4.087585476806849 59.85533905932737,24.499999999999993' style='fill:black;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='3' data-volume-index='2' data-side='[6 4 16] [0 1 0]' data-direction='4 [6 4 16] [0 1 0] [] [] [0,1,0]' data-max-depth='8.8715789041156' data-min-depth='4.830127019788218' class='volume-line' points='130.56601717798213,126.56207261596573 130.56601717798213,65.3248290463863 59.85533905932737,24.499999999999993 59.85533905932737,85.73724356957945' style='fill:black;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='3' data-volume-index='2' data-side='[6 4 16] [0 0 1]' data-direction='5 [6 4 16] [0 0 1] [] [] [0,0,1]' data-max-depth='8.8715789041156' data-min-depth='5.98482755816747' class='volume-line' points='165.92135623730948,106.1496580927726 165.92135623730948,44.91241452319314 130.56601717798213,65.3248290463863 130.56601717798213,126.56207261596573' style='fill:black;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='2' data-volume-index='3' data-side='[1 8 10] [1 0 0]' data-direction='6 [1 8 10] [1 0 0] [] [] [1,0,0]' data-max-depth='6.850852961951909' data-min-depth='2.8094010776245284' class='volume-line' points='42.17766952966369,106.1496580927726 77.53300858899107,85.73724356957945 -10.855339059327374,34.706207261596575 -46.21067811865475,55.118621784789724' style='fill:Yellow;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='2' data-volume-index='3' data-side='[1 8 10] [0 1 0]' data-direction='7 [1 8 10] [0 1 0] [] [] [0,1,0]' data-max-depth='6.850852961951909' data-min-depth='3.6754264814089668' class='volume-line' points='42.17766952966369,116.35586535436916 42.17766952966369,106.1496580927726 -46.21067811865475,55.118621784789724 -46.21067811865475,65.3248290463863' style='fill:Yellow;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='2' data-volume-index='3' data-side='[1 8 10] [0 0 1]' data-direction='8 [1 8 10] [0 0 1] [] [] [0,0,1]' data-max-depth='6.850852961951909' data-min-depth='5.4074772889778435' class='volume-line' points='77.53300858899107,95.94345083117601 77.53300858899107,85.73724356957945 42.17766952966369,106.1496580927726 42.17766952966369,116.35586535436916' style='fill:Yellow;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='0' data-volume-index='6' data-side='[2 3 20] [0 1 0]' data-direction='9 [2 3 20] [0 1 0] [] [] [0,1,0]' data-max-depth='8.582903769520787' data-min-depth='6.850852961951908' class='volume-line' points='174.76019100214134,141.8713835083606 174.76019100214134,121.45896898516744 139.40485194281396,101.04655446197431 139.40485194281396,121.45896898516744' style='fill:Green;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='2' data-volume-index='4' data-side='[1 8 20] [1 0 0]' data-direction='10 [1 8 20] [1 0 0] [] [] [1,0,0]' data-max-depth='9.737604307900039' data-min-depth='5.696152423572657' class='volume-line' points='130.56601717798213,157.18069440075547 165.92135623730948,136.76827987756232 77.53300858899107,85.73724356957945 42.17766952966369,106.1496580927726' style='fill:Yellow;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='2' data-volume-index='4' data-side='[1 8 20] [0 1 0]' data-direction='11 [1 8 20] [0 1 0] [] [] [0,1,0]' data-max-depth='9.737604307900039' data-min-depth='6.562177827357096' class='volume-line' points='130.56601717798213,167.38690166235202 130.56601717798213,157.18069440075547 42.17766952966369,106.1496580927726 42.17766952966369,116.35586535436916' style='fill:Yellow;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='2' data-volume-index='4' data-side='[1 8 20] [0 0 1]' data-direction='12 [1 8 20] [0 0 1] [] [] [0,0,1]' data-max-depth='9.737604307900039' data-min-depth='8.294228634925972' class='volume-line' points='165.92135623730948,146.9744871391589 165.92135623730948,136.76827987756232 130.56601717798213,157.18069440075547 130.56601717798213,167.38690166235202' style='fill:Yellow;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='2' data-volume-index='5' data-side='[1 12 10] [1 0 0]' data-direction='13 [1 12 10] [1 0 0] [] [] [1,0,0]' data-max-depth='8.00555350033116' data-min-depth='3.96410161600378' class='volume-line' points='6.822330470336313,126.56207261596573 42.17766952966369,106.1496580927726 -46.21067811865475,55.118621784789724 -81.56601717798212,75.53103630798287' style='fill:Yellow;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='2' data-volume-index='5' data-side='[1 12 10] [0 1 0]' data-direction='14 [1 12 10] [0 1 0] [] [] [0,1,0]' data-max-depth='8.00555350033116' data-min-depth='4.830127019788218' class='volume-line' points='6.822330470336313,136.76827987756232 6.822330470336313,126.56207261596573 -81.56601717798212,75.53103630798287 -81.56601717798212,85.73724356957945' style='fill:Yellow;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='2' data-volume-index='5' data-side='[1 12 10] [0 0 1]' data-direction='15 [1 12 10] [0 0 1] [] [] [0,0,1]' data-max-depth='8.00555350033116' data-min-depth='6.562177827357096' class='volume-line' points='42.17766952966369,116.35586535436916 42.17766952966369,106.1496580927726 6.822330470336313,126.56207261596573 6.822330470336313,136.76827987756232' style='fill:Yellow;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='0' data-volume-index='6' data-side='[2 3 20] [1 0 0]' data-direction='16 [2 3 20] [1 0 0] [] [] [1,0,0]' data-max-depth='8.582903769520787' data-min-depth='6.562177827357096' class='volume-line' points='174.76019100214134,121.45896898516744 201.27669529663686,106.1496580927726 165.92135623730948,85.73724356957945 139.40485194281396,101.04655446197431' style='fill:Green;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='0' data-volume-index='6' data-side='[2 3 20] [0 0 1]' data-direction='17 [2 3 20] [0 0 1] [] [] [0,0,1]' data-max-depth='8.582903769520787' data-min-depth='7.139528096546721' class='volume-line' points='201.27669529663686,126.56207261596573 201.27669529663686,106.1496580927726 174.76019100214134,121.45896898516744 174.76019100214134,141.8713835083606' style='fill:Green;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='1' data-volume-index='7' data-side='[0.5 13 11] [1 0 0]' data-direction='18 [0.5 13 11] [1 0 0] [] [] [1,0,0]' data-max-depth='8.43856620222338' data-min-depth='4.974464587085625' class='volume-line' points='6.822330470336302,141.8713835083606 15.661165235168152,136.76827987756232 -81.56601717798212,80.63413993878116 -90.40485194281396,85.73724356957945' style='fill:Blue;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='1' data-volume-index='7' data-side='[0.5 13 11] [0 1 0]' data-direction='19 [0.5 13 11] [0 1 0] [] [] [0,1,0]' data-max-depth='8.43856620222338' data-min-depth='5.118802154383031' class='volume-line' points='6.822330470336302,146.9744871391589 6.822330470336302,141.8713835083606 -90.40485194281396,85.73724356957945 -90.40485194281396,90.84034720037774' style='fill:Blue;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='1' data-volume-index='7' data-side='[0.5 13 11] [0 0 1]' data-direction='20 [0.5 13 11] [0 0 1] [] [] [0,0,1]' data-max-depth='8.43856620222338' data-min-depth='8.00555350033116' class='volume-line' points='15.661165235168152,141.8713835083606 15.661165235168152,136.76827987756232 6.822330470336302,141.8713835083606 6.822330470336302,146.9744871391589' style='fill:Blue;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='1' data-volume-index='8' data-side='[0.5 14 11] [1 0 0]' data-direction='21 [0.5 14 11] [1 0 0] [] [] [1,0,0]' data-max-depth='8.727241336818192' data-min-depth='5.263139721680438' class='volume-line' points='-2.0165042944955243,146.9744871391589 6.822330470336302,141.8713835083606 -90.40485194281396,85.73724356957945 -99.2436867076458,90.84034720037772' style='fill:Blue;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='1' data-volume-index='8' data-side='[0.5 14 11] [0 1 0]' data-direction='22 [0.5 14 11] [0 1 0] [] [] [0,1,0]' data-max-depth='8.727241336818192' data-min-depth='5.4074772889778435' class='volume-line' points='-2.0165042944955243,152.07759076995717 -2.0165042944955243,146.9744871391589 -99.2436867076458,90.84034720037772 -99.2436867076458,95.94345083117601' style='fill:Blue;' />\n<polygon vector-effect='non-scaling-stroke' data-item-ref-id='1' data-volume-index='8' data-side='[0.5 14 11] [0 0 1]' data-direction='23 [0.5 14 11] [0 0 1] [] [] [0,0,1]' data-max-depth='8.727241336818192' data-min-depth='8.294228634925972' class='volume-line' points='6.822330470336302,146.9744871391589 6.822330470336302,141.8713835083606 -2.0165042944955243,146.9744871391589 -2.0165042944955243,152.07759076995717' style='fill:Blue;' />\n [<line data-volume-index='0' class='volume-line' x1='201.27669529663686' y1='126.56207261596573' x2='24.5' y2='228.62414523193146'/>\n <line data-volume-index='0' class='volume-line' x1='201.27669529663686' y1='126.56207261596573' x2='201.27669529663686' y2='-77.56207261596573'/>\n <line data-volume-index='0' class='volume-line' x1='24.5' y1='228.62414523193146' x2='-152.27669529663686' y2='126.56207261596573'/>\n <line data-volume-index='0' class='volume-line' x1='24.5' y1='228.62414523193146' x2='24.5' y2='24.5'/>\n <line data-volume-index='0' class='volume-line' x1='-152.27669529663686' y1='126.56207261596573' x2='-152.27669529663686' y2='-77.56207261596573'/>\n <line data-volume-index='0' class='volume-line' x1='-152.27669529663686' y1='-77.56207261596573' x2='24.5' y2='-179.62414523193146'/>\n <line data-volume-index='0' class='volume-line' x1='-152.27669529663686' y1='-77.56207261596573' x2='24.5' y2='24.5'/>\n <line data-volume-index='0' class='volume-line' x1='24.5' y1='-179.62414523193146' x2='201.27669529663686' y2='-77.56207261596573'/>\n <line data-volume-index='0' class='volume-line' x1='201.27669529663686' y1='-77.56207261596573' x2='24.5' y2='24.5'/>\n]</svg><figcaption></figcaption></figure>"
+            }
+          ],
+          "leftovers": []
+        }
+      },
+      "PackRequest": {
+        "type": "object",
+        "properties": {
+          "Request": {
+            "required": [
+              "itemSets"
+            ],
+            "type": "object",
+            "properties": {
+              "usableSpace": {
+                "type": "number",
+                "description": "An estimate of typical box utilization for the quick \"estimated\" boxTypeChoiceStyle, which will be used to ensure \"estimated\" box type choices are not overly optimistic regarding potential volume utilization"
+              },
+              "ReferenceNo": {
+                "type": "string",
+                "description": "Reference Number"
+              },
+              "itemSets": {
+                "type": "array",
+                "description": "List of Items to pack",
+                "items": {
+                  "required": [
+                    "dimensions",
+                    "quantity",
+                    "weight"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "refId": {
+                      "type": "number",
+                      "description": "Reference Id for the item"
+                    },
+                    "color": {
+                      "type": "string",
+                      "description": "Color code for the item. Used to identify the item in the preview"
+                    },
+                    "weight": {
+                      "type": "number",
+                      "description": "Weight of each item"
+                    },
+                    "dimensions": {
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "type": "number",
+                          "description": "X coordinate is for Height"
+                        },
+                        "y": {
+                          "type": "number",
+                          "description": "Y coordinate is for Breadth/Width"
+                        },
+                        "z": {
+                          "type": "number",
+                          "description": "Z coordinate is for length"
+                        }
+                      },
+                      "description": "Item dimension"
+                    },
+                    "quantity": {
+                      "type": "number",
+                      "description": "Total number of the item"
+                    }
+                  }
+                }
+              },
+              "boxTypes": 
+              {
+                "type": "array",
+                "description": "List of Boxes",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "weightMax": {
+                      "type": "number",
+                      "description": "Weight capacity of box"
+                    },
+                    "dimensions": {
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "type": "number",
+                          "description": "X coordinate is for Height"
+                        },
+                        "y": {
+                          "type": "number",
+                          "description": "Y coordinate is for Breadth/Width"
+                        },
+                        "z": {
+                          "type": "number",
+                          "description": "Z coordinate is for length"
+                        }
+                      },
+                      "description": "Box dimension"
+                    },
+                    "weightTare": {
+                      "type": "number",
+                      "description": "Weight of empty box"
+                    }
+                  }
+                }
+              },
+              "rules": {
+                "type": "array",
+                "description": "List of rules for packaging the items",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "itemRefId": {
+                      "type": "number",
+                      "description": "Reference ID for the item the rule applies to"
+                    },
+                    "operation": {
+                      "type": "string",
+                      "description": "Rule type for this definition. Valid operation values include\n<ul>\n  <li>\n    <h3>internal-space</h3>\n    <p><b>itemRefId</b> contains some internal packable subspace that can be used to place subsequent <b>items</b> defined by a virtual <b>boxType</b> with an <b>origin</b> defined relative to the <b>item</b>'s <b>dimensions</b> and with an allowable <b>weightMax</b>.</p>\n    <p>The internal subspace is subject to all rules and parameters of the parent <b>box</b> of the <b>item</b>.\n    <p>Subspaces may nest, as in a pencil can be placed into a flower pot which may then be put inside a bucket which may then be put inside a single <b>box</b>.</p>\n    <p>Internal space subspaces are \"opened\" only when an <b>item</b> with an internal space is placed into a <b>box</b>. They are then treated preferentially over opening a new <b>box</b> from the specified <b>boxTypes</b> until their weight or volume is exhausted, or no valid placements can be found within them for remaining <b>items</b>.</p>\n    <p><b>\"options\"</b> contents:</p>\n       <table>\n         <tr><th>key</th><th>value</th><th>description</th></tr>\n         <tr><td>type</td><td>string</td><td>identifies this internal space as being defined by a subspace.</td></tr>\n         <tr><td>boxType</td><td>BoxType</td><td>BoxType definition, values specified are used except price and rate and unless superseded by parent BoxType attributes.</td></tr>\n         <tr><td>origin</td><td>Point</td><td>origin of the subspace relative to Item dimensions.</td></tr>\n         <tr><td>blocking</td><td>boolean</td><td>whether the bounding box of the internal space blocks placement of other items in the parent box.</td></tr>\n         <tr><td>display</td><td>boolean</td><td>option to display the bounding box of the internal space as a white semi-transparent object in the visualization of its containing Item.</td></tr>\n         <tr><td>displayChildren</td><td>boolean</td><td>option to display the children packed within the internal space in the visualization of its containing parent Box.</td></tr>\n       </table>\n    <pre>{\n\"operation\": \"internal-space\",\n\"itemRefId\": 0,\n\"options\": {\n  \"type\": \"subspace\", \n  \"boxType\": {\n    \"weightMax\": 2,\n    \"name\": \"flower pot interior\",\n    \"price\": 0,\n    \"dimensions\": {\n      \"x\": 1.5,\n      \"y\": 1.5,\n      \"z\": 1.5\n    }\n  },\n  \"origin\": {\n    \"x\": 0.25,\n    \"y\": 1,\n    \"z\": 1\n  },\n  \"blocking\": true,\n  \"display\": true,\n  \"displayChildren\": true\n}\n}</pre>\n  </li>\n\n  <li>\n    <h3>alternate-dimensions</h3>\n    <p>Specify a set of alternate dimensions to attempt when packing in addition to the primary <b>dimensions</b> attribute of the <b>item</b>. Original\n       dimensions can be replaced completely with <b>replaceOriginal</b>, typically used to apply general, label-based rules to decrease (as in folding)\n       or increase (as in wrapping in packaging material) item dimensions in a generalized way. <b>dimensionScaleChanges</b> are candidate scale changes\n       for each dimension, e.g., <b>\"x\": -0.5</b> means reduce the \"x\" dimension by 50% (folded in half). Whereas, <b>dimensionChanges</b> refer\n       to static changes in any matching item dimensions, e.g., <b>\"x\": 1, \"y\": 1, \"z\": 1</b> means add one inch to each dimension of matching items.\n    <p><b>\"options\"</b> contents:</p>\n       <table>\n         <tr><th>key</th><th>value</th><th>description</th></tr>\n         <tr><td>dimensions</td><td>[]Point</td><td>A list of possible dimensions that will be attempted. Dimensions are sorted by volume ascending.</td></tr>\n         <tr><td>dimensionChanges</td><td>[]Point</td><td>A list of dimension change vectors that are added to the matching item dimensions to yield packing dimensions </td></tr>\n         <tr><td>dimensionScaleChanges</td><td>[]Point</td><td>A list of dimension scale-change vectors that are multiplied with the matching item dimensions, then added to the matching item dimensions to yield packing dimensions</td></tr>\n         <tr><td>replaceOriginal</td><td>boolean</td><td>When true, the original dimensions from matching item dimensions are discarded, and only the alternate dimensions are considered.</td></tr>\n       </table>\n    <pre>{\n      \"operation\": \"alternate-dimensions\",\n      \"itemRefId\": 0,\n      \"options\": {\n        \"dimensions\": [{\n          \"x\": 6,\n          \"y\": 8,\n          \"z\": 16\n        },\n        {\n          \"x\": 7.5,\n          \"y\": 10,\n          \"z\": 10\n        }],\n        \"dimensionChanges\": [{\n          \"x\": 1.0,\n          \"y\": 1.5,\n          \"z\": 1.0\n        }],\n        \"dimensionScaleChanges\": [{\n          \"x\": -0.5,\n          \"z\": 0.1\n        },\n        {\n          \"x\": 0.1,\n          \"y\": 0.1,\n          \"z\": 0.1\n        }]\n      }\n    }</pre>\n  </li>\n\n  <li>\n    <h3>exclude</h3>\n    <p><b>itemRefId</b> is excluded from being packed in the same carton with all <b>targetItemRefIds</b>, or in any carton found in <b>targetBoxRefIds</b></p>\n    <pre>{\n  \"operation\": \"exclude\",\n  \"itemRefId\": 0,\n  \"targetItemRefIds\": [1,2],\n  \"targetBoxRefIds\": [3]\n}</pre>\n\n\n  </li>\n  <li>\n    <h3>exclude-all</h3>\n    <p><b>itemRefId</b> is excluded from being packed in the same carton with all items without its refId</p>\n    <pre>{\n  \"operation\": \"exclude-all\",\n  \"itemRefId\": 0\n}</pre>\n\n\n  </li>\n  <li>\n    <h3>pack-as-is</h3>\n    <p>Each individual item with <b>itemRefId</b> is packed in a carton matching its exact dimensions, i.e., it is assumed the item is ship-ready and bypasses being placed in a box. If you have an item quantity of 6, it will place the items in 6 boxes.</p>\n    <pre>{\n  \"operation\": \"pack-as-is\",\n  \"itemRefId\": 0\n}</pre>\n\n\n  </li>\n  <li>\n    <h3>irregular</h3>\n    <p>There is one type of irregular item packing right now, \"roll\".</p>\n    <ul>\n      <li>\n        <h4>\"roll\"</h4> \n        <p>A rolled irregular item is simply where the item dimensions X, Y, and Z, represent the thickness, width, and total\n        length of a material meant to be rolled up (possibly on a spool, dowel, etc.) and shipped as such. Marked this way, the bounding box\n        of the roll cylinder will be used as its shipping dimensions. E.g., a roll has a width 60 inches and a diameter of 12 inches,\n        it will be shipped as if it were a 12\" x 12\" x 60\" item. Rolls can have a maximum allowable diameter, and any rolls that must be\n        split will have their weights calculated on a pro-rated basis of the total length and weight in the item contents.<p/>\n        <p><b>\"options\"</b> contents:</p>\n        <table>\n          <tr><th>key</th><th>value</th><th>description</th></tr>\n          <tr><td>type</td><td>\"roll\"</td></tr>\n          <tr><td>innerDiameter</td><td><i>number</i></td><td>the inner diameter of any dowel or tube used that serves as the initial diameter of the roll.</td></tr>\n          <tr><td>spoolWeight</td><td><i>number</i></td><td>the additional weight of each spool or dowel if applicable</td></tr>\n          <tr><td>maxDiameter</td><td><i>number</i></td><td>the maximum acceptable diameter of a resultant roll.</td></tr>\n          <tr><td>maxWeight</td><td><i>number</i></td><td>the maximum acceptable weight of a resultant roll.</td></tr>\n          <tr><td>minRollLength</td><td><i>number</i></td><td>the minimum length above which rolling will occur. E.g., if less than 12\" remain, ship it flat without rolling.</td></tr>\n        </table>\n      <pre>{\n  \"operation\": \"irregular\",\n  \"itemRefId\": 0,\n  \"options\": {\n    \"type\": \"roll\",\n    \"innerDiameter\": 1.0,\n    \"spoolWeight\": 1.0,\n    \"maxDiameter\": 8.0,\n    \"maxWeight\": 150,\n    \"minRollLength\": 12\n  }\n}</pre>\n      </li>\n    </ul>\n  </li>\n  <li>\n    <h3>lock-orientation</h3>\n    <p><b>itemRefId</b> is locked from rotation of its original dimensions, with axes of rotation excepted by <b>freeAxes</b></p>\n    <p><b>\"options\"</b> contents:</p>\n       <table>\n         <tr><th>key</th><th>value</th><th>description</th></tr>\n         <tr><td>freeAxes</td><td>array</td><td>Array of axis indices to be allowed rotational freedom. E.g., [0] for only yaw allowed, [0,1] for yaw and roll.</td></tr>\n       </table>\n    <pre>{\n  \"operation\": \"lock-orientation\",\n  \"itemRefId\": 0,\n  \"options\": {\n    \"freeAxes\": [0,1]\n  }\n}</pre>\n  </li>\n  <li>\n    <h3>fragile</h3> \n    <p><b>itemRefId</b> gains conditions for its packing and the packing of items directly above it. Fragile items can be wrapped in a thickness of packing material that is added to each face of the item, or marked as only to be packed on top of other items, or a maximum weight can be given for all additional items supported by the fragile item, or a simple priority flag can be specified where fraile items with the highest priority are never packed underneath items with a lower or unspecified priority.<p/>\n    <p><b>\"options\"</b> contents:</p>\n    <table>\n      <tr><th>key</th><th>value</th><th>description</th></tr>\n      <tr><td>display</td><td><i>boolean</i></td><td>whether to display the virtual subspace created above fragile items for analysis purposes.</td></tr>\n      <tr><td>maxWeight</td><td><i>number</i></td><td>the maximum weight of items that may be placed above this fragile item.</td></tr>\n      <tr><td>onTopOnly</td><td><i>boolean</i></td><td>specifies that nothing will be placed between the top dimensions of this item and the top of the box or container it is packed within, overriding <b>maxWeight</b> if previously specified.</td></tr>\n      <tr><td>excludeOverweight</td><td><i>boolean</i></td><td>automatically applies an item exclusion rule between this item and any items of a different <b>refId</b> with an item <b>weight</b> exceeding <b>maxWeight</b>.</td></tr>\n      <tr><td>unrestrictedPlacement</td><td><i>boolean</i></td><td>when true, bypasses creation of a placement-restricting fragility subspace, above the item used in conjunction with <b>excludeOverweight</b>, <b>packingMaterialThickness</b>, or other non-placement-orientated fragility features (not compatible with <b>onTopOnly</b>.)</td></tr>\n      <tr><td>onTopOnly</td><td><i>boolean</i></td><td>specifies that nothing will be placed between the top dimensions of this item and the top of the box or container it is packed within, overriding <b>maxWeight</b> if previously specified.</td></tr>\n      <tr><td>packingMaterialThickness</td><td><i>number</i></td><td>FUTURE RELEASE&mdash;a thickness of padding to apply to each face of the fragile item. E.g., a 3\"x3\"x3\" item with 0.5\" of <b>packingMaterialThickness</b> will be packed as a 4\"x4\"x4\" volume, as the 0.5\" of material will be applied once to each of the top, bottom, front, back, left, and right sides.</td></tr>\n      <tr><td>priority</td><td><i>number</i></td><td>FUTURE RELEASE&mdash;a priority integer, where higher values will never be placed underneath lower (or unspecified) values.</td></tr>\n    </table>\n    <pre>{\n  \"operation\": \"fragile\",\n  \"itemRefId\": 0,\n  \"options\": {\n    \"display\": false,\n    \"onTopOnly\": false,\n    \"maxWeight\": 5,\n    \"excludeOverweight\": true,\n    \"unrestrictedPlacement\": true,\n    \"packingMaterialThickness\": 0.2,\n    \"priority\": 0\n  }\n}</pre>\n  </li>\n  <li>\n    <h3>group-pack</h3>\n    <p>Matching items are to be packed by group based upon the <b>options</b>.</p>\n    <p><b>\"options\"</b> contents:</p>\n       <table>\n         <tr><th>key</th><th>value</th><th>description</th></tr>\n         <tr><td>type</td><td>enum</td><td>only 'auto' is currently supported</td></tr>\n         <tr><td>nameSuffix</td><td>string</td><td>substring to append to all item names in group-pack</td></tr>\n         <tr><td>scaleFactorThreshold</td><td>number</td><td>only apply axis multiplier to item axes at least 'scaleFactorThreshold' times smaller than the smallest availble 'boxType' dimension on that axis.</td></tr>\n         <tr><td>axes</td><td>array</td><td>list of axes to potentially scale group-pack dimensions by</td></tr>\n         <tr><td>axisMultiplier</td><td>int</td><td>for each permitted axis, scale the item dimensions (and the quantity group-packed) by 'axisMultiplier'</td></tr>\n       </table>\n    <pre>{\n  \"operation\": \"group-pack\",\n  \"itemMatch\": { \"all\": true },\n  \"options\": { \n    \"scaleFactorThreshold\": 10,\n    \"axes\": [0,1,2],\n    \"axisMultiplier\": 8,\n    \"type\": \"auto\",\n    \"nameSuffix\": \"auto-case-100\"\n  }\n}</pre>\n  </li>\n<ul>\n",
+                      "enum": [
+                        "exclude",
+                        "exclude-all",
+                        "pack-as-is",
+                        "irregular",
+                        "lock-orientation",
+                        "internal-space",
+                        "alternate-dimensions",
+                        "fragile"
+                      ]
+                    },
+                    "options": {
+                      "type": "object",
+                      "properties": {},
+                      "description": "Additional key-value options to pass for rule based on operation type"
+                    }
+                  },
+                  "description": "Rule definition for packing constraints"
+                }
+              },
+              "packOrigin": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "description": "X coordinate is for Height"
+                  },
+                  "y": {
+                    "type": "number",
+                    "description": "Y coordinate is for Breadth/Width"
+                  },
+                  "z": {
+                    "type": "number",
+                    "description": "Z coordinate is for length"
+                  }
+                },
+                "description": "The x,y,z coordinates of an optional packing origin. A packing origin is used to create more balanced packing for situations where load needs to be considered. E.g., for a 40\"x48\" pallet, a packOrigin representing the middle of the pallet, \"0,20,24\", would cause placement to minimize the distance of the packed items from the center of the pallet."
+              },
+              "eye": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "description": "X coordinate is for Height"
+                  },
+                  "y": {
+                    "type": "number",
+                    "description": "Y coordinate is for Breadth/Width"
+                  },
+                  "z": {
+                    "type": "number",
+                    "description": "Z coordinate is for length"
+                  }
+                },
+                "description": "The x,y,z coordinates of the virtual eye looking at the package for visualization purposes. Default is isometric, \"1,1,1\". To generate a side view, one could use \"0.001 ,1.0,0.001\" "
+              }
+            }
+          }
+        },
+        "example": {
+          "Request": {
+            "corners": true,
+            "ReferenceNo": "12345",
+            "itemSets": [
+              {
+                "refId": 0,
+                "color": "Green",
+                "weight": 1,
+                "dimensions": {
+                  "x": 2,
+                  "y": 3,
+                  "z": 4
+                },
+                "quantity": 1
+              },
+              {
+                "refId": 1,
+                "color": "Blue",
+                "weight": 1,
+                "dimensions": {
+                  "x": 0.5,
+                  "y": 1,
+                  "z": 11
+                },
+                "quantity": 2
+              },
+              {
+                "refId": 2,
+                "color": "Yellow",
+                "weight": 5,
+                "dimensions": {
+                  "x": 1,
+                  "y": 4,
+                  "z": 10
+                },
+                "quantity": 3
+              },
+              {
+                "refId": 3,
+                "color": "black",
+                "weight": 5,
+                "dimensions": {
+                  "x": 6,
+                  "y": 4,
+                  "z": 8
+                },
+                "quantity": 2
+              }
+            ],
+            "boxTypes": [
+              {
+                "weightTare":0,
+                "weightMax": 150,
+                "dimensions": {
+                  "x": 26,
+                  "y": 26,
+                  "z": 26
+                }
+              }
+            ],
+            "usableSpace": 0.75,
+            "eye": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "packOrigin": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rules": [
+              {
+                "itemRefId": 0,
+                "operation": "lock-orientation"
+              },
+              {
+                "itemRefId": 1,
+                "operation": "lock-orientation",
+                "options": {
+                  "freeAxes": [
+                    0
+                  ]
+                }
+              },
+              {
+                "itemRefId": 2,
+                "operation": "lock-orientation",
+                "options": {
+                  "freeAxes": [
+                    0,
+                    1
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "ItemProperties": {
+        "type": "object",
+        "properties": {
+          "refId": {
+            "type": "integer",
+            "description": "Item type reference identifier passed backed from request, where a value of -1 or null will be auto-assigned to a unique identifier by distinct item or itemSet."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name or description of item for your reference."
+          },
+          "color": {
+            "type": "string",
+            "description": "Designated color name or hex code (including leading \"#\") for the item in pack visualizations. If 'imageFormat' is set to 'PNG', the color must be a 3-byte (i.e., 6-character) case insensitive hex code plus the leading \"#\", e.g., \"#00ffff\"."
+          },
+          "sequence": {
+            "type": "string",
+            "description": "A sequence value for the item. This is intended for aisle-bin locations, e.g., aisle 11 bin 20 can be '1120'. Combined with maxSequenceDistance, you can restrict cartons to only have contents from within a certain range. This is very helpful for cartonization when picking efficiency is paramount. Sequence can also be used to pre-sort items for efficient packing on any arbitrary number, such as item weight instead of the default item volume."
+          },
+          "dimensions": {
+            "type": "object",
+            "description": "The length, width, and height of the item.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Point"
+              }
+            ]
+          },
+          "centerOfMass": {
+            "type": "object",
+            "description": "The coordinates of the center of mass of the item.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Point"
+              }
+            ]
+          },
+          "virtual": {
+            "type": "boolean",
+            "description": "Whether or not this is a real item or a virtual, blocking space (from a subspace or loading rules)",
+            "default": false
+          }
+        },
+        "description": "General properties of an item"
+      },
+      "Item": {
+        "description": "A specific, packed item.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ItemProperties"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "index": {
+                "type": "integer",
+                "description": "The sequence at which the item was packed."
+              },
+              "message": {
+                "type": "string",
+                "description": "Any relevant information or warnings about the packing of the item."
+              },
+              "origin": {
+                "type": "object",
+                "description": "The [x,y,z] placement point of the back-bottom corner of the item.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Point"
+                  }
+                ]
+              },
+              "deltaCost": {
+                "type": "integer",
+                "description": "The change in the estimated final cost of the box caused by adding the item."
+              },
+              "uniqueId": {
+                "type": "string",
+                "description": "A combination of the item's refId and its packing sequence, uniquely identifying it."
+              }
+            }
+          }
+        ]
+      },
+      "Point": {
+        "title": "Point",
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number",
+            "description": "X coordinate, used as height."
+          },
+          "y": {
+            "type": "number",
+            "description": "Y coordinate, used as width."
+          },
+          "z": {
+            "type": "number",
+            "description": "Z coordinate, used as length."
+          }
+        },
+        "description": "Vector definition used for points, dimensions, and other spacial purposes."
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "name": "XCARRIER-SECURITY-KEY",
+        "in": "header"
+      }
+    }
+  }
+}

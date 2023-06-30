@@ -1,0 +1,764 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Elemica Api Documentation",
+    "description": "",
+    "termsOfService": "",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://xcdemo.myxcarrier.com:8443/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Master Data",
+      "description": "Master Data"
+    }
+  ],
+  "paths": {
+    "/GetMasterDataDetails": {
+      "get": {
+        "tags": [
+          "Master Data"
+        ],
+        "summary": "This service returns all Master Data",
+        "operationId": "GetMasterData",
+        "parameters": [
+          {
+            "name": "shipdate",
+            "in": "query",
+            "description": "Ship Date",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MasterDataDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MasterDataDetails": {
+        "type": "object",
+        "properties": {
+          "lstxCarrierCompany": {
+            "type": "array",
+            "example": [
+              {
+                "Id": 1,
+                "CompanyId": "9243700001",
+                "CompanyName": "ABC Inc...",
+                "Contact": "Warehouse Manager",
+                "AddressLine1": "6406 Ivy lane",
+                "AddressLine2": "",
+                "AddressLine3": "",
+                "City": "",
+                "State": "TX",
+                "Country": "US",
+                "ZipCode": "",
+                "Phone": "123456",
+                "Email": "info@processweaver.com",
+                "ActiveCompany": true,
+                "NoOfPlants": 1,
+                "NoOfUsers": 0,
+                "Server": "",
+                "DbName": "",
+                "ConnectionString": "",
+                "UserName": "",
+                "Password": "**********",
+                "Currency": "",
+                "CreatedBy": "Shipping Manager",
+                "UpdatedBy": "Shipping Manager",
+                "CreatedOn": "2018-02-06T09:57:58.467Z",
+                "UpdatedOn": "2018-02-06T09:57:58.467Z",
+                "FirstName": "",
+                "LastName": "",
+                "JobTitle": "",
+                "CompanyColor": "#000000",
+                "CompanyLogo": "https://xcdemo.myxcarrier.com/Documents/9243700001/CompanyLogo/9243700001.jpg"
+              }
+            ],
+            "items": {
+              "required": [
+                "ActiveCompany",
+                "AddressLine1",
+                "CompanyColor",
+                "CompanyId",
+                "CompanyLogo",
+                "CompanyName",
+                "Contact",
+                "Country",
+                "CreatedBy",
+                "CreatedOn",
+                "Email",
+                "Id",
+                "NoOfPlants",
+                "Password",
+                "Phone",
+                "State",
+                "UpdatedBy",
+                "UpdatedOn"
+              ],
+              "type": "object",
+              "properties": {
+                "Id": {
+                  "type": "integer"
+                },
+                "CompanyId": {
+                  "type": "string",
+                  "description": "Company Id"
+                },
+                "CompanyName": {
+                  "type": "string",
+                  "description": "Company name"
+                },
+                "Contact": {
+                  "type": "string",
+                  "description": "Contact number"
+                },
+                "AddressLine1": {
+                  "type": "string",
+                  "description": "AddressLine1"
+                },
+                "State": {
+                  "type": "string",
+                  "description": "State"
+                },
+                "Country": {
+                  "type": "string",
+                  "description": "Country"
+                },
+                "Phone": {
+                  "type": "string",
+                  "description": "Phone number"
+                },
+                "Email": {
+                  "type": "string",
+                  "description": "Email Id"
+                },
+                "ActiveCompany": {
+                  "type": "boolean",
+                  "description": "Company is active or not",
+                  "enum": [
+                    true,
+                    false
+                  ]
+                },
+                "NoOfPlants": {
+                  "type": "integer",
+                  "description": "Number of plant under company"
+                },
+                "Password": {
+                  "type": "string",
+                  "description": "Password"
+                },
+                "CreatedBy": {
+                  "type": "string",
+                  "description": "Company created by"
+                },
+                "UpdatedBy": {
+                  "type": "string",
+                  "description": " Updated by"
+                },
+                "CreatedOn": {
+                  "type": "string",
+                  "description": "Created on which date and time"
+                },
+                "UpdatedOn": {
+                  "type": "string",
+                  "description": "Company updated on which date and time"
+                },
+                "CompanyColor": {
+                  "type": "string",
+                  "description": "Company color"
+                },
+                "CompanyLogo": {
+                  "type": "string",
+                  "description": "Company logo"
+                }
+              }
+            }
+          },
+          "lstxCarrierLocations": {
+            "type": "array",
+            "example": [
+              {
+                "Id": 6,
+                "CustomerId": "9243700001",
+                "PlantId": "1",
+                "PlantName": "BASF",
+                "Company": "ABC Inc...",
+                "Contact": "Warehouse Manager",
+                "AddressLine1": "2600 North Central Expressway ",
+                "AddressLine2": "apt 30",
+                "AddressLine3": "",
+                "City": "Richardson",
+                "State": "TX",
+                "Country": "US",
+                "ZipCode": "75080",
+                "Phone": "8889328373",
+                "Fax": "",
+                "CurrencyCode": "USD",
+                "Dimension": "IN",
+                "Weight": "LBS",
+                "Email": "info@processweaver.com",
+                "CreatedBy": "ProcessWeaver",
+                "UpdatedBy": "Tyler",
+                "CreatedOn": "2016-08-30T05:47:50.000Z",
+                "UpdatedOn": "2021-09-13T12:22:34.000Z",
+                "ActivePlant": true,
+                "TimeZone": "Pacific Standard Time",
+                "DateFormat": "MM/dd/yyyy",
+                "AddrValidation": true,
+                "BRS": false,
+                "RoutingGuideFlag": false,
+                "RecordCount": 0
+              }
+            ],
+            "items": {
+              "required": [
+                "ActivePlant",
+                "AddrValidation",
+                "AddressLine1",
+                "AddressLine2",
+                "BRS",
+                "City",
+                "Company",
+                "Contact",
+                "Country",
+                "CreatedBy",
+                "CreatedOn",
+                "CurrencyCode",
+                "CustomerId",
+                "DateFormat",
+                "Dimension",
+                "Email",
+                "Id",
+                "Phone",
+                "PlantId",
+                "PlantName",
+                "RecordCount",
+                "RoutingGuideFlag",
+                "State",
+                "TimeZone",
+                "UpdatedBy",
+                "UpdatedOn",
+                "Weight",
+                "ZipCode"
+              ],
+              "type": "object",
+              "properties": {
+                "Id": {
+                  "type": "integer"
+                },
+                "CustomerId": {
+                  "type": "string",
+                  "description": "Company Id"
+                },
+                "PlantId": {
+                  "type": "string",
+                  "description": "Location Id"
+                },
+                "PlantName": {
+                  "type": "string",
+                  "description": "Plant Name"
+                },
+                "Company": {
+                  "type": "string",
+                  "description": "Company Name"
+                },
+                "Contact": {
+                  "type": "string",
+                  "description": "Contact number"
+                },
+                "AddressLine1": {
+                  "type": "string",
+                  "description": "AddressLine1"
+                },
+                "AddressLine2": {
+                  "type": "string",
+                  "description": "AddressLine2"
+                },
+                "City": {
+                  "type": "string",
+                  "description": "Plant city"
+                },
+                "State": {
+                  "type": "string",
+                  "description": "Plant state"
+                },
+                "Country": {
+                  "type": "string",
+                  "description": "Plant country"
+                },
+                "ZipCode": {
+                  "type": "string",
+                  "description": "Plant zip code"
+                },
+                "Phone": {
+                  "type": "string",
+                  "description": "Phone number"
+                },
+                "CurrencyCode": {
+                  "type": "string",
+                  "description": "Currency"
+                },
+                "Dimension": {
+                  "type": "string"
+                },
+                "Weight": {
+                  "type": "string"
+                },
+                "Email": {
+                  "type": "string",
+                  "description": "Email"
+                },
+                "CreatedBy": {
+                  "type": "string",
+                  "description": "Plant created by"
+                },
+                "UpdatedBy": {
+                  "type": "string",
+                  "description": "Plant updated by"
+                },
+                "CreatedOn": {
+                  "type": "string",
+                  "description": "Plant created on which date and time"
+                },
+                "UpdatedOn": {
+                  "type": "string",
+                  "description": "Plant updated on which date and time"
+                },
+                "ActivePlant": {
+                  "type": "boolean",
+                  "description": "Plant is active or not"
+                },
+                "TimeZone": {
+                  "type": "string",
+                  "description": "Time zone of plant"
+                },
+                "DateFormat": {
+                  "type": "string",
+                  "description": "Date format of plant"
+                },
+                "AddrValidation": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "BRS": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "RoutingGuideFlag": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "RecordCount": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "lstxCarrierCompanyModules": {
+            "type": "array",
+            "example": [
+              {
+                "CompanyId": "9243700001",
+                "ModuleName": "TotalLocationsCarriers",
+                "FunctionName": "TotalLocations"
+              }
+            ],
+            "items": {
+              "required": [
+                "CompanyId",
+                "FunctionName",
+                "ModuleName"
+              ],
+              "type": "object",
+              "properties": {
+                "CompanyId": {
+                  "type": "string",
+                  "description": "Company id"
+                },
+                "ModuleName": {
+                  "type": "string",
+                  "description": "Name of module"
+                },
+                "FunctionName": {
+                  "type": "string",
+                  "description": "Function name"
+                }
+              }
+            }
+          },
+          "lstxCarrierCarrierUser": {
+            "type": "array",
+            "example": [
+              {
+                "Id": 1,
+                "LoginId": 5015,
+                "UserName": "info",
+                "Password": "**********",
+                "PlantId": "1",
+                "CompanyId": "9243700001",
+                "EmployeeId": "",
+                "FirstName": "Warehouse",
+                "LastName": "Manager",
+                "Designation": "",
+                "Department": "",
+                "AddressLine1": "2600 North Central Expressway ",
+                "AddressLine2": "",
+                "AddressLine3": "",
+                "City": "Richardson",
+                "State": "TX",
+                "Country": "US",
+                "ZipCode": "75080",
+                "Phone": "8889328373",
+                "Fax": "info@processweaver.com",
+                "Email": "info@processweaver.com",
+                "CreatedBy": "Warehouse",
+                "UpdatedBy": "Warehouse",
+                "CreatedOn": "2018-03-09T10:01:51.000Z",
+                "UpdatedOn": "2021-05-07T06:51:34.000Z",
+                "ActiveUser": true,
+                "UserRole": "Admin",
+                "Global": "0",
+                "LastLoginDateTime": "2022-06-16T11:59:46.120Z",
+                "PlantName": "ProcessWeaver Inc",
+                "ProfileImageUrl": "9243700001/PI50159243700001.png",
+                "BuildingNo": "",
+                "MailStop": "",
+                "CostCenter": "",
+                "DgSignatureId": "",
+                "Contact": "",
+                "Signature": "",
+                "Carrier": "",
+                "Count": 0,
+                "ActiveCount": 0,
+                "InActiveCount": 0,
+                "Flag": 0,
+                "ShippingEngineLabelPath": "",
+                "ERPEnginePath": "",
+                "BatchShipmentUrl": "",
+                "LoginPath": "",
+                "Language": "",
+                "TimeZoneName": "",
+                "DateFormat": "",
+                "CompanyLogo": "",
+                "CompanyColor": "",
+                "ChkCostCenter": "",
+                "ChkTotalBalQty": "",
+                "CustomerName": "",
+                "LoginUserName": "",
+                "ReturnMsg": "",
+                "ShippingEngine": "",
+                "ShipmentProcessFlag": ""
+              }
+            ],
+            "items": {
+              "required": [
+                "ActiveCount",
+                "ActiveUser",
+                "AddressLine1",
+                "AddressLine3",
+                "City",
+                "CompanyId",
+                "Count",
+                "Country",
+                "CreatedBy",
+                "CreatedOn",
+                "Email",
+                "Fax",
+                "FirstName",
+                "Flag",
+                "Global",
+                "Id",
+                "InActiveCount",
+                "LastLoginDateTime",
+                "LastName",
+                "LoginId",
+                "Password",
+                "Phone",
+                "PlantId",
+                "PlantName",
+                "ProfileImageUrl",
+                "State",
+                "UpdatedBy",
+                "UpdatedOn",
+                "UserName",
+                "UserRole",
+                "ZipCode"
+              ],
+              "type": "object",
+              "properties": {
+                "Id": {
+                  "type": "integer"
+                },
+                "LoginId": {
+                  "type": "integer",
+                  "description": "Login Id"
+                },
+                "UserName": {
+                  "type": "string",
+                  "description": "Username"
+                },
+                "Password": {
+                  "type": "string",
+                  "description": "Password"
+                },
+                "PlantId": {
+                  "type": "string",
+                  "description": "Plant id"
+                },
+                "CompanyId": {
+                  "type": "string",
+                  "description": "Company id"
+                },
+                "FirstName": {
+                  "type": "string",
+                  "description": "First name"
+                },
+                "LastName": {
+                  "type": "string",
+                  "description": "Last name"
+                },
+                "AddressLine1": {
+                  "type": "string",
+                  "description": "AddressLine1"
+                },
+                "AddressLine3": {
+                  "type": "string",
+                  "description": "AddressLine3"
+                },
+                "City": {
+                  "type": "string",
+                  "description": "City"
+                },
+                "State": {
+                  "type": "string",
+                  "description": "State"
+                },
+                "Country": {
+                  "type": "string",
+                  "description": "Country"
+                },
+                "ZipCode": {
+                  "type": "string",
+                  "description": "Zip code"
+                },
+                "Phone": {
+                  "type": "string",
+                  "description": "Phone number"
+                },
+                "Fax": {
+                  "type": "string",
+                  "description": "Fax of user"
+                },
+                "Email": {
+                  "type": "string",
+                  "description": "Email"
+                },
+                "CreatedBy": {
+                  "type": "string",
+                  "description": "User created by"
+                },
+                "UpdatedBy": {
+                  "type": "string",
+                  "description": "User updated by"
+                },
+                "CreatedOn": {
+                  "type": "string",
+                  "description": "User created on what date and time"
+                },
+                "UpdatedOn": {
+                  "type": "string",
+                  "description": "User updated on what date and time"
+                },
+                "ActiveUser": {
+                  "type": "boolean",
+                  "description": "User is active or not"
+                },
+                "UserRole": {
+                  "type": "string",
+                  "description": "Role of user",
+                  "enum": [
+                    "Admin",
+                    "SUPERADMIN",
+                    "RPCCUSTOMER",
+                    "RPCAGENT",
+                    "RPCADMIN",
+                    "Super User"
+                  ]
+                },
+                "Global": {
+                  "type": "string",
+                  "description": "User is global or not"
+                },
+                "LastLoginDateTime": {
+                  "type": "string",
+                  "description": "Last login time and date"
+                },
+                "PlantName": {
+                  "type": "string",
+                  "description": "Plant name"
+                },
+                "ProfileImageUrl": {
+                  "type": "string",
+                  "description": "Profile image url"
+                },
+                "Count": {
+                  "type": "integer"
+                },
+                "ActiveCount": {
+                  "type": "integer"
+                },
+                "InActiveCount": {
+                  "type": "integer"
+                },
+                "Flag": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "lstxCarrierLocationCarriers": {
+            "type": "array",
+            "example": [
+              {
+                "CarrierId": "C1001",
+                "Carrier": "FedEx",
+                "LocationId": "2",
+                "CompanyId": "9243700001",
+                "description": "Company id"
+              }
+            ],
+            "items": {
+              "required": [
+                "Carrier",
+                "CarrierId",
+                "CompanyId",
+                "LocationId"
+              ],
+              "type": "object",
+              "properties": {
+                "CarrierId": {
+                  "type": "string",
+                  "description": "Carrier id"
+                },
+                "Carrier": {
+                  "type": "string",
+                  "description": "Type of carrier",
+                  "example": "UPS,FedEx,ABF,Conway,UPS Freight,USPS,AACargo"
+                },
+                "LocationId": {
+                  "type": "string",
+                  "description": "Location id"
+                },
+                "CompanyId": {
+                  "type": "string",
+                  "description": "Company id"
+                }
+              }
+            }
+          },
+          "lstxCarrierTotalShipments": {
+            "type": "array",
+            "example": [
+              {
+                "CompanyId": "9243700001",
+                "ShippedCount": 0,
+                "VoidCount": 0
+              }
+            ],
+            "items": {
+              "required": [
+                "CompanyId",
+                "ShippedCount",
+                "VoidCount"
+              ],
+              "type": "object",
+              "properties": {
+                "CompanyId": {
+                  "type": "string",
+                  "description": "Company id"
+                },
+                "ShippedCount": {
+                  "type": "integer",
+                  "description": "Number of shipment"
+                },
+                "VoidCount": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "lstxCarrierHUS": {
+            "type": "array",
+            "example": [
+              {
+                "PlantId": "1",
+                "TotalHuCount": 6489
+              }
+            ],
+            "items": {
+              "required": [
+                "PlantId",
+                "TotalHuCount"
+              ],
+              "type": "object",
+              "properties": {
+                "PlantId": {
+                  "type": "string",
+                  "description": "Location id"
+                },
+                "TotalHuCount": {
+                  "type": "integer",
+                  "description": "Total Hu count"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "name": "XCARRIER-SECURITY-KEY",
+        "in": "header"
+      }
+    }
+  }
+}

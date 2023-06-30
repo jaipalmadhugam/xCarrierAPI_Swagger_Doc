@@ -1,0 +1,3362 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "",
+    "version": "1.0.0",
+    "title": "Elemica Api Documentation",
+    "termsOfService": ""
+  },
+  "servers": [
+    {
+      "url": "https://xcdemo.myxcarrier.com:8443/api"
+    }
+  ],
+  "security": [
+    {
+      "BasicAuth": [
+        "write"
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "ShippingWithoutERP",
+      "description": "Shipping Without ERP"
+    }
+  ],
+  "paths": {
+    "/shippingwithouterp": {
+      "post": {
+        "tags": [
+          "ShippingWithoutERP"
+        ],
+        "summary": "Processing Shipments without ERP engine",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShippingWithoutErpRequest"
+              },
+              "examples": {
+                "CommonXMLDomestic": {
+                  "$ref": "#/components/examples/Common_Xml_Domestic"
+                },
+                "CommonXMLInternational": {
+                  "$ref": "#/components/examples/Common_Xml_International"
+                },
+                "EDI": {
+                  "$ref": "#/components/examples/EDI"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShippingWithoutErpResult"
+                },
+                "examples": {
+                  "CommonXmlDomesticResponse": {
+                    "$ref": "#/components/examples/CommonXML_Domestic_Response"
+                  },
+                  "CommonXMLInternationalResponse": {
+                    "$ref": "#/components/examples/CommonXML_International_Response"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShippingWithoutErpResult"
+                },
+                "example": {
+                  "Version": "1.0.0.0",
+                  "StatusCode": 400,
+                  "Message": "FAILURE",
+                  "Result": {
+                    "Status": "ERROR",
+                    "Message": {
+                      "SourceOfError": "Shipping Engine",
+                      "ECSResponse": "Failure - request, Data error, Postcode not found. Expected formats: <country specific post code format>",
+                      "ManifestResponse": "Shipment saved successfully"
+                    },
+                    "OrderNo": "56uiyui",
+                    "Carrier": "DHL",
+                    "Service": "DOMESTIC EXPRESS(DOM)",
+                    "TrackingNo": "",
+                    "PublishedFreight": "",
+                    "DiscountedFreight": "",
+                    "Documents": "",
+                    "TrackURL": ""
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ShippingWithoutErpRequest": {
+        "type": "object",
+        "required": [
+          "FeederInfo",
+          "ShipperInfo",
+          "ShipToInfo",
+          "ShipMethodInfo",
+          "Packagedetail"
+        ],
+        "properties": {
+          "FeederInfo": {
+            "type": "object",
+            "required": [
+              "ShipmentType",
+              "DeliveryNumber"
+            ],
+            "properties": {
+              "OrderType": {
+                "type": "string",
+                "enum": [
+                  "PO",
+                  "SR",
+                  "PWS",
+                  "HAND",
+                  "SALES",
+                  "STO",
+                  "DN",
+                  "RE",
+                  "HU",
+                  "SO",
+                  "PWSS",
+                  "TEST"
+                ],
+                "description": "Order Type Code. Value should be based on Location and Company"
+              },
+              "ExpectedDeliveryDate": {
+                "type": "string",
+                "description": "Expected date. Format should be MM/dd/yyyy. It is optional"
+              },
+              "ExpectedDeliveryTime": {
+                "type": "string",
+                "description": "Expected time.It is optional"
+              },
+              "ShipmentType": {
+                "type": "string",
+                "enum": [
+                  "Personal",
+                  "Business",
+                  "Inter Company"
+                ],
+                "description": "Shipment Type"
+              },
+              "DeliveryNumber": {
+                "type": "string",
+                "description": "Delivery Number used for the shipment. It can be a Ship Request ID generated for the ship request"
+              }
+            }
+          },
+          "ShipperInfo": {
+            "type": "object",
+            "required": [
+              "PlantId",
+              "CustomerId"
+            ],
+            "description": "Shipper/Location(Plant) details",
+            "properties": {
+              "CustomerId": {
+                "type": "string",
+                "description": "Shipper Company Id"
+              },
+              "PlantId": {
+                "type": "string",
+                "description": "Shipper location Id"
+              },
+              "Company": {
+                "type": "string",
+                "description": "Shipper Company name"
+              },
+              "Contact": {
+                "type": "string",
+                "description": "Shipper Contact"
+              },
+              "AddressLine1": {
+                "type": "string",
+                "description": "Shipper Address Line 1"
+              },
+              "AddressLine2": {
+                "type": "string",
+                "description": "Shipper Address Line 2"
+              },
+              "AddressLine3": {
+                "type": "string",
+                "description": "Shipper Address Line 3"
+              },
+              "City": {
+                "type": "string",
+                "description": "Shipper City"
+              },
+              "State": {
+                "type": "string",
+                "description": "Shipper State"
+              },
+              "Country": {
+                "type": "string",
+                "description": "Shipper Country"
+              },
+              "ZipCode": {
+                "type": "string",
+                "description": "Shipper Zip/Postal Code"
+              },
+              "Phone": {
+                "type": "string",
+                "description": "Shipper Phone"
+              },
+              "Fax": {
+                "type": "string",
+                "description": "Shipper Fax"
+              },
+              "Email": {
+                "type": "string",
+                "description": "Shipper Email"
+              },
+              "CurrencyCode": {
+                "type": "string",
+                "description": "Currency Code of the shipper. If not sent from payload will be fetched from Database based on Location and Company"
+              }
+            }
+          },
+          "ShipToInfo": {
+            "type": "object",
+            "description": "Shipment Destination details",
+            "required": [
+              "CompanyName",
+              "Contact",
+              "AddressLine1",
+              "City",
+              "Country",
+              "ZipCode",
+              "Phone",
+              "Email",
+              "AddressLine2"
+            ],
+            "properties": {
+              "CompanyName": {
+                "type": "string",
+                "description": "Ship to Company name"
+              },
+              "Contact": {
+                "type": "string",
+                "description": "Ship to Contact name"
+              },
+              "AddressLine1": {
+                "type": "string",
+                "description": "Ship to AddressLine1"
+              },
+              "AddressLine2": {
+                "type": "string",
+                "description": "Ship to AddressLine2"
+              },
+              "AddressLine3": {
+                "type": "string",
+                "description": "Ship to AddressLine3"
+              },
+              "City": {
+                "type": "string",
+                "description": "Ship to City"
+              },
+              "State": {
+                "type": "string",
+                "description": "Ship to State"
+              },
+              "Country": {
+                "type": "string",
+                "description": "Ship to Country"
+              },
+              "ZipCode": {
+                "type": "string",
+                "description": "Ship to Zip/Postal Code"
+              },
+              "Phone": {
+                "type": "string",
+                "description": "Ship to Phone"
+              },
+              "Fax": {
+                "type": "string",
+                "format": "nullable",
+                "description": "Ship to Fax"
+              },
+              "Email": {
+                "type": "string",
+                "description": "Ship to Email"
+              }
+            }
+          },
+          "ShipFromInfo": {
+            "type": "object",
+            "description": "Ship from details(Origin details). If sent null, details will be fetched from Database",
+            "properties": {
+              "Company": {
+                "type": "string",
+                "description": "Ship from Company name"
+              },
+              "Contact": {
+                "type": "string",
+                "description": "Ship from Contact name"
+              },
+              "AddressLine1": {
+                "type": "string",
+                "description": "Ship from AddressLine1"
+              },
+              "AddressLine2": {
+                "type": "string",
+                "description": "Ship from AddressLine2"
+              },
+              "AddressLine3": {
+                "type": "string",
+                "description": "Ship from AddressLine3"
+              },
+              "City": {
+                "type": "string",
+                "description": "Ship from City"
+              },
+              "State": {
+                "type": "string",
+                "description": "Ship from State"
+              },
+              "Country": {
+                "type": "string",
+                "description": "Ship from Country"
+              },
+              "ZipCode": {
+                "type": "string",
+                "description": "Ship from Zip/Postal Code"
+              },
+              "Phone": {
+                "type": "string",
+                "description": "Ship from Phone"
+              },
+              "Fax": {
+                "type": "string",
+                "format": "nullable",
+                "description": "Ship from Fax"
+              },
+              "Email": {
+                "type": "string",
+                "description": "Ship from Email"
+              },
+              "ShipperId": {
+                "type": "string",
+                "format": "nullable",
+                "description": "Ship from Shipper Id"
+              }
+            }
+          },
+          "ShipMethodInfo": {
+            "type": "object",
+            "description": "Shipment method Details",
+            "required": [
+              "CarrierDescription",
+              "ServiceLevelName",
+              "Ship date",
+              "PaymentTerm",
+              "ShipDate",
+              "CarrierType"
+            ],
+            "properties": {
+              "PaymentTerm": {
+                "type": "string",
+                "description": "Payment type for the shipment",
+                "enum": [
+                  "Sender",
+                  "Receiver",
+                  "ThirdParty",
+                  "Collect",
+                  "FOB",
+                  "CollectMe"
+                ]
+              },
+              "CarrierDescription": {
+                "type": "string",
+                "example": "UPS,FedEx,DHL",
+                "description": "Carrier Name"
+              },
+              "CarrierType": {
+                "type": "string",
+                "enum": [
+                  "LTL",
+                  "PARCEL",
+                  "EDI"
+                ],
+                "description": "Carrier type"
+              },
+              "CarrierAccountNum": {
+                "type": "string",
+                "description": "Carrier Account number. User can send configured Carrier Account number to fetch relevant carrier details for the shipment. If not sent, carrier details will be taken from Database based on Location and Company"
+              },
+              "ServiceLevelName": {
+                "type": "string",
+                "description": "Carrier Service level name. Carrier Service used for the shipment"
+              },
+              "CostCenterId": {
+                "type": "string",
+                "description": "Cost Center ID"
+              },
+              "Reference": {
+                "type": "string",
+                "description": "Reference details,if applicable"
+              },
+              "Reference2": {
+                "type": "string",
+                "description": "Reference details,if applicable"
+              },
+              "SpecialInstructions": {
+                "type": "string",
+                "description": "Any Notes/Instructions,if applicable"
+              },
+              "ShipDate": {
+                "type": "string",
+                "description": "Shipment date. Format should be MM/dd/yyyy"
+              }
+            }
+          },
+          "Packagedetail": {
+            "type": "array",
+            "description": "Details of the Packages to be shipped",
+            "items": {
+              "type": "object",
+              "required": [
+                "Dimension",
+                "WeightValue"
+              ],
+              "properties": {
+                "WeightValue": {
+                  "type": "string",
+                  "description": "Total weight of the package"
+                },
+                "WeightUnits": {
+                  "type": "string",
+                  "example": "KGS,LBS",
+                  "description": "Unit of weight. Depends on the Carrier/Country. If not sent from the payload it will be fetched from database based on Location/Plant"
+                },
+                "NoOfBoxes": {
+                  "type": "string",
+                  "description": "Total number of boxes in the package. Pass in case of multilevel shipments. Number of boxes available in package should be equal to \"NoOfBoxes\" given in a package"
+                },
+                "DimensionUnit": {
+                  "type": "string",
+                  "example": "IN,CM",
+                  "description": "Unit of measuring dimension(LBH) of the package. If not sent from the payload it will be fetched from database based on Location/Plant"
+                },
+                "LTLClass": {
+                  "type": "string",
+                  "description": "Class of the package. Required Field for LTL shipments"
+                },
+                "NMFC": {
+                  "type": "string",
+                  "description": "NMFC code for the package"
+                },
+                "CODAmount": {
+                  "type": "string",
+                  "description": "Cash on delivery amount, if applicable"
+                },
+                "PackageType": {
+                  "type": "string",
+                  "enum": [
+                    "Pallet",
+                    "Envelope",
+                    "Box",
+                    "UPS Letter",
+                    "Customer Supplied Package",
+                    "Tube",
+                    "PAK",
+                    "UPS Express Box",
+                    "UPS 25KG Box",
+                    "UPS 10KG Box",
+                    "Small Express Box",
+                    "Medium Express Box",
+                    "Large Express Box",
+                    "Flats",
+                    "Parcels",
+                    "BPM",
+                    "First Class",
+                    "Priority",
+                    "Machineables",
+                    "Irregulars",
+                    "Parcel Post",
+                    "BPM Parcel",
+                    "Media Mail",
+                    "BPM Flat",
+                    "Standard Flat",
+                    "Fedex Envelope",
+                    "Fedex Extra Large Box",
+                    "Fedex Medium Box",
+                    "FedEx Pack",
+                    "FedEx Tube",
+                    "Fedex Large Box",
+                    "Your Packaging",
+                    "manicode",
+                    "FEDEX 10KG BOX",
+                    "FEDEX 25KG BOX",
+                    "Fedex Box",
+                    "CARTON",
+                    "CASE",
+                    "CONTAINER",
+                    "CRATE",
+                    "CYLINDER",
+                    "PIECE",
+                    "REEL",
+                    "ROLL",
+                    "SKID",
+                    "TANK",
+                    "TUBE",
+                    "BAGS",
+                    "Skids",
+                    "BALES",
+                    "BARRELS",
+                    "BASKETS"
+                  ],
+                  "description": "Packing Material type, if applicable"
+                },
+                "PackageDescription": {
+                  "type": "string",
+                  "description": "Package description, if applicable"
+                },
+                "CODCurrencyCode": {
+                  "type": "string",
+                  "description": "Cash on delivery currency code, if applicable."
+                },
+                "LPNNumber": {
+                  "type": "string",
+                  "description": "License plate number of the package"
+                },
+                "InsuranceAmount": {
+                  "type": "string",
+                  "description": "Insurance Amount,if applicable"
+                },
+                "InsuranceCurrencyCode": {
+                  "type": "string",
+                  "description": "Insurance currency code,if applicable."
+                },
+                "CustomerReference": {
+                  "type": "string",
+                  "description": "Customer Reference number"
+                },
+                "InvoiceNumber": {
+                  "type": "string",
+                  "description": "Invoice number"
+                },
+                "PONumber": {
+                  "type": "string",
+                  "description": "Purchase order number"
+                },
+                "Dimension": {
+                  "type": "string",
+                  "description": "Dimension of the package. It is in the following format: Length X Breadth/Width X Height"
+                },
+                "MultiLevel": {
+                  "type": "string",
+                  "enum": [
+                    "true",
+                    "false"
+                  ],
+                  "description": "*A Flag to enable/disable **Multilevel** package.*\nPallets can be example of Multi-level packing (Pallet --> Boxes --> Items)"
+                },
+                "Items": {
+                  "type": "array",
+                  "description": "List of items. When multi-level flag is false, list of items is sent directly in the packagedetail and is a Required field",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "SNO": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Serial number of the item "
+                      },
+                      "ItemNo": {
+                        "type": "string",
+                        "description": "Item Number"
+                      },
+                      "ItemDes": {
+                        "type": "string",
+                        "description": "Item/Product description"
+                      },
+                      "Quantity": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Total number of Item/Product packed inside the package"
+                      },
+                      "BalanceQty": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Total number of unpacked Item/Product. It is set as default to zero"
+                      },
+                      "PartialQty": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Total number of Item/Product packed inside the package"
+                      },
+                      "ProductNo": {
+                        "type": "string",
+                        "description": "Product number of the item"
+                      },
+                      "ItemWeight": {
+                        "type": "string",
+                        "description": "Weight of each item(single unit) in the package"
+                      },
+                      "Dimension": {
+                        "type": "string",
+                        "description": "Dimension of the item. It is in the following format: Length X Breadth/Width X Height"
+                      },
+                      "UNITVALUE": {
+                        "type": "string",
+                        "description": "Value of packing item/product(used for customs)"
+                      },
+                      "CLASS": {
+                        "type": "string",
+                        "description": "Class of the item packed in the package"
+                      },
+                      "ECCN": {
+                        "type": "string",
+                        "description": "ECCN(Export Control Classification Number) number. Used for International Shipments"
+                      },
+                      "HARMONISEDCODE": {
+                        "type": "string",
+                        "description": "Harmonised code.Used for International Shipments"
+                      },
+                      "COUNTRYORIGIN": {
+                        "type": "string",
+                        "description": "Country of origin. Used for International Shipments"
+                      },
+                      "UOM": {
+                        "type": "string",
+                        "description": "Unit of measurement. The unit in which the quantity of an item is managed. Required Field for international shipments to generate commercial invoice"
+                      },
+                      "DelLineItemNum": {
+                        "type": "string",
+                        "description": "DelLineItemNum. Used for EDI shipments only"
+                      },
+                      "OrderNumber": {
+                        "type": "string",
+                        "description": "Order Number. Used for EDI shipments only"
+                      },
+                      "OrderLineItemNum": {
+                        "type": "string",
+                        "description": "Order line item number. Used for EDI shipments only"
+                      },
+                      "OrderClass": {
+                        "type": "string",
+                        "example": "SO",
+                        "description": "Order Class. Used for EDI shipments only"
+                      },
+                      "OrderType": {
+                        "type": "string",
+                        "example": "ZOR",
+                        "description": "Order Type. Used for EDI shipments only"
+                      },
+                      "CustomerPONum": {
+                        "type": "string",
+                        "description": "Customer PO Number. Used for EDI shipments only"
+                      },
+                      "NoOfUnitsShipped": {
+                        "type": "string",
+                        "description": "No Of Units Shipped. Used for EDI shipments only"
+                      },
+                      "HTSCode": {
+                        "type": "string",
+                        "description": "HTS Code. Used for EDI shipments only"
+                      },
+                      "DestHTSCode": {
+                        "type": "string",
+                        "description": "Destination HTS Code. Used for EDI shipments only"
+                      },
+                      "LicenseNo": {
+                        "type": "string",
+                        "description": "License Number. Used for EDI shipments only"
+                      },
+                      "Hazardous": {
+                        "type": "string",
+                        "description": "Hazardous material. Used for EDI shipments only"
+                      },
+                      "COO": {
+                        "type": "string",
+                        "description": "COO. Used for EDI shipments only"
+                      },
+                      "CurrencyType": {
+                        "type": "string",
+                        "description": "Currency Type. Used for EDI shipments only"
+                      },
+                      "ItemCustom1": {
+                        "type": "string",
+                        "description": "Item Custom 1. Used for EDI shipments only"
+                      },
+                      "ItemCustom2": {
+                        "type": "string",
+                        "description": "Item Custom 2. Used for EDI shipments only"
+                      },
+                      "ItemCustom3": {
+                        "type": "string",
+                        "description": "Item Custom 3. Used for EDI shipments only"
+                      },
+                      "ItemCustom4": {
+                        "type": "string",
+                        "description": "Item Custom 4. Used for EDI shipments only"
+                      },
+                      "ItemCustom5": {
+                        "type": "string",
+                        "description": "Item Custom 5. Used for EDI shipments only"
+                      }
+                    }
+                  }
+                },
+                "BoxInfo": {
+                  "type": "array",
+                  "description": "Detail of the Box. When multi-level flag is true,'BoxInfo' is sent from the payload and list of items are sent inside 'BoxInfo' and is a Required field",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ID": {
+                        "type": "string",
+                        "description": "Id"
+                      },
+                      "SNO": {
+                        "type": "string",
+                        "description": "Serial number of the Box"
+                      },
+                      "Description": {
+                        "type": "string",
+                        "description": "Box Description"
+                      },
+                      "TotalItemQuantity": {
+                        "type": "string",
+                        "description": "Total number of Item/Product packed inside the Box. It should be equal to total number of items(list of items) inside the box"
+                      },
+                      "BalanceQuantity": {
+                        "type": "string",
+                        "description": "Total number of unpacked Item/Product. It is set as default to zero"
+                      },
+                      "PartialQuantity": {
+                        "type": "string",
+                        "description": "Total number of Item/Product packed inside the Box"
+                      },
+                      "TotalQuantity": {
+                        "type": "string",
+                        "description": "Total number of Item/Product packed inside the Box"
+                      },
+                      "Dimension": {
+                        "type": "string",
+                        "description": "Dimension of the Box.It is in the following format: Length X Breadth/Width X Height"
+                      },
+                      "IsRepack": {
+                        "type": "string",
+                        "enum": [
+                          "true",
+                          "false"
+                        ],
+                        "description": "Repack Good enable/disable flag for the Box"
+                      },
+                      "DGFlag": {
+                        "type": "string",
+                        "enum": [
+                          "true",
+                          "false"
+                        ],
+                        "description": "Dangerous Good enable/disable flag for the Box"
+                      },
+                      "Weight": {
+                        "type": "string",
+                        "description": "Total weight value of the Box. Box weight should be equal to total weight of items inside the box"
+                      },
+                      "Items": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "SNO": {
+                              "type": "integer",
+                              "format": "int32",
+                              "description": "Serial number of the item "
+                            },
+                            "ItemNo": {
+                              "type": "string",
+                              "description": "Item Number"
+                            },
+                            "ItemDes": {
+                              "type": "string",
+                              "description": "Item/Product description"
+                            },
+                            "Quantity": {
+                              "type": "integer",
+                              "format": "int32",
+                              "description": "Total number of Item/Product packed inside the package"
+                            },
+                            "BalanceQty": {
+                              "type": "integer",
+                              "format": "int32",
+                              "description": "Total number of unpacked Item/Product. It is set as default to zero"
+                            },
+                            "PartialQty": {
+                              "type": "integer",
+                              "format": "int32",
+                              "description": "Total number of Item/Product packed inside the package"
+                            },
+                            "ProductNo": {
+                              "type": "string",
+                              "description": "Product number of the item"
+                            },
+                            "ItemWeight": {
+                              "type": "string",
+                              "description": "Weight of each item(single unit) in the package"
+                            },
+                            "Dimension": {
+                              "type": "string",
+                              "description": "Dimension of the item. It is in the following format: Length X Breadth/Width X Height"
+                            },
+                            "UNITVALUE": {
+                              "type": "string",
+                              "description": "Value of packing item/product(used for customs)"
+                            },
+                            "CLASS": {
+                              "type": "string",
+                              "description": "Class of the item packed in the package"
+                            },
+                            "ECCN": {
+                              "type": "string",
+                              "description": "ECCN(Export Control Classification Number) number. Used for International Shipments"
+                            },
+                            "HARMONISEDCODE": {
+                              "type": "string",
+                              "description": "Harmonised code. Used for International Shipments"
+                            },
+                            "COUNTRYORIGIN": {
+                              "type": "string",
+                              "description": "Country of origin. Used for International Shipments"
+                            },
+                            "UOM": {
+                              "type": "string",
+                              "description": "Unit of measurement. The unit in which the quantity of an item is managed. Required Field for international shipments to generate commercial invoice"
+                            },
+                            "DelLineItemNum": {
+                              "type": "string",
+                              "description": "DelLineItemNum. Used for EDI shipments only"
+                            },
+                            "OrderNumber": {
+                              "type": "string",
+                              "description": "Order Number. Used for EDI shipments only"
+                            },
+                            "OrderLineItemNum": {
+                              "type": "string",
+                              "description": "Order line item number. Used for EDI shipments only"
+                            },
+                            "OrderClass": {
+                              "type": "string",
+                              "example": "SO",
+                              "description": "Order Class. Used for EDI shipments only"
+                            },
+                            "OrderType": {
+                              "type": "string",
+                              "example": "ZOR",
+                              "description": "Order Type. Used for EDI shipments only"
+                            },
+                            "CustomerPONum": {
+                              "type": "string",
+                              "description": "Customer PO Number. Used for EDI shipments only"
+                            },
+                            "NoOfUnitsShipped": {
+                              "type": "string",
+                              "description": "No Of Units Shipped. Used for EDI shipments only"
+                            },
+                            "HTSCode": {
+                              "type": "string",
+                              "description": "HTS Code. Used for EDI shipments only"
+                            },
+                            "DestHTSCode": {
+                              "type": "string",
+                              "description": "Destination HTS Code. Used for EDI shipments only"
+                            },
+                            "LicenseNo": {
+                              "type": "string",
+                              "description": "License Number. Used for EDI shipments only"
+                            },
+                            "Hazardous": {
+                              "type": "string",
+                              "description": "Hazardous material. Used for EDI shipments only"
+                            },
+                            "COO": {
+                              "type": "string",
+                              "description": "COO. Used for EDI shipments only"
+                            },
+                            "CurrencyType": {
+                              "type": "string",
+                              "description": "Currency Type. Used for EDI shipments only"
+                            },
+                            "ItemCustom1": {
+                              "type": "string",
+                              "description": "Item Custom 1. Used for EDI shipments only"
+                            },
+                            "ItemCustom2": {
+                              "type": "string",
+                              "description": "Item Custom 2. Used for EDI shipments only"
+                            },
+                            "ItemCustom3": {
+                              "type": "string",
+                              "description": "Item Custom 3. Used for EDI shipments only"
+                            },
+                            "ItemCustom4": {
+                              "type": "string",
+                              "description": "Item Custom 4. Used for EDI shipments only"
+                            },
+                            "ItemCustom5": {
+                              "type": "string",
+                              "description": "Item Custom 5. Used for EDI shipments only"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "GrossWeight": {
+                  "type": "string",
+                  "description": "Gross Weight. Used for EDI shipments only"
+                },
+                "UOM": {
+                  "type": "string",
+                  "example": "CM,IN",
+                  "description": "Unit of measurement. Used for EDI shipments only"
+                },
+                "Volume": {
+                  "type": "string",
+                  "description": "Total Volume. Used for EDI shipments only"
+                },
+                "VolumeUOM": {
+                  "type": "string",
+                  "example": "CC",
+                  "description": "EDI Volume Unit of measurement. Used for EDI shipments only"
+                },
+                "DimUOM": {
+                  "type": "string",
+                  "description": "EDI Dimension unit of measurement. Used for EDI shipments only"
+                },
+                "HandlingID": {
+                  "type": "string",
+                  "description": "Handling ID. Used for EDI shipments only"
+                },
+                "TrackingNumber": {
+                  "type": "string",
+                  "description": "Tracking Number. Used for EDI shipments only"
+                },
+                "NoOfLineItems": {
+                  "type": "string",
+                  "description": "No Of Line Items. Used for EDI shipments only"
+                },
+                "PackageCustom1": {
+                  "type": "string",
+                  "description": "Package Custom 1. Used for EDI shipments only"
+                },
+                "PackageCustom2": {
+                  "type": "string",
+                  "description": "Package Custom 2. Used for EDI shipments only"
+                },
+                "PackageCustom4": {
+                  "type": "string",
+                  "description": "Package Custom 4. Used for EDI shipments only"
+                },
+                "PackageCustom5": {
+                  "type": "string",
+                  "description": "Package Custom 5. Used for EDI shipments only"
+                },
+                "PackageCustom3": {
+                  "type": "string",
+                  "description": "Package Custom 3. Used for EDI shipments only"
+                },
+                "PackagingMaterial": {
+                  "type": "string",
+                  "description": "Packaging Material. Used for EDI shipments only"
+                },
+                "DryIceWeight": {
+                  "type": "string",
+                  "description": "Dry Ice Weight. Used for EDI shipments only"
+                },
+                "DryIceWeightUOM": {
+                  "type": "string",
+                  "description": "Dry Ice Weight UOM. Used for EDI shipments only"
+                },
+                "PONo": {
+                  "type": "string",
+                  "description": "Purchase order number. Used for EDI shipments only"
+                }
+              }
+            }
+          },
+          "InternationalDetails": {
+            "type": "object",
+            "description": "International shipment details",
+            "properties": {
+              "Commodities": {
+                "type": "array",
+               
+                "description": "List of the Commodities for an international shipment",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "PartNumber", 
+                    
+                    "Quantity",
+                    "Description",
+                     "UnitValue"
+                  ],
+                  "properties": {
+                    "Description": {
+                      "type": "string",
+                      "description": "Description of the Commodity"
+                    },
+                    "Quantity": {
+                      "type": "string",
+                      "description": "Total number of the Commodities"
+                    },
+                    "Weight": {
+                      "type": "string",
+                      "description": "Total weight of the Commodity"
+                    },
+                    "WeightUnits": {
+                      "type": "string",
+                      "example": [
+                        "KGS,LBS"
+                      ],
+                      "description": "Unit of measurement for weight of the Commodity. If not sent from the payload it will be fetched from database based on Location/Plant"
+                    },
+                    "CountryOfManufacture": {
+                      "type": "string",
+                      "description": "Country of manufacture of the product"
+                    },
+                    "HarmonizedCode": {
+                      "type": "string",
+                      "description": "Harmonised code"
+                    },
+                    "PartNumber": {
+                      "type": "string",
+                      "description": "Part number"
+                    },
+                    "CommodityNo": {
+                      "type": "string",
+                      "description": "Commodity Number"
+                    },
+                    "LicenseNo": {
+                      "type": "string",
+                      "description": "License number of the commodity"
+                    },
+                    "ECCN": {
+                      "type": "string",
+                      "description": "ECCN(Export Control Classification Number) number"
+                    },
+                    "Currency": {
+                      "type": "string",
+                      "description": "Currency value for the shipment"
+                    },
+                    "UnitValue": {
+                      "type": "string",
+                      "description": "Value of packing item/product(used for customs)"
+                    },
+                    "UOM": {
+                      "type": "string",
+                      "example": [
+                        "CM,IN"
+                      ],
+                      "description": "Unit of measurement. The unit in which the quantity of an item is managed"
+                    }
+                  }
+                }
+              },
+              "IsDutiable": {
+                "type": "string",
+                "description": "Is Dutiable value is Y or N"
+              },
+              "DeclaredValue": {
+                "type": "string",
+                "description": "Declared value/cost for the shipment"
+              },
+              "DeclaredValueCurrency": {
+                "type": "string",
+                "description": "Currency of Declared value for the shipment"
+              },
+              "InvoiceDate": {
+                "type": "string",
+                "description": "Invoice Date. Format for date is MM/dd/yyyy"
+              },
+              "PurchaseOrderNumber": {
+                "type": "string",
+                "description": "Purchase order number"
+              },
+              "ReasonForExport": {
+                "type": "string",
+                "description": "Reason for the International Shipment",
+                "enum": [
+                  "SOLD",
+                  "SAMPLE",
+                  "NOT_SOLD",
+                  "GIFT",
+                  "PERSONAL_EFFECTS",
+                  "REPAIR_AND_RETURN",
+                  "MERCHANDISE"
+                ]
+              },
+              "IncoTerm": {
+                "type": "string",
+                "description": "Terms of Shipment",
+                "enum": [
+                  "CFR",
+                  "CIF",
+                  "CIP",
+                  "DDP",
+                  "DDU",
+                  "EXW",
+                  "CPT",
+                  "DAP",
+                  "DPU",
+                  "FAS",
+                  "FOB",
+                  "FCA"
+                ]
+              },
+              "DutiesPaymentType": {
+                "type": "string",
+                "enum": [
+                  "Sender",
+                  "Recipient",
+                  "ThirdParty",
+                  "Collect"
+                ],
+                "description": "International Duties payment type for the destination"
+              },
+              "TotalCustomsValue": {
+                "type": "string",
+                "description": "Total Amount of the shipment"
+              },
+              "DutiesAccountNumber": {
+                "type": "string",
+                "description": "Customs Duties Account Number"
+              },
+              "PayorCountryCode": {
+                "type": "string",
+                "description": "Country code of the Payor"
+              },
+              "ITNNumber": {
+                "type": "string",
+                "description": "ITN(Internal Transaction Number) number"
+              },
+              "MRNNumber": {
+                "type": "string",
+                "description": "MRN(Movement Reference Number) Number for the shipment"
+              },
+              "BookingConfirmationNumber": {
+                "type": "string",
+                "description": "Booking Confirmation Number for the shipment"
+              },
+              "ShipToTaxId": {
+                "type": "string",
+                "description": "Ship to(Destination) Tax Id"
+              },
+              "ShipFromTaxId": {
+                "type": "string",
+                "description": "Ship from(Source/origin) Tax Id"
+              },
+              "PermitNumber": {
+                "type": "string",
+                "description": "Permit number for the shipment"
+              },
+              "INVOICETOTAL": {
+                "type": "string",
+                "description": "Invoice Total"
+              },
+              "DISCOUNT": {
+                "type": "string",
+                "description": "Discount"
+              },
+              "INVOICESUBTOTAL": {
+                "type": "string",
+                "description": "Invoice sub total"
+              },
+              "FREIGHT": {
+                "type": "string",
+                "description": "FREIGHT"
+              },
+              "INSURANCE": {
+                "type": "string",
+                "description": "INSURANCE"
+              }
+            }
+          },
+          "SpecialService": {
+            "type": "object",
+            "description": "List of special services enabled for the shipment",
+            "properties": {
+              "SaturdayDelivery": {
+                "type": "string",
+                "enum": [
+                  "true",
+                  "false"
+                ],
+                "description": "A flag to Enable/disable delivery service on Saturday"
+              },
+              "SaturdayPickup": {
+                "type": "string",
+                "enum": [
+                  "true",
+                  "false"
+                ],
+                "description": "A flag to Enable/disable Pickup service on Saturday"
+              },
+              "InsideDelivery": {
+                "type": "string",
+                "enum": [
+                  "true",
+                  "false"
+                ],
+                "description": "A flag to Enable/disable Inside delivery service"
+              },
+              "InsidePickup": {
+                "type": "string",
+                "enum": [
+                  "true",
+                  "false"
+                ],
+                "description": "A flag to Enable/disable Inside Pickup service"
+              },
+              "SignatureRequired": {
+                "type": "string",
+                "enum": [
+                  "true",
+                  "false"
+                ],
+                "description": "A flag to Enable/disable Signature check during the Delivery"
+              },
+              "ReturnServiceCode": {
+                "type": "string",
+                "enum": [
+                  "1",
+                  "2",
+                  "3"
+                ],
+                "description": "Return Service Code used incase of return"
+              }
+            }
+          },
+          "Broker": {
+            "type": "object",
+            "description": "Broker details, if applicable",
+            "properties": {
+              "CompanyName": {
+                "type": "string",
+                "description": "Broker Company name"
+              },
+              "Contact": {
+                "type": "string",
+                "description": "Broker Contact name"
+              },
+              "StreetLine1": {
+                "type": "string",
+                "description": "Broker Address Line 1"
+              },
+              "City": {
+                "type": "string",
+                "description": "Broker City"
+              },
+              "StateOrProvinceCode": {
+                "type": "string",
+                "description": "Broker State"
+              },
+              "Country": {
+                "type": "string",
+                "description": "Broker Country Code"
+              },
+              "ZipCode": {
+                "type": "string",
+                "description": "Broker Zip/Postal code"
+              },
+              "Phone": {
+                "type": "string",
+                "description": "Broker Phone number"
+              },
+              "Email": {
+                "type": "string",
+                "description": "Broker Email"
+              }
+            }
+          },
+          "Importer": {
+            "type": "object",
+            "description": "Importer Details, if applicable",
+            "properties": {
+              "Company": {
+                "type": "string",
+                "description": "Importer Company name"
+              },
+              "Contact": {
+                "type": "string",
+                "description": "Importer Contact name"
+              },
+              "StreetLines": {
+                "type": "string",
+                "description": "Importer Address Line 1"
+              },
+              "City": {
+                "type": "string",
+                "description": "Importer City"
+              },
+              "StateOrProvinceCode": {
+                "type": "string",
+                "description": "Importer State"
+              },
+              "Country": {
+                "type": "string",
+                "description": "Importer Country Code"
+              },
+              "ZipCode": {
+                "type": "string",
+                "description": "Importer Zip/Postal code "
+              },
+              "PhoneNumber": {
+                "type": "string",
+                "description": "Importer Phone number"
+              },
+              "EmailAddress": {
+                "type": "string",
+                "description": "Importer Email"
+              }
+            }
+          },
+          "Paymentinformation": {
+            "type": "object",
+            "description": "Payor Information. Incase of Payment type as 'Sender', payment information should be same as ship from details.Incase of Payment type as 'Receiver', payment information should be same as ship to details",
+            "properties": {
+              "PayerAccountNumber": {
+                "type": "string",
+                "description": "Payor Account number. Required Field when Payment Type is \"Third Party\""
+              },
+              "Company": {
+                "type": "string",
+                "description": "Payor Company name"
+              },
+              "Contact": {
+                "type": "string",
+                "description": "Payor Contact name"
+              },
+              "StreetLine1": {
+                "type": "string",
+                "description": "Payor Address Line 1"
+              },
+              "StreetLine2": {
+                "type": "string",
+                "description": "Payor Address Line 2"
+              },
+              "StreetLine3": {
+                "type": "string",
+                "description": "Payor Address Line 3"
+              },
+              "City": {
+                "type": "string",
+                "description": "Payor City"
+              },
+              "StateOrProvinceCode": {
+                "type": "string",
+                "description": "Payor State"
+              },
+              "Country": {
+                "type": "string",
+                "description": "Payor Country code"
+              },
+              "ZipCode": {
+                "type": "string",
+                "description": "Payor Zip/Postal code"
+              },
+              "Phone": {
+                "type": "string",
+                "description": "Payor Phone number"
+              },
+              "Email": {
+                "type": "string",
+                "description": "Payor Email"
+              }
+            }
+          },
+          "AdditionalDetails": {
+            "type": "object",
+            "properties": {
+              "AdditionalNotes": {
+                "type": "string",
+                "description": "Additional Notes, if any"
+              },
+              "PONumber": {
+                "type": "string",
+                "description": "Purchase order number"
+              },
+              "InvoiceNumber": {
+                "type": "string",
+                "description": "Invoice number"
+              },
+              "FTPURL": {
+                "type": "string",
+                "description": "FTP URL. Used for EDI shipments only"
+              },
+              "REMOTEFILEPATH": {
+                "type": "string",
+                "description": "Remote file path. Used for EDI shipments only"
+              },
+              "FTPID": {
+                "type": "string",
+                "description": "FTP ID. Used for EDI shipments only"
+              },
+              "FTPPASSWORD": {
+                "type": "string",
+                "description": "FTP Password. Used for EDI shipments only"
+              },
+              "UPLOADFILENAME": {
+                "type": "string",
+                "description": "Upload file name. Used for EDI shipments only"
+              },
+              "PORT": {
+                "type": "string",
+                "description": "Port. Used for EDI shipments only"
+              }
+            }
+          },
+          "PickupDetails": {
+            "type": "object",
+            "description": "Pickup Information",
+            "properties": {
+              "PikcupDate": {
+                "type": "string",
+                "description": "Expected Pickup date.Format should be MM/dd/yyyy"
+              },
+              "PikcupFromTime": {
+                "type": "string",
+                "description": "Expected Pickup time"
+              },
+              "PikcupToTime": {
+                "type": "string",
+                "description": "Expected Pickup time"
+              },
+              "AlternatePikcupFromTime": {
+                "type": "string",
+                "description": "Expected Alternate Pickup time"
+              },
+              "AlternatePikcupToTime": {
+                "type": "string",
+                "description": "Expected Alternate Pickup time."
+              },
+              "PackageLocation": {
+                "type": "string",
+                "description": "Location of the package"
+              },
+              "Contact": {
+                "type": "string",
+                "description": "Pickup Contact"
+              },
+              "Company": {
+                "type": "string",
+                "description": "Pickup Company"
+              },
+              "StreetLine1": {
+                "type": "string",
+                "description": "Pickup Address Line 1"
+              },
+              "StreetLine2": {
+                "type": "string",
+                "description": "Pickup Address Line 2"
+              },
+              "StreetLine3": {
+                "type": "string",
+                "description": "Pickup Address Line 3"
+              },
+              "City": {
+                "type": "string",
+                "description": "Pickup City"
+              },
+              "StateOrProvinceCode": {
+                "type": "string",
+                "description": "Pickup State"
+              },
+              "PostalCode": {
+                "type": "string",
+                "description": "Pickup Zip/Postal code"
+              },
+              "CountryCode": {
+                "type": "string",
+                "description": "Pickup Country code"
+              },
+              "Phone": {
+                "type": "string",
+                "description": "Pickup Phone number"
+              },
+              "Email": {
+                "type": "string",
+                "description": "Pickup Email"
+              }
+            }
+          },
+          "ConsolidatedMainInfo": {
+            "type": "object",
+            "description": "Consolidated Main details. Used in EDI shipments only.",
+            "required": [
+              "ConsolidatedID",
+              "EDITestFlag"
+            ],
+            "properties": {
+              "PreBookingFlag": {
+                "type": "string",
+                "description": "Pre Booking Flag"
+              },
+              "EDITestFlag": {
+                "type": "string",
+                "description": "EDI Test Flag"
+              },
+              "CompanyEDIID": {
+                "type": "string",
+                "description": "Company EDI ID"
+              },
+              "ISAReceiverID": {
+                "type": "string",
+                "description": "ISA Receiver ID"
+              },
+              "Environment": {
+                "type": "string",
+                "description": "Environment"
+              },
+              "ControlerNo": {
+                "type": "string",
+                "description": "Controler Number"
+              },
+              "GSReceiverID": {
+                "type": "string",
+                "description": "GS Receiver ID"
+              },
+              "BSNBookingType": {
+                "type": "string",
+                "description": "BSN Booking Type"
+              },
+              "ConsolidatedID": {
+                "type": "string",
+                "description": "Consolidated ID"
+              },
+              "Separator": {
+                "type": "string",
+                "description": "Separator"
+              },
+              "HL02": {
+                "type": "string",
+                "description": "HL02"
+              },
+              "HazardousMaterial": {
+                "type": "string",
+                "enum":["NH","HZ"],
+                "description": "Hazardous Material. If not sent from payload it is by default NH"
+              },
+              "TemperatureRange": {
+                "type": "string",
+                "description": "Temperature Range"
+              },
+              "TemperatureRangeValue": {
+                "type": "string",
+                "description": "Temperature Range Value"
+              },
+              "HazardousDescription": {
+                "type": "string",
+                "description": "Hazardous Description"
+              },
+              "TemperatureCondition": {
+                "type": "string",
+                "description": "Temperature Condition"
+              },
+              "TemperatureConditionValue": {
+                "type": "string",
+                "description": "Temperature Condition Value"
+              },
+              "ParamactualProduct": {
+                "type": "string",
+                "description": "Paramactual Product"
+              },
+              "NoOfPieces": {
+                "type": "string",
+                "description": "Number Of Pieces"
+              },
+              "EDIWeightUOM": {
+                "type": "string",
+                "description": "EDI Weight Unit of measurement"
+              },
+              "EDIVolumeUOM": {
+                "type": "string",
+                "description": "EDI Volume Unit of measurement"
+              },
+              "LTLFreightClass": {
+                "type": "string",
+                "description": "LTL Freight Class"
+              },
+              "OceanLoadType": {
+                "type": "string",
+                "description": "Ocean Load Type"
+              },
+              "SCACCode": {
+                "type": "string",
+                "description": "SCAC Code"
+              },
+              "ModeOfTransport": {
+                "type": "string",
+                "description": "Mode Of Transport"
+              },
+              "ContainerType": {
+                "type": "string",
+                "description": "Container Type"
+              },
+              "ExpediteFlag": {
+                "type": "string",
+                "enum": [
+                  "Y",
+                  "N"
+                ],
+                "description": "Expedite Flag"
+              },
+              "StackableFreight": {
+                "type": "string",
+                "enum": [
+                  "Y",
+                  "N"
+                ],
+                "description": "Stackable Freight"
+              },
+              "TemperatureControledFlag": {
+                "type": "string",
+                "enum": [
+                  "Y",
+                  "N"
+                ],
+                "description": "Temperature Controled Flag"
+              },
+              "ExpressOriginalBLFlag": {
+                "type": "string",
+                "enum": [
+                  "Y",
+                  "N"
+                ],
+                "description": "Express Original BL Flag"
+              },
+              "REFCurrecyFlag": {
+                "type": "string",
+                "description": "REF Currecy Flag"
+              },
+              "REFServiceTypeFlag": {
+                "type": "string",
+                "description": "REF Service Type Flag"
+              },
+              "ExportFromUSFlag": {
+                "type": "string",
+                "enum": [
+                  "Y",
+                  "N"
+                ],
+                "description": "Export From US Flag"
+              },
+              "REFPalletTypeFlag": {
+                "type": "string",
+                "description": "REF Pallet Type Flag"
+              },
+              "MultiStopShipmentFlag": {
+                "type": "string",
+                "enum": [
+                  "Y",
+                  "N"
+                ],
+                "description": "Multi Stop Shipment Flag"
+              },
+              "PickupRequiredFlag": {
+                "type": "string",
+                "enum": [
+                  "Y",
+                  "N"
+                ],
+                "description": "Pickup Required Flag"
+              },
+              "REFFlag": {
+                "type": "string",
+                "description": "REF Flag"
+              },
+              "ShippingInstructions": {
+                "type": "string",
+                "description": "Shipping Instructions"
+              },
+              "IncoTerm": {
+                "type": "string",
+                "description": "IncoTerm",
+                "enum": [
+                  "DUP",
+                  "DDU"
+                ]
+              },
+              "IncoTermPlace": {
+                "type": "string",
+                "description": "Inco Term Place"
+              },
+              "IntDutiesTaxes": {
+                "type": "string",
+                "description": "Int Duties Taxes"
+              },
+              "CustomsValue": {
+                "type": "string",
+                "description": "Customs Value"
+              },
+              "CargoReadyDate": {
+                "type": "string",
+                "description": "Cargo Ready Date. Date Format:YYYYMMDD"
+              },
+              "RequestedDeliveryDate": {
+                "type": "string",
+                "description": "Requested Delivery Date.Date Format:YYYYMMDD"
+              },
+              "PaymentCode": {
+                "type": "string",
+                "enum": [
+                  "PP"
+                ],
+                "description": "Payment Type Code"
+              },
+              "AirOceanIndicator": {
+                "type": "string",
+                "enum": [
+                  "PTP"
+                ],
+                "description": "Air Ocean Indicator"
+              },
+              "EDIDimUOM": {
+                "type": "string",
+                "description": "EDI Dimension unit of measurement"
+              },
+              "PiecesVolume": {
+                "type": "string",
+                "description": "Pieces Volume"
+              },
+              "PiecesVolumeUOM": {
+                "type": "string",
+                "description": "Pieces Volume unit of measurement"
+              },
+              "ExportFiling": {
+                "type": "string",
+                "enum": [
+                  "false",
+                  "true"
+                ],
+                "description": "ExportFiling"
+              },
+              "ProductDesc": {
+                "type": "string",
+                "description": "Product Description"
+              },
+              "Reference2": {
+                "type": "string",
+                "description": "Reference details 2"
+              },
+              "AirRide": {
+                "type": "string",
+                "enum": [
+                  "YES",
+                  "NO"
+                ],
+                "description": "Air Ride flag"
+              },
+              "SalesOrderNumber": {
+                "type": "string",
+                "description": "Sales Order Number"
+              },
+              "ReferenceNumber": {
+                "type": "string",
+                "description": "Reference Number"
+              },
+              "MasterShipmentNo": {
+                "type": "string",
+                "description": "Master Shipment Number"
+              },
+              "ShippingPoint": {
+                "type": "string",
+                "description": "Shipping Point"
+              },
+              "DeliveryPriority": {
+                "type": "string",
+                "description": "DeliveryPriority"
+              },
+              "ShippingCondition": {
+                "type": "string",
+                "enum": [
+                  "1"
+                ],
+                "description": "Shipping Condition"
+              },
+              "SoldToParty": {
+                "type": "string",
+                "description": "Sold To Party"
+              },
+              "UserID": {
+                "type": "string",
+                "description": "Id of the User"
+              },
+              "ServiceType": {
+                "type": "string",
+                "description": "Service Type"
+              },
+              "SpecialHandlingCode": {
+                "type": "string",
+                "description": "Special Handling Code"
+              },
+              "HazardMaterialCode": {
+                "type": "string",
+                "description": "Hazard Material Code"
+              },
+              "HazardMaterialClassCode": {
+                "type": "string",
+                "description": "Hazard Material Class Code"
+              },
+              "HazardMaterialDescription": {
+                "type": "string",
+                "description": "Hazard Material Description"
+              },
+              "ExportMRNNumberFlag": {
+                "type": "string",
+                "enum": [
+                  "true",
+                  "false"
+                ],
+                "description": "Export MRN Number flag"
+              },
+              "ITN": {
+                "type": "string",
+                "description": "ITN(Internal Transaction Number) number"
+              },
+              "BOLAWBTrackingNo": {
+                "type": "string",
+                "description": "BOLAWB Tracking Number"
+              },
+              "PackageWeight": {
+                "type": "string",
+                "description": "Package Weight"
+              },
+              "PackageWeightUOM": {
+                "type": "string",
+                "description": "Unit of measure Package Weight"
+              },
+              "TEA": {
+                "type": "string",
+                "description": "TEA"
+              },
+              "CommeInvoice": {
+                "type": "string",
+                "description": "Commercial Invoice"
+              },
+              "SpecialProcessingIndicator": {
+                "type": "string",
+                "description": "Special Processing Indicator"
+              },
+              "PortOfLoadingFlag": {
+                "type": "string",
+                "enum": [
+                  "true",
+                  "false"
+                ],
+                "description": "Port Of Loading Flag"
+              },
+              "PortOfLoadingType": {
+                "type": "string",
+                "description": "Port Of Loading Type"
+              },
+              "PortOfLoadingDescription": {
+                "type": "string",
+                "description": "Port Of Loading description"
+              },
+              "PortOfDischargeFlag": {
+                "type": "string",
+                "enum": [
+                  "true",
+                  "false"
+                ],
+                "description": "Port Of Discharge flag."
+              },
+              "PortOfDischargeType": {
+                "type": "string",
+                "description": "Port Of Discharge Type"
+              },
+              "PortOfDischargeDescription": {
+                "type": "string",
+                "description": "Port Of Discharge description"
+              }
+            }
+          }
+        }
+      },
+      "ShippingWithoutErpResult": {
+        "type": "object",
+        "properties": {
+          "Version": {
+            "type": "string",
+            "description": "API version"
+          },
+          "StatusCode": {
+            "type": "string",
+            "description": "API status code",
+            "enum": [
+              200,
+              400,
+              401,
+              500
+            ]
+          },
+          "Message": {
+            "type": "string",
+            "description": "API response"
+          },
+          "Result": {
+            "type": "object",
+            "properties": {
+              "Status": {
+                "type": "string",
+                "description": "API status"
+              },
+              "Message": {
+                "type": "object",
+                "properties": {
+                  "SourceOfError": {
+                    "type": "string",
+                    "description": "If an Error Occurred, lets the user know the source of the error.Can be Database,Shipping Engine,API etc."
+                  },
+                  "ECSResponse": {
+                    "type": "string",
+                    "description": "Lets the user know the response message from Shipping Engine.Can be 'Success' or any Error Message"
+                  },
+                  "ManifestResponse": {
+                    "type": "string",
+                    "description": "Lets the user know the response message from Manifest service.Can be 'Success' or any Error Message"
+                  }
+                }
+              },
+              "OrderNo": {
+                "type": "integer",
+                "description": "Equivalent to Delivery number sent from the payload"
+              },
+              "Carrier": {
+                "type": "string",
+                "description": "Carrier name"
+              },
+              "Service": {
+                "type": "string",
+                "description": "Service level name"
+              },
+              "TrackingNo": {
+                "type": "integer",
+                "description": "Tracking Number generated for the shipment"
+              },
+              "PublishedFreight": {
+                "type": "number",
+                "description": "Published Freight Cost"
+              },
+              "DiscountedFreight": {
+                "type": "number",
+                "description": "Discounted Freight Cost"
+              },
+              "Documents": {
+                "type": "object",
+                "properties": {
+                  "DOCUMENT": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "PROVIDER": {
+                          "type": "string",
+                          "description": "Document Provider/Source of Document"
+                        },
+                        "DOCUMENTTYPE": {
+                          "type": "string",
+                          "enum": [
+                            "Label",
+                            "Form",
+                            "Report"
+                          ],
+                          "description": "Type of Document.Type can be Label,Form,Report etc."
+                        },
+                        "DOCUMENTDESCRIPTION": {
+                          "type": "string",
+                          "description": "Document Description"
+                        },
+                        "NUMBEROFDOCUMENTS": {
+                          "type": "integer",
+                          "description": "Number of documents generated"
+                        },
+                        "DOCUMENTURL": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "description": "List of Document URL"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "TrackURL": {
+                "type": "string",
+                "description": "Tracking URL"
+              }
+            }
+          }
+        }
+      }
+    },
+    "examples": {
+      "EDI": {
+        "summary": "",
+        "value": {
+          "FeederInfo": {
+            "ORDERTYPE": "PWS",
+            "EXPECTEDDELIVERYDATE": "06/25/2023",
+            "EXPECTEDDELIVERYTIME": "00:00",
+            "SHIPMENTTYPE": "Personal",
+            "DELIVERYNUMBER": "312234"
+          },
+          "ShipperInfo": {
+            "CUSTOMERID": "9243700001",
+            "PLANTID": "1",
+            "COMPANY": "ABB AB",
+            "CONTACT": "Robotics Products",
+            "ADDRESSLINE1": "Banmatarvagen 45",
+            "ADDRESSLINE2": "Bnr. 342 Finnslatten",
+            "ADDRESSLINE3": "",
+            "CITY": "Vasteras",
+            "STATE": "",
+            "COUNTRY": "SE",
+            "ZIPCODE": "721 36",
+            "PHONE": "9887645",
+            "FAX": "",
+            "EMAIL": "Test123@bluealtair.com"
+          },
+          "ShipToInfo": {
+            "COMPANYNAME": "Processweaver Inc",
+            "CONTACT": "Info User",
+            "ADDRESSLINE1": "Andrew road 123",
+            "ADDRESSLINE2": "test",
+            "ADDRESSLINE3": "test",
+            "CITY": "Fremont",
+            "STATE": "CA",
+            "COUNTRY": "US",
+            "ZIPCODE": "94538",
+            "PHONE": "16137272683",
+            "FAX": "",
+            "EMAIL": "europesales@processweaver.com",
+            "AccountNumber": "545962"
+          },
+          "ShipFromInfo": {
+            "COMPANY": "INNIO Jenbacher GmbH",
+            "CONTACT": "INNIO Jenbacher GmbH",
+            "ADDRESSLINE1": "Koperstrasse 2",
+            "ADDRESSLINE2": "",
+            "ADDRESSLINE3": "",
+            "CITY": "NUERNBERG",
+            "STATE": "BV",
+            "COUNTRY": "DE",
+            "ZIPCODE": "90451",
+            "PHONE": "1164133527",
+            "FAX": "",
+            "EMAIL": "knnue.bo-customerservice@kuehne-nagel.com"
+          },
+          "ShipMethodInfo": {
+            "SHIPDATE": "06/25/2023",
+            "PAYMENTTERM": "SENDER",
+            "CARRIERDESCRIPTION": "EDI856SHIP",
+            "CARRIERACCOUNTNUM": "",
+            "SERVICELEVELNAME": "EDI856SHIP",
+            "COSTCENTERID": "",
+            "REFERENCE": "",
+            "REFERENCE2": "",
+            "CarrierType": "EDI",
+            "SpecialInstructions": ""
+          },
+          "Paymentinformation": {
+            "PayerAccountNumber": "",
+            "CompanyName": "",
+            "Contact": "",
+            "StreetLine1": "",
+            "StreetLine2": "",
+            "StreetLine3": "",
+            "City": "",
+            "StateOrProvinceCode": "",
+            "PostalCode": "",
+            "CountryCode": "",
+            "Phone": "",
+            "Email": ""
+          },
+          "AdditionalDetails": {
+            "AdditionalNotes": "",
+            "PONumber": "6387969027",
+            "InvoiceNumber": "6387969027",
+            "FTPURL": "",
+            "REMOTEFILEPATH": "/",
+            "FTPID": "",
+            "FTPPASSWORD": "",
+            "UPLOADFILENAME": "EDI856_0080410441_20210427_140540",
+            "PORT": ""
+          },
+          "Packagedetail": [
+            {
+              "WeightValue": "20",
+              "WeightUnits": "LBS",
+              "NoOfBoxes": "1",
+              "DimensionUnit": "IN",
+              "CODAmount": "",
+              "CODCurrencyCode": "",
+              "LPNNumber": "878787878",
+              "InsuranceAmount": "",
+              "InsuranceCurrencyCode": "",
+              "CustomerReference": "JW-2022-6640",
+              "InvoiceNumber": "6387969027",
+              "PONumber": "6387969027",
+              "Dimension": "40X20X20",
+              "Multilevel": true,
+              "GrossWeight": "35.00",
+              "Volume": "27000",
+              "VolumeUOM": "CC",
+              "HandlingID": "219072",
+              "NoOfLineItems": "1",
+              "PackageCustom1": "",
+              "PackageCustom2": "",
+              "PackageCustom3": "",
+              "PackageCustom4": "",
+              "PackageCustom5": "",
+              "PackagingMaterial": "",
+              "DryIceWeight": "",
+              "DryIceWeightUOM": "",
+              "TrackingNumber": "",
+              "PONo": "",
+              "PackageDescription": "PRODUCTS",
+              "boxInfo": [
+                {
+                  "ID": "1",
+                  "SNO": "1",
+                  "HUNO": "111",
+                  "BoxID": "1",
+                  "BALANCE_QUANTITY": "1",
+                  "DIMENSION": "1X1X1",
+                  "DESCRIPTION": "BOX",
+                  "TOTALITEMQUANTITY": "2",
+                  "WEIGHT": "20",
+                  "PARTIAL_QUANTITY": "",
+                  "TOTAL_QUANTITY": "2",
+                  "IS_REPACK": false,
+                  "DG_FLAG": false,
+                  "Items": [
+                    {
+                      "ID": "55",
+                      "SNo": 1,
+                      "ItemNo": "LC99900",
+                      "ItemDes": "Mobile",
+                      "Quantity": "1",
+                      "PRODUCTNO": "LC99900",
+                      "ItemWeight": "10",
+                      "SERIALNUM": "",
+                      "ISSERIAL": "false",
+                      "ISBATCH": "false",
+                      "DIMENSION": "",
+                      "ITEMDECLAREDVALUE": " ",
+                      "UnitValue": "80000",
+                      "UNITMEASURE": "Box",
+                      "CLASS": "First",
+                      "EXPORTLICENSE": "ASDF4321",
+                      "SKUITEMUPS": "1234567890",
+                      "CATEGORY": "First",
+                      "ECCN": "12345667",
+                      "HarmonisedCode": "",
+                      "CountryOrigin": "AS",
+                      "Qtybo": "",
+                      "UOM": "CM",
+                      "DelLineItemNum": "000010",
+                      "OrderNumber": "0000049303",
+                      "OrderLineItemNum": "000010",
+                      "OrderClass": "SO",
+                      "OrderType": "ZOR",
+                      "CustomerPONum": "TextID_Test1",
+                      "NoOfUnitsShipped": "",
+                      "HTSCode": "",
+                      "DestHTSCode": "",
+                      "LicenseNo": "",
+                      "Hazardous": "",
+                      "COO": "",
+                      "CurrencyType": "",
+                      "ItemCustom1": "",
+                      "ItemCustom2": "",
+                      "ItemCustom3": "",
+                      "ItemCustom4": "",
+                      "ItemCustom5": ""
+                    },
+                    {
+                      "ID": "55",
+                      "SNo": 1,
+                      "ItemNo": "LC8900",
+                      "ItemDes": "Laptop",
+                      "Quantity": "1",
+                      "PRODUCTNO": "LC8900",
+                      "ItemWeight": "10",
+                      "SERIALNUM": "",
+                      "ISSERIAL": "false",
+                      "ISBATCH": "false",
+                      "DIMENSION": "",
+                      "ITEMDECLAREDVALUE": " ",
+                      "UnitValue": "80000",
+                      "UNITMEASURE": "Box",
+                      "CLASS": "First",
+                      "EXPORTLICENSE": "ASDF4321",
+                      "SKUITEMUPS": "1234567890",
+                      "CATEGORY": "First",
+                      "ECCN": "12345667",
+                      "HarmonisedCode": "",
+                      "CountryOrigin": "AS",
+                      "Qtybo": "",
+                      "UOM": "CM",
+                      "DelLineItemNum": "000010",
+                      "OrderNumber": "0000049303",
+                      "OrderLineItemNum": "000010",
+                      "OrderClass": "SO",
+                      "OrderType": "ZOR",
+                      "CustomerPONum": "TextID_Test1",
+                      "NoOfUnitsShipped": "",
+                      "HTSCode": "",
+                      "DestHTSCode": "",
+                      "LicenseNo": "",
+                      "Hazardous": "",
+                      "COO": "",
+                      "CurrencyType": "",
+                      "ItemCustom1": "",
+                      "ItemCustom2": "",
+                      "ItemCustom3": "",
+                      "ItemCustom4": "",
+                      "ItemCustom5": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "WeightValue": "20",
+              "WeightUnits": "LBS",
+              "Length": "40",
+              "NoOfBoxes": "1",
+              "Width": "20",
+              "Height": "20",
+              "DimensionUnit": "IN",
+              "CODAmount": "",
+              "CODCurrencyCode": "",
+              "LPNNumber": "878787878",
+              "InsuranceAmount": "",
+              "InsuranceCurrencyCode": "",
+              "CustomerReference": "JW-2022-6640",
+              "InvoiceNumber": "6387969027",
+              "PONumber": "6387969027",
+              "Dimension": "40X20X20",
+              "Multilevel": true,
+              "GrossWeight": "35.00",
+              "Volume": "27000",
+              "VolumeUOM": "CC",
+              "HandlingID": "219072",
+              "NoOfLineItems": "1",
+              "PackageCustom1": "",
+              "PackageCustom2": "",
+              "PackageCustom3": "",
+              "PackageCustom4": "",
+              "PackageCustom5": "",
+              "PackagingMaterial": "",
+              "DryIceWeight": "",
+              "DryIceWeightUOM": "",
+              "TrackingNumber": "",
+              "PONo": "",
+              "PackageDescription": "PRODUCTS",
+              "boxInfo": [
+                {
+                  "ID": "1",
+                  "SNO": "1",
+                  "HUNO": "111",
+                  "BoxID": "1",
+                  "BALANCE_QUANTITY": "1",
+                  "DIMENSION": "1X1X1",
+                  "DESCRIPTION": "BOX",
+                  "TOTALITEMQUANTITY": "2",
+                  "WEIGHT": "20",
+                  "PARTIAL_QUANTITY": "",
+                  "TOTAL_QUANTITY": "2",
+                  "IS_REPACK": false,
+                  "DG_FLAG": false,
+                  "Items": [
+                    {
+                      "ID": "55",
+                      "SNo": 1,
+                      "ItemNo": "LC99900",
+                      "ItemDes": "Mobile",
+                      "Quantity": "1",
+                      "PRODUCTNO": "LC99900",
+                      "ItemWeight": "10",
+                      "SERIALNUM": "",
+                      "ISSERIAL": "false",
+                      "ISBATCH": "false",
+                      "DIMENSION": "",
+                      "ITEMDECLAREDVALUE": " ",
+                      "UnitValue": "80000",
+                      "UNITMEASURE": "Box",
+                      "CLASS": "First",
+                      "EXPORTLICENSE": "ASDF4321",
+                      "SKUITEMUPS": "1234567890",
+                      "CATEGORY": "First",
+                      "ECCN": "12345667",
+                      "HarmonisedCode": "",
+                      "CountryOrigin": "AS",
+                      "Qtybo": "",
+                      "UOM": "CM",
+                      "DelLineItemNum": "000010",
+                      "OrderNumber": "0000049303",
+                      "OrderLineItemNum": "000010",
+                      "OrderClass": "SO",
+                      "OrderType": "ZOR",
+                      "CustomerPONum": "TextID_Test1",
+                      "NoOfUnitsShipped": "",
+                      "HTSCode": "",
+                      "DestHTSCode": "",
+                      "LicenseNo": "",
+                      "Hazardous": "",
+                      "COO": "",
+                      "CurrencyType": "",
+                      "ItemCustom1": "",
+                      "ItemCustom2": "",
+                      "ItemCustom3": "",
+                      "ItemCustom4": "",
+                      "ItemCustom5": ""
+                    },
+                    {
+                      "ID": "55",
+                      "SNo": 1,
+                      "ItemNo": "LC8900",
+                      "ItemDes": "Laptop",
+                      "Quantity": "1",
+                      "PRODUCTNO": "LC8900",
+                      "ItemWeight": "10",
+                      "SERIALNUM": "",
+                      "ISSERIAL": "false",
+                      "ISBATCH": "false",
+                      "DIMENSION": "",
+                      "ITEMDECLAREDVALUE": " ",
+                      "UnitValue": "80000",
+                      "UNITMEASURE": "Box",
+                      "CLASS": "First",
+                      "EXPORTLICENSE": "ASDF4321",
+                      "SKUITEMUPS": "1234567890",
+                      "CATEGORY": "First",
+                      "ECCN": "12345667",
+                      "HarmonisedCode": "",
+                      "CountryOrigin": "AS",
+                      "Qtybo": "",
+                      "UOM": "CM",
+                      "DelLineItemNum": "000010",
+                      "OrderNumber": "0000049303",
+                      "OrderLineItemNum": "000010",
+                      "OrderClass": "SO",
+                      "OrderType": "ZOR",
+                      "CustomerPONum": "TextID_Test1",
+                      "NoOfUnitsShipped": "",
+                      "HTSCode": "",
+                      "DestHTSCode": "",
+                      "LicenseNo": "",
+                      "Hazardous": "",
+                      "COO": "",
+                      "CurrencyType": "",
+                      "ItemCustom1": "",
+                      "ItemCustom2": "",
+                      "ItemCustom3": "",
+                      "ItemCustom4": "",
+                      "ItemCustom5": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "InternationalDetails": {
+            "Commodities": [
+              {
+                "Description": "Test Product Description",
+                "Quantity": "1",
+                "Weight": "0.178",
+                "CountryOfManufacture": "US",
+                "HarmonizedCode": "39269097",
+                "PartNumber": "2",
+                "CommodityNo": "M1",
+                "LicenseNo": "",
+                "ECCN": "",
+                "WeightUnits": "LBS",
+                "Currency": "EUR",
+                "UOM": "CM",
+                "UnitValue": "1"
+              }
+            ],
+            "IsDutiable": "Y",
+            "DeclaredValue": "4431.35",
+            "DeclaredValueCurrency": "EUR",
+            "InvoiceDate": "06/25/2023",
+            "PurchaseOrderNumber": "JW-2022-6640",
+            "ReasonForExport": "SOLD",
+            "CurrencyCode": "EUR",
+            "DutiesPaymentType": "Sender",
+            "TotalAmount": "4431.35",
+            "ReturnTypeChoice": "3",
+            "INTDutiesTaxesPayment": "Sender",
+            "DutiesAccountNumber": "8811192865",
+            "PayorCountryCode": "CA",
+            "ITNNumber": "XVT1234233232",
+            "MRNNumber": "12232",
+            "BookingConfirmationNumber": "876763",
+            "ShipToTaxId": "454545",
+            "ShipFromTaxId": "545454",
+            "PermitNumber": "333222",
+            "InvoiceNumber": "6387969027",
+            "INVOICETOTAL": "1",
+            "DISCOUNT": "2.00",
+            "INVOICESUBTOTAL": "200",
+            "FREIGHT": "12.36",
+            "INSURANCE": ""
+          },
+          "SpecialService": {
+            "SaturdayDelivery": false,
+            "SaturdayPickup": false,
+            "InsideDelivery": false,
+            "InsidePickup": false,
+            "ReturnServiceCode": false,
+            "SignatureRequired": false
+          },
+          "Broker": {
+            "CompanyName": "Nutramax Laboratories",
+            "Contact": " Josh Craven",
+            "StreetLine1": "1759 Flat Creek Road",
+            "City": "Lancaster",
+            "StateOrProvinceCode": "SC",
+            "CountryCode": "US",
+            "PostalCode": "29720",
+            "Phone": "7764000410",
+            "Email": "abc@processweaver.com"
+          },
+          "Importer": {
+            "Company": "Vitalsoft Artifacts",
+            "Contact": "Siva",
+            "PhoneNumber": "8889328373",
+            "EmailAddress": "siva.mukta@processweaver.com",
+            "StreetLines": "5201 Great America Pkwy",
+            "City": "Santa Clara",
+            "StateOrProvinceCode": "AK",
+            "PostalCode": "95054",
+            "CountryCode": "US"
+          },
+          "PickupDetails": {
+            "PikcupDate": "06/25/2023",
+            "PikcupFromTime": "1100",
+            "PikcupToTime": "1500",
+            "AlternatePikcupFromTime": "1200",
+            "AlternatePikcupToTime": "1700",
+            "PackageLocation": "",
+            "Contact": "INNIO Jenbacher GmbH",
+            "StreetLine1": "Koperstrasse 3",
+            "StreetLine2": "",
+            "StreetLine3": "",
+            "City": "NUERNBERG",
+            "StateOrProvinceCode": "BV",
+            "PostalCode": "90451",
+            "CountryCode": "DE",
+            "Phone": "1164133527",
+            "Email": "Jenbacher@gmail.com"
+          },
+          "ConsolidatedMainInfo": {
+            "PreBookingFlag": "",
+            "EDITestFlag": "TRUE",
+            "CompanyEDIID": "ABB",
+            "ISAReceiverID": "AGILITY",
+            "Environment": "T",
+            "ControlerNo": "",
+            "GSReceiverID": "AGILITY",
+            "BSNBookingType": "",
+            "ConsolidatedID": "0080410441",
+            "Separator": ":",
+            "HL02": "",
+            "HazardousMaterial": "NH",
+            "TemperatureRange": "",
+            "TemperatureRangeValue": "",
+            "HazardousDescription": "",
+            "TemperatureCondition": "",
+            "TemperatureConditionValue": "",
+            "ParamactualProduct": "",
+            "NoOfPieces": "2",
+            "EDIWeightUOM": "KG",
+            "EDIVolumeUOM": "CC",
+            "LTLFreightClass": "50",
+            "OceanLoadType": "FCL",
+            "SCACCode": "AGILITY",
+            "ModeOfTransport": "AIR",
+            "ContainerType": "20",
+            "ExpediteFlag": "Y",
+            "StackableFreight": "N",
+            "TemperatureControledFlag": "N",
+            "ExpressOriginalBLFlag": "N",
+            "REFCurrecyFlag": "SEK",
+            "REFServiceTypeFlag": "DD",
+            "ExportFromUSFlag": "N",
+            "REFPalletTypeFlag": "EURO",
+            "MultiStopShipmentFlag": "N",
+            "PickupRequiredFlag": "Y",
+            "REFFlag": "0000049303-000010",
+            "ShippingInstructions": "includes harmless batteries under SP188/UN 3091",
+            "IncoTerm": "CIP",
+            "IncoTermPlace": "Eskilstuna",
+            "IntDutiesTaxes": "RECIPIENT",
+            "CustomsValue": "1000.00",
+            "CargoReadyDate": "20210429",
+            "RequestedDeliveryDate": "00000000",
+            "CutoffDate": "20210429",
+            "RequestedPickupDate": "20210429",
+            "PaymentCode": "PP",
+            "AirOceanIndicator": "PTP",
+            "EDIDimUOM": "CI",
+            "PiecesVolume": "108000",
+            "PiecesVolumeUOM": "CC",
+            "ExportFiling": "FALSE",
+            "ProductDesc": "PRODUCTS",
+            "Reference2": "Eskilstuna",
+            "AirRide": "NO",
+            "SalesOrderNumber": "49303",
+            "ReferenceNumber": "0080410441",
+            "MasterShipmentNo": "0080410441",
+            "ShippingPoint": "0501",
+            "DeliveryPriority": "00",
+            "ShippingCondition": "1",
+            "SoldToParty": "0000937957",
+            "UserID": "SESEATM",
+            "ServiceType": "",
+            "SpecialHandlingCode": "",
+            "HazardMaterialCode": "",
+            "HazardMaterialClassCode": "",
+            "HazardMaterialDescription": "",
+            "ExportMRNNumberFlag": "",
+            "ITN": "",
+            "BOLAWBTrackingNo": "",
+            "PackageWeight": "70.0",
+            "PackageWeightUOM": "KG",
+            "TEA": "",
+            "CommeInvoice": "",
+            "SpecialProcessingIndicator": "",
+            "PortOfLoadingFlag": "",
+            "PortOfLoadingType": "",
+            "PortOfLoadingDescription": "",
+            "PortOfDischargeFlag": "",
+            "PortOfDischargeType": "",
+            "PortOfDischargeDescription": ""
+          }
+        }
+      },
+      "Common_Xml_Domestic": {
+        "summary": "",
+        "value": {
+          "FeederInfo": {
+            "ORDERTYPE": "PWS",
+            "EXPECTEDDELIVERYDATE": "05/25/2023",
+            "EXPECTEDDELIVERYTIME": "00:00",
+            "SHIPMENTTYPE": "Personal",
+            "DELIVERYNUMBER": "312269"
+          },
+          "ShipperInfo": {
+            "CUSTOMERID": "9243700001",
+            "PLANTID": "1",
+            "COMPANY": "Processweaver Inc",
+            "CONTACT": "Info User",
+            "ADDRESSLINE1": "Evince Apartment",
+            "ADDRESSLINE2": "G2",
+            "ADDRESSLINE3": "",
+            "CITY": "Phoenix",
+            "STATE": "CA",
+            "COUNTRY": "US",
+            "ZIPCODE": "90451",
+            "PHONE": "9887645777",
+            "CurrencyCode": "USD",
+            "FAX": "",
+            "EMAIL": "Test123@freshgravity.com"
+          },
+          "ShipToInfo": {
+            "COMPANYNAME": "Processweaver Inc",
+            "CONTACT": "Test",
+            "ADDRESSLINE1": "Andrew road 123",
+            "ADDRESSLINE2": "test",
+            "ADDRESSLINE3": "test",
+            "CITY": "Richardson",
+            "STATE": "TX",
+            "COUNTRY": "US",
+            "ZIPCODE": "75080",
+            "PHONE": "16137272683",
+            "FAX": "",
+            "EMAIL": "Barrhaven@gamil.com"
+          },
+          "ShipFromInfo": {
+            "COMPANY": "ProcessWeaver Inc",
+            "CONTACT": "kumar",
+            "ADDRESSLINE1": "3600 pennsylvania ave",
+            "ADDRESSLINE2": "apt 30",
+            "ADDRESSLINE3": "123",
+            "CITY": "Fremont",
+            "STATE": "CA",
+            "COUNTRY": "US",
+            "ZIPCODE": "94538",
+            "PHONE": "9874563210",
+            "FAX": "",
+            "EMAIL": "info@processweaver.com"
+          },
+          "ShipMethodInfo": {
+            "SHIPDATE": "05/25/2023",
+            "PAYMENTTERM": "SENDER",
+            "CarrierType": "PARCEL",
+            "CARRIERDESCRIPTION": "UPS",
+            "CARRIERACCOUNTNUM": "",
+            "SERVICELEVELNAME": "UPS Ground",
+            "COSTCENTERID": "costcenter",
+            "REFERENCE": "testing",
+            "REFERENCE2": "",
+            "SpecialInstructions": "testnotes"
+          },
+          "Paymentinformation": {
+            "PayerAccountNumber": "",
+            "CompanyName": "",
+            "Contact": "",
+            "StreetLine1": "",
+            "StreetLine2": "",
+            "StreetLine3": "",
+            "City": "",
+            "StateOrProvinceCode": "",
+            "PostalCode": "",
+            "CountryCode": "",
+            "Phone": "",
+            "Email": ""
+          },
+          "AdditionalDetails": {
+            "AdditionalNotes": "testing",
+            "PONumber": "6387969027",
+            "InvoiceNumber": "6387969027"
+          },
+          "Packagedetail": [
+            {
+              "WeightValue": "2.00",
+              "WeightUnits": "LB",
+              "PackageType": "PALLET",
+              "LTLClass": "50",
+              "NoOfBoxes": "0",
+              "NMFC": "",
+              "DimensionUnit": "IN",
+              "CODAmount": "",
+              "CODCurrencyCode": "",
+              "LPNNumber": "878787878",
+              "InsuranceAmount": "",
+              "InsuranceCurrencyCode": "",
+              "CustomerReference": "JW-2022-6640",
+              "InvoiceNumber": "6387969027",
+              "PONumber": "6387969027",
+              "Dimension": "1X1X1",
+              "PackageDescription": "PRODUCTS",
+              "MultiLevel": false,
+              "boxInfo": [
+                {
+                  "ID": "1",
+                  "SNO": "1",
+                  "BALANCEQUANTITY": "0",
+                  "DIMENSION": "1X1X1",
+                  "DESCRIPTION": "BOX",
+                  "TOTALITEMQUANTITY": "2",
+                  "WEIGHT": "2",
+                  "PARTIALQUANTITY": "1",
+                  "TOTALQUANTITY": "1",
+                  "ISREPACK": false,
+                  "DGFLAG": false,
+                  "Items": [
+                    {
+                      "ID": "55",
+                      "SNO": 1,
+                      "ItemNo": "LC99900",
+                      "ItemDes": "Mobile",
+                      "Quantity": "1",
+                      "ItemWeight": "1",
+                      "UNITVALUE": "80000",
+                      "UOM": "Box",
+                      "CLASS": "First",
+                      "ECCN": "12345667",
+                      "HARMONISEDCODE": "TEST",
+                      "COUNTRYORIGIN": "AS"
+                    },
+                    {
+                      "ID": "56",
+                      "SNO": 2,
+                      "ItemNo": "LC99901",
+                      "ItemDes": "Laptop",
+                      "Quantity": "1",
+                      "ItemWeight": "1",
+                      "UNITVALUE": "80000",
+                      "UOM": "Box",
+                      "CLASS": "First",
+                      "ECCN": "12345667",
+                      "HARMONISEDCODE": "TEST",
+                      "COUNTRYORIGIN": "AS"
+                    }
+                  ]
+                }
+              ],
+              "Items": [
+                {
+                  "ID": "55",
+                  "SNO": 1,
+                  "ItemNo": "LC99900",
+                  "ItemDes": "Mobile",
+                  "Quantity": "1",
+                  "ItemWeight": "1",
+                  "UNITVALUE": "80000",
+                  "UOM": "Box",
+                  "CLASS": "First",
+                  "ECCN": "12345667",
+                  "HARMONISEDCODE": "TEST",
+                  "COUNTRYORIGIN": "AS"
+                },
+                {
+                  "ID": "56",
+                  "SNO": 2,
+                  "ItemNo": "LC99901",
+                  "ItemDes": "Laptop",
+                  "Quantity": "1",
+                  "ItemWeight": "1",
+                  "UNITVALUE": "80000",
+                  "UOM": "Box",
+                  "CLASS": "First",
+                  "ECCN": "12345667",
+                  "HARMONISEDCODE": "TEST",
+                  "COUNTRYORIGIN": "AS"
+                }
+              ]
+            }
+          ],
+          "SpecialService": {
+            "SaturdayDelivery": false,
+            "SaturdayPickup": false,
+            "InsideDelivery": false,
+            "InsidePickup": false,
+            "ReturnServiceCode": false,
+            "SignatureRequired": false
+          },
+          "Broker": {
+            "CompanyName": "Nutramax Laboratories",
+            "Contact": " Josh Craven",
+            "StreetLine1": "1759 Flat Creek Road",
+            "City": "Lancaster",
+            "StateOrProvinceCode": "SC",
+            "CountryCode": "US",
+            "PostalCode": "29720",
+            "Phone": "7764000410",
+            "Email": "abc@processweaver.com"
+          },
+          "Importer": {
+            "Company": "Vitalsoft Artifacts",
+            "Contact": "Siva",
+            "PhoneNumber": "8889328373",
+            "EmailAddress": "siva.mukta@processweaver.com",
+            "StreetLines": "5201 Great America Pkwy",
+            "City": "Santa Clara",
+            "StateOrProvinceCode": "AK",
+            "PostalCode": "95054",
+            "CountryCode": "US"
+          },
+          "PickupDetails": {
+            "PikcupDate": "05/25/2023",
+            "PikcupFromTime": "1100",
+            "PikcupToTime": "1500",
+            "AlternatePikcupFromTime": "1200",
+            "AlternatePikcupToTime": "1700",
+            "PackageLocation": "",
+            "Contact": "INNIO Jenbacher GmbH",
+            "Company": "DUFF - NORTON",
+            "StreetLine1": "Koperstrasse 3",
+            "StreetLine2": "",
+            "StreetLine3": "",
+            "City": "NUERNBERG",
+            "StateOrProvinceCode": "BV",
+            "PostalCode": "90451",
+            "CountryCode": "DE",
+            "Phone": "1164133527",
+            "Email": "Jenbacher@gmail.com"
+          }
+        }
+      },
+      "Common_Xml_International": {
+        "summary": "",
+        "value": {
+          "FeederInfo": {
+            "ORDERTYPE": "PWS",
+            "EXPECTEDDELIVERYDATE": "05/25/2023",
+            "EXPECTEDDELIVERYTIME": "00:00",
+            "SHIPMENTTYPE": "Personal",
+            "DELIVERYNUMBER": "312234"
+          },
+          "ShipperInfo": {
+            "CUSTOMERID": "9243700001",
+            "PLANTID": "1",
+            "COMPANY": "Processweaver Inc",
+            "CONTACT": "Info User",
+            "ADDRESSLINE1": "Evince Apartment",
+            "ADDRESSLINE2": "G2",
+            "ADDRESSLINE3": "",
+            "CITY": "Phoenix",
+            "STATE": "AZ",
+            "COUNTRY": "US",
+            "ZIPCODE": "85001",
+            "PHONE": "9887645777",
+            "CurrencyCode": "USD",
+            "FAX": "",
+            "EMAIL": "Test123@bluealtair.com"
+          },
+          "ShipToInfo": {
+            "COMPANYNAME": "Processweaver Inc",
+            "CONTACT": "Test",
+            "ADDRESSLINE1": "Andrew road 123",
+            "ADDRESSLINE2": "test",
+            "ADDRESSLINE3": "test",
+            "CITY": "Nepean",
+            "STATE": "ON",
+            "COUNTRY": "CA",
+            "ZIPCODE": "K1A 0A4",
+            "PHONE": "16137272683",
+            "FAX": "",
+            "EMAIL": "Barrhaven@gamil.com"
+          },
+          "ShipFromInfo": {
+            "COMPANY": "ProcessWeaver Inc",
+            "CONTACT": "kumar",
+            "ADDRESSLINE1": "3600 pennsylvania ave",
+            "ADDRESSLINE2": "apt 30",
+            "ADDRESSLINE3": "123",
+            "CITY": "Fremont",
+            "STATE": "CA",
+            "COUNTRY": "US",
+            "ZIPCODE": "94538",
+            "PHONE": "9874563210",
+            "FAX": "",
+            "EMAIL": "info@processweaver.com"
+          },
+          "ShipMethodInfo": {
+            "SHIPDATE": "05/25/2023",
+            "CARRIERTYPE": "PARCEL",
+            "PAYMENTTERM": "Sender",
+            "CARRIERDESCRIPTION": "UPS",
+            "CARRIERACCOUNTNUM": "",
+            "SERVICELEVELNAME": "UPS WORLDWIDE EXPRESS",
+            "COSTCENTERID": "",
+            "REFERENCE": "",
+            "REFERENCE2": "",
+            "SpecialInstructions": ""
+          },
+          "Paymentinformation": {
+            "PayerAccountNumber": "",
+            "CompanyName": "",
+            "Contact": "",
+            "StreetLine1": "",
+            "StreetLine2": "",
+            "StreetLine3": "",
+            "City": "",
+            "StateOrProvinceCode": "",
+            "PostalCode": "",
+            "CountryCode": "",
+            "Phone": "",
+            "Email": ""
+          },
+          "AdditionalDetails": {
+            "AdditionalNotes": "testing",
+            "PONumber": "6387969027",
+            "InvoiceNumber": "6387969027"
+          },
+          "Packagedetail": [
+            {
+              "WeightValue": "60.00",
+              "WeightUnits": "LB",
+              "PackageType": "PALLET",
+              "LTLClass": "50",
+              "NoOfBoxes": "2",
+              "NMFC": "114125-04",
+              "Quantity": "2",
+              "DimensionUnit": "IN",
+              "CODAmount": "",
+              "CODCurrencyCode": "",
+              "LPNNumber": "878787878",
+              "InsuranceAmount": "",
+              "InsuranceCurrencyCode": "",
+              "CustomerReference": "JW-2022-6640",
+              "InvoiceNumber": "6387969027",
+              "PONumber": "6387969027",
+              "Dimension": "1X1X1",
+              "PackageDescription": "PRODUCTS",
+              "multilevel": true,
+              "boxInfo": [
+                {
+                  "ID": "1",
+                  "SNO": "1",
+                  "HUNO": "111",
+                  "BALANCEQUANTITY": "0",
+                  "DIMENSION": "1X1X1",
+                  "DESCRIPTION": "BOX",
+                  "TOTALITEMQUANTITY": "2",
+                  "WEIGHT": "30",
+                  "PARTIALQUANTITY": "",
+                  "TOTALQUANTITY": "2",
+                  "ISREPACK": false,
+                  "DGFLAG": false,
+                  "Items": [
+                    {
+                      "SNO": 1,
+                      "ItemNo": "LC99900",
+                      "ItemDes": "Mobile",
+                      "QUANTITY": "1",
+                      "ItemWeight": "15",
+                      "DIMENSION": "",
+                      "UNITVALUE": "80000",
+                      "UNITMEASURE": "Box",
+                      "CLASS": "First",
+                      "ECCN": "12345667",
+                      "HARMONISEDCODE": "",
+                      "COUNTRYORIGIN": "AS",
+                      "UOM": "CM"
+                    },
+                    {
+                      "SNO": 1,
+                      "ItemNo": "LC99901",
+                      "ItemDes": "Laptop",
+                      "QUANTITY": "1",
+                      "ItemWeight": "15",
+                      "DIMENSION": "",
+                      "UNITVALUE": "80000",
+                      "UNITMEASURE": "Box",
+                      "CLASS": "First",
+                      "ECCN": "12345667",
+                      "HARMONISEDCODE": "",
+                      "COUNTRYORIGIN": "AS",
+                      "UOM": "CM"
+                    }
+                  ]
+                },
+                {
+                  "ID": "2",
+                  "SNO": "1",
+                  "BALANCEQUANTITY": "0",
+                  "DIMENSION": "1X1X1",
+                  "DESCRIPTION": "BOX",
+                  "TOTALITEMQUANTITY": "4",
+                  "WEIGHT": "30",
+                  "PARTIALQUANTITY": "",
+                  "TOTALQUANTITY": "2",
+                  "ISREPACK": false,
+                  "DGFLAG": false,
+                  "Items": [
+                    {
+                      "SNO": 1,
+                      "ItemNo": "LC99900",
+                      "ItemDes": "Mobile",
+                      "QUANTITY": "1",
+                      "ItemWeight": "5",
+                      "DIMENSION": "",
+                      "UNITVALUE": "80000",
+                      "UNITMEASURE": "Box",
+                      "CLASS": "First",
+                      "ECCN": "12345667",
+                      "HARMONISEDCODE": "",
+                      "COUNTRYORIGIN": "AS",
+                      "UOM": "CM"
+                    },
+                    {
+                      "SNO": 1,
+                      "ItemNo": "LC99901",
+                      "ItemDes": "Laptop",
+                      "QUANTITY": "1",
+                      "ItemWeight": "5",
+                      "DIMENSION": "",
+                      "UNITVALUE": "80000",
+                      "UNITMEASURE": "Box",
+                      "CLASS": "First",
+                      "ECCN": "12345667",
+                      "HARMONISEDCODE": "",
+                      "COUNTRYORIGIN": "AS",
+                      "UOM": "CM"
+                    },
+                    {
+                      "SNO": 1,
+                      "ItemNo": "LC999034",
+                      "ItemDes": "TV",
+                      "QUANTITY": "1",
+                      "ItemWeight": "5",
+                      "DIMENSION": "",
+                      "UNITVALUE": "80000",
+                      "UNITMEASURE": "Box",
+                      "CLASS": "First",
+                      "ECCN": "12345667",
+                      "HARMONISEDCODE": "",
+                      "COUNTRYORIGIN": "AS",
+                      "UOM": "CM"
+                    },
+                    {
+                      "SNO": 1,
+                      "ItemNo": "T003",
+                      "ItemDes": "Mobile",
+                      "QUANTITY": "1",
+                      "ItemWeight": "15",
+                      "DIMENSION": "",
+                      "UNITVALUE": "80000",
+                      "UNITMEASURE": "Box",
+                      "CLASS": "First",
+                      "ECCN": "12345667",
+                      "HARMONISEDCODE": "",
+                      "COUNTRYORIGIN": "AS",
+                      "UOM": "CM"
+                    }
+                  ]
+                }
+              ],
+              "Items": [
+                {
+                  "SNO": 1,
+                  "ItemNo": "LC99900",
+                  "ItemDes": "Mobile",
+                  "QUANTITY": "1",
+                  "ItemWeight": "15",
+                  "DIMENSION": "",
+                  "UNITVALUE": "80000",
+                  "UNITMEASURE": "Box",
+                  "CLASS": "First",
+                  "ECCN": "12345667",
+                  "HARMONISEDCODE": "",
+                  "COUNTRYORIGIN": "AS",
+                  "UOM": "CM"
+                },
+                {
+                  "SNO": 1,
+                  "ItemNo": "LC99901",
+                  "ItemDes": "Laptop",
+                  "QUANTITY": "1",
+                  "ItemWeight": "15",
+                  "DIMENSION": "",
+                  "UNITVALUE": "80000",
+                  "UNITMEASURE": "Box",
+                  "CLASS": "First",
+                  "ECCN": "12345667",
+                  "HARMONISEDCODE": "",
+                  "COUNTRYORIGIN": "AS",
+                  "UOM": "CM"
+                },
+                {
+                  "SNO": 1,
+                  "ItemNo": "LC99900",
+                  "ItemDes": "Mobile",
+                  "QUANTITY": "1",
+                  "ItemWeight": "5",
+                  "DIMENSION": "",
+                  "UNITVALUE": "80000",
+                  "UNITMEASURE": "Box",
+                  "CLASS": "First",
+                  "ECCN": "12345667",
+                  "HARMONISEDCODE": "",
+                  "COUNTRYORIGIN": "AS",
+                  "UOM": "CM"
+                },
+                {
+                  "SNO": 1,
+                  "ItemNo": "LC99901",
+                  "ItemDes": "Laptop",
+                  "QUANTITY": "1",
+                  "ItemWeight": "5",
+                  "DIMENSION": "",
+                  "UNITVALUE": "80000",
+                  "UNITMEASURE": "Box",
+                  "CLASS": "First",
+                  "ECCN": "12345667",
+                  "HARMONISEDCODE": "",
+                  "COUNTRYORIGIN": "AS",
+                  "UOM": "CM"
+                },
+                {
+                  "SNO": 1,
+                  "ItemNo": "LC999034",
+                  "ItemDes": "TV",
+                  "QUANTITY": "1",
+                  "ItemWeight": "5",
+                  "DIMENSION": "",
+                  "UNITVALUE": "80000",
+                  "UNITMEASURE": "Box",
+                  "CLASS": "First",
+                  "ECCN": "12345667",
+                  "HARMONISEDCODE": "",
+                  "COUNTRYORIGIN": "AS",
+                  "UOM": "CM"
+                },
+                {
+                  "SNO": 1,
+                  "ItemNo": "T003",
+                  "ItemDes": "Mobile",
+                  "QUANTITY": "1",
+                  "ItemWeight": "15",
+                  "DIMENSION": "",
+                  "UNITVALUE": "80000",
+                  "UNITMEASURE": "Box",
+                  "CLASS": "First",
+                  "ECCN": "12345667",
+                  "HARMONISEDCODE": "",
+                  "COUNTRYORIGIN": "AS",
+                  "UOM": "CM"
+                }
+              ]
+            }
+          ],
+          "InternationalDetails": {
+            "Commodities": [
+              {
+                "Description": "Test Product Description",
+                "Quantity": "1",
+                "Weight": "0.178",
+                "CountryOfManufacture": "US",
+                "HarmonizedCode": "39269097",
+                "PartNumber": "2",
+                "CommodityNo": "M1",
+                "LicenseNo": "",
+                "ECCN": "",
+                "WeightUnits": "LBS",
+                "Currency": "EUR",
+                "UOM": "CM",
+                "UnitValue": "1"
+              }
+            ],
+            "IsDutiable": "Y",
+            "DeclaredValue": "4431.35",
+            "DeclaredValueCurrency": "EUR",
+            "InvoiceDate": "05/25/2023",
+            "PurchaseOrderNumber": "JW-2022-6640",
+            "ReasonForExport": "SOLD",
+            "DutiesPaymentType": "Sender",
+            "TotalCustomsValue": "4431.35",
+            "DutiesAccountNumber": "8811192865",
+            "PayorCountryCode": "CA",
+            "IncoTerm": "DDU",
+            "ITNNumber": "XVT1234233232",
+            "MRNNumber": "12232",
+            "BookingConfirmationNumber": "876763",
+            "ShipToTaxId": "454545",
+            "ShipFromTaxId": "545454",
+            "PermitNumber": "333222",
+            "InvoiceNumber": "6387969027",
+            "INVOICETOTAL": "1",
+            "DISCOUNT": "2.00",
+            "INVOICESUBTOTAL": "200",
+            "FREIGHT": "12.36",
+            "INSURANCE": ""
+          },
+          "SpecialService": {
+            "SaturdayDelivery": false,
+            "SaturdayPickup": false,
+            "InsideDelivery": false,
+            "InsidePickup": false,
+            "ReturnServiceCode": false,
+            "SignatureRequired": false
+          },
+          "Broker": {
+            "CompanyName": "Nutramax Laboratories",
+            "Contact": " Josh Craven",
+            "StreetLine1": "1759 Flat Creek Road",
+            "City": "Lancaster",
+            "StateOrProvinceCode": "SC",
+            "CountryCode": "US",
+            "PostalCode": "29720",
+            "Phone": "7764000410",
+            "Email": "abc@processweaver.com"
+          },
+          "Importer": {
+            "Company": "Vitalsoft Artifacts",
+            "Contact": "Siva",
+            "PhoneNumber": "8889328373",
+            "EmailAddress": "siva.mukta@processweaver.com",
+            "StreetLines": "5201 Great America Pkwy",
+            "City": "Santa Clara",
+            "StateOrProvinceCode": "AK",
+            "PostalCode": "95054",
+            "CountryCode": "US"
+          },
+          "PickupDetails": {
+            "PikcupDate": "05/25/2023",
+            "PikcupFromTime": "1100",
+            "PikcupToTime": "1500",
+            "AlternatePikcupFromTime": "1200",
+            "AlternatePikcupToTime": "1700",
+            "PackageLocation": "",
+            "Contact": "INNIO Jenbacher GmbH",
+            "Company": "DUFF - NORTON",
+            "StreetLine1": "Koperstrasse 3",
+            "StreetLine2": "",
+            "StreetLine3": "",
+            "City": "NUERNBERG",
+            "StateOrProvinceCode": "BV",
+            "PostalCode": "90451",
+            "CountryCode": "DE",
+            "Phone": "1164133527",
+            "Email": "Jenbacher@gmail.com"
+          }
+        }
+      },
+      "CommonXML_Domestic_Response": {
+        "summary": "",
+        "value": {
+          "Version": "1.0.0.0",
+          "StatusCode": 201,
+          "Message": "SUCCESS",
+          "Result": {
+            "Status": "SUCCESS",
+            "Message": {
+              "ECSResponse": "SUCCESS",
+              "ManifestResponse": "Shipment saved successfully"
+            },
+            "OrderNo": "312269",
+            "Carrier": "UPS",
+            "Service": "UPS Ground",
+            "TrackingNo": "1ZXXXXXXXXXXXXXXXX",
+            "PublishedFreight": "21.14",
+            "DiscountedFreight": "16.97",
+            "Documents": {
+              "DOCUMENT": [
+                {
+                  "PROVIDER": "UPS",
+                  "DOCUMENTTYPE": "Label",
+                  "DOCUMENTDESCRIPTION": "UPS Label",
+                  "NUMBEROFDOCUMENTS": 1,
+                  "DOCUMENTURL": [
+                    "https://xcdemo.myxcarrier.com/uat/ECSAPI/Labels/1ZXXXXXXXXXXXXXXXX.GIF"
+                  ]
+                },
+                {
+                  "PROVIDER": "Internal",
+                  "DOCUMENTTYPE": "Report",
+                  "DOCUMENTDESCRIPTION": "Packing Slip",
+                  "NUMBEROFDOCUMENTS": 1,
+                  "DOCUMENTURL": [
+                    "https://xcdemo.myxcarrier.com/uat/ECSAPI/LABELS/PackingSlipReport_.pdf"
+                  ]
+                }
+              ]
+            },
+            "TrackURL": "1ZXXXXXXXXXXXXXXXX"
+          }
+        }
+      },
+      "CommonXML_International_Response": {
+        "summary": "",
+        "value": {
+          "Version": "1.0.0.0",
+          "StatusCode": 201,
+          "Message": "SUCCESS",
+          "Result": {
+            "Status": "SUCCESS",
+            "Message": {
+              "ECSResponse": "SUCCESS",
+              "ManifestResponse": "Shipment saved successfully"
+            },
+            "OrderNo": "312234",
+            "Carrier": "UPS",
+            "Service": "UPS WORLDWIDE EXPRESS",
+            "TrackingNo": "1ZXXXXXXXXXXXXXXXX",
+            "PublishedFreight": "689.97",
+            "DiscountedFreight": "683.07",
+            "Documents": {
+              "DOCUMENT": [
+                {
+                  "PROVIDER": "UPS",
+                  "DOCUMENTTYPE": "Label",
+                  "DOCUMENTDESCRIPTION": "UPS Label",
+                  "NUMBEROFDOCUMENTS": 1,
+                  "DOCUMENTURL": [
+                    "https://demo.myxcarrier.com/ECSAPI/Labels/1ZXXXXXXXXXXXXXXXX.GIF"
+                  ]
+                },
+                {
+                  "PROVIDER": "UPS",
+                  "DOCUMENTTYPE": "Form",
+                  "DOCUMENTDESCRIPTION": "Paperless Invoice Form",
+                  "NUMBEROFDOCUMENTS": 1,
+                  "DOCUMENTURL": [
+                    "https://demo.myxcarrier.com/ECSAPI/Labels/1ZXXXXXXXXXXXXXXXX.PDF"
+                  ]
+                },
+                {
+                  "PROVIDER": "Internal",
+                  "DOCUMENTTYPE": "Report",
+                  "DOCUMENTDESCRIPTION": "Commercial Invoice",
+                  "NUMBEROFDOCUMENTS": 1,
+                  "DOCUMENTURL": [
+                    "https://demo.myxcarrier.com/ECSAPI/Labels/COMMERCIAL_INVOICE_REQUEST_.pdf"
+                  ]
+                },
+                {
+                  "PROVIDER": "Internal",
+                  "DOCUMENTTYPE": "Report",
+                  "DOCUMENTDESCRIPTION": "Certificate Of Orgin",
+                  "NUMBEROFDOCUMENTS": 1,
+                  "DOCUMENTURL": [
+                    "https://demo.myxcarrier.com/ECSAPI/Labels/CertificateOfOrigin_.pdf"
+                  ]
+                },
+                {
+                  "PROVIDER": "Internal",
+                  "DOCUMENTTYPE": "Report",
+                  "DOCUMENTDESCRIPTION": "Packing Slip",
+                  "NUMBEROFDOCUMENTS": 1,
+                  "DOCUMENTURL": [
+                    "https://demo.myxcarrier.com/ECSAPI/Labels/PackingSlipReport_.pdf"
+                  ]
+                }
+              ]
+            },
+            "TrackURL": "https://wwwapps.ups.com/WebTracking/processInputRequest?tracknum=1ZXXXXXXXXXXXXXXXX"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "BasicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "XCARRIER-SECURITY-KEY"
+      }
+    }
+  }
+}

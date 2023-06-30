@@ -1,0 +1,706 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Elemica Api Documentation",
+    "description": "",
+    "termsOfService": "",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://xcdemo.myxcarrier.com:8443/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "User",
+      "description": "User Crud operations"
+    }
+  ],
+  "paths": {
+    "/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get User",
+        "operationId": "GetUser",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "query",
+            "description": "User Alias or Email Address or User Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "Version number of API"
+                    },
+                    "StatusCode": {
+                      "type": "integer"
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "SUCCESS"
+                      ]
+                    },
+                    "Result": {
+                      "$ref": "#/components/schemas/UserCreationResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failure Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "Version number of API"
+                    },
+                    "StatusCode": {
+                      "type": "integer"
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "FAILURE"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "enum": [
+                        "User Does Not Exists in Database"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "read"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update User",
+        "operationId": "UpdateUser",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "query",
+            "description": "User Alias or Email Address or User Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "User Updation",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "Version number of API"
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "enum": [
+                        200
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "SUCCESS"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "enum": [
+                        "Data Update Successfully"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failure Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "Version number of API"
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "enum": [
+                        400
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "FAILURE"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "enum": [
+                        "User Does Not Exist"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create New User",
+        "operationId": "CreateUser",
+        "requestBody": {
+          "description": "User Creation",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "Version number of API"
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "description": " Status of the request",
+                      "format": "int32",
+                      "enum": [
+                        200
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "SUCCESS"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "enum": [
+                        "Data Saved Successfully"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete User",
+        "operationId": "DeleteUser",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "query",
+            "description": "User Alias or Email Address or User Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "Version number of API"
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "enum": [
+                        200
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "SUCCESS"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "enum": [
+                        "User Deactivated Successfully"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failure Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "Version number of API"
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "enum": [
+                        400
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "FAILURE"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "enum": [
+                        "User Does Not Exists in Database"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserCreationRequest": {
+        "required": [
+          "AddressLine1",
+          "AddressLine2",
+          "City",
+          "Country",
+          "Email",
+          "FirstName",
+          "IsActive",
+          "LastName",
+          "PlantId",
+          "State",
+          "UserAlias",
+          "UserName",
+          "UserRole",
+          "ZipCode"
+        ],
+        "type": "object",
+        "properties": {
+          "UserAlias": {
+            "type": "string",
+            "description": "UserAlias name"
+          },
+          "UserName": {
+            "type": "string",
+            "description": "User name"
+          },
+          "EmployeeId": {
+            "type": "string",
+            "description": "Employee id "
+          },
+          "FirstName": {
+            "type": "string",
+            "description": "First name"
+          },
+          "LastName": {
+            "type": "string",
+            "description": "Last Name"
+          },
+          "CostCenter": {
+            "type": "string",
+            "description": "Cost center"
+          },
+          "AddressLine1": {
+            "type": "string",
+            "description": "AddressLine1"
+          },
+          "AddressLine2": {
+            "type": "string",
+            "description": "AddressLine2 "
+          },
+          "City": {
+            "type": "string",
+            "description": "City"
+          },
+          "State": {
+            "type": "string",
+            "description": "State"
+          },
+          "Country": {
+            "type": "string",
+            "description": "Country"
+          },
+          "ZipCode": {
+            "type": "string",
+            "description": "Zip code"
+          },
+          "Phone": {
+            "type": "string",
+            "description": "Phone number"
+          },
+          "Email": {
+            "type": "string",
+            "description": "Email"
+          },
+          "UserRole": {
+            "type": "string",
+            "description": "User role ",
+            "enum": [
+              "Admin",
+              "PlantAdmin",
+              "Super User"
+            ]
+          },
+          "BuildingNo": {
+            "type": "string",
+            "description": "Building number"
+          },
+          "MailStop": {
+            "type": "string",
+            "description": "Delivery point where mail service delivers and collect"
+          },
+          "IsActive": {
+            "type": "integer",
+            "description": "User is active or not",
+            "format": "int32",
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "IsGlobal": {
+            "type": "integer",
+            "description": "User is global or not",
+            "format": "int32",
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "DgSignatureId": {
+            "type": "string",
+            "description": "DgsignatureId of user"
+          },
+          "UserId": {
+            "type": "string",
+            "description": "User id"
+          },
+          "PlantId": {
+            "type": "string",
+            "description": "Location id"
+          }
+        },
+        "example": {
+          "UserAlias": "TESTUSER",
+          "UserName": "TESTUSER123",
+          "EmployeeId": "123456",
+          "FirstName": "TEST",
+          "LastName": "USER",
+          "CostCenter": "R & D",
+          "AddressLine1": "Test12345",
+          "AddressLine2": "Test1234567",
+          "City": "Fermont",
+          "State": "CA",
+          "Country": "US",
+          "ZipCode": "534078",
+          "Phone": "123456",
+          "Email": "shivan.bhatia@bluealtair.com",
+          "UserRole": "Super User",
+          "BuildingNo": "",
+          "MailStop": "",
+          "IsActive": 1,
+          "IsGlobal": 1,
+          "DgSignatureId": "",
+          "UserId": "",
+          "PlantId": "1"
+        }
+      },
+      "UserCreationResponse": {
+        "type": "object",
+        "properties": {
+          "UserAlias": {
+            "type": "string",
+            "description": "User alias name"
+          },
+          "UserName": {
+            "type": "string",
+            "description": "User name"
+          },
+          "LoginId": {
+            "type": "integer",
+            "description": "Login id"
+          },
+          "Id": {
+            "type": "string",
+            "description": "Id"
+          },
+          "EmployeeId": {
+            "type": "string",
+            "description": "Employee Id "
+          },
+          "FirstName": {
+            "type": "string",
+            "description": "First name "
+          },
+          "LastName": {
+            "type": "string",
+            "description": "Last name"
+          },
+          "Designation": {
+            "type": "string",
+            "description": "Designation "
+          },
+          "Department": {
+            "type": "string",
+            "description": "Department of the user",
+            "enum": [
+              "IT",
+              "QA",
+              "CS",
+              "<many other>"
+            ]
+          },
+          "CostCenter": {
+            "type": "string",
+            "description": "Cost center"
+          },
+          "AddressLine1": {
+            "type": "string",
+            "description": "AddressLine1"
+          },
+          "AddressLine2": {
+            "type": "string",
+            "description": "AddressLine2"
+          },
+          "City": {
+            "type": "string",
+            "description": "City"
+          },
+          "State": {
+            "type": "string",
+            "description": "State"
+          },
+          "Country": {
+            "type": "string",
+            "description": "Country"
+          },
+          "ZipCode": {
+            "type": "string",
+            "description": "Zip code"
+          },
+          "Phone": {
+            "type": "string",
+            "description": "Phone number"
+          },
+          "Email": {
+            "type": "string",
+            "description": "Email"
+          },
+          "BuildingNo": {
+            "type": "string",
+            "description": "Building number"
+          },
+          "MailStop": {
+            "type": "string",
+            "description": "Delivery point for mail service delivers and collect"
+          },
+          "IsActive": {
+            "type": "integer",
+            "description": "User is active or not",
+            "format": "int32",
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "IsGlobal": {
+            "type": "integer",
+            "description": "User is global or not",
+            "format": "int32",
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "UserId": {
+            "type": "string",
+            "description": "User id"
+          },
+          "Fax": {
+            "type": "string",
+            "description": "Fax"
+          },
+          "PlantName": {
+            "type": "string",
+            "description": "Location id"
+          }
+        },
+        "example": {
+          "Id": 226962,
+          "LoginId": 327487,
+          "UserName": "API",
+          "UserAlias": "",
+          "EmployeeId": "",
+          "LoginUserName": "",
+          "FirstName": "",
+          "LastName": "",
+          "Designation": "",
+          "Department": "",
+          "AddressLine1": "Test12345",
+          "AddressLine2": "Test1234567",
+          "AddressLine3": "Test1234567",
+          "City": "Fermont",
+          "State": "CA",
+          "Country": "US",
+          "ZipCode": "",
+          "Phone": "123456",
+          "Fax": "",
+          "Email": "shivan.bhatia@bluealtair.com",
+          "IsActive": 1,
+          "PlantName": "Inouttrack Solution Pvt Ltd",
+          "MailStop": "",
+          "CostCenter": "",
+          "IsGlobal": "1"
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "name": "XCARRIER-SECURITY-KEY",
+        "in": "header"
+      }
+    }
+  }
+}

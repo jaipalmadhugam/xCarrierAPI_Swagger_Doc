@@ -1,0 +1,463 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Elemica Api Documentation",
+    "description": "",
+    "termsOfService": "",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://xcdemo.myxcarrier.com:8443/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Shipping",
+      "description": "Shipping"
+    }
+  ],
+  "paths": {
+    "/ship": {
+      "post": {
+        "tags": [
+          "Shipping"
+        ],
+        "summary": "Get Shipping details",
+        "operationId": "ShippingApi",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShippingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "Version number of API"
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "enum": [
+                        200
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "SUCCESS",
+                        "FAILURE"
+                      ]
+                    },
+                    "Result": {
+                      "$ref": "#/components/schemas/ShippingResult"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/cancelship": {
+      "post": {
+        "tags": [
+          "Shipping"
+        ],
+        "summary": "Cancel Shipment",
+        "operationId": "VoidShipmentApi",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelShippingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "Version number of API"
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "enum": [
+                        200
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "SUCCESS"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "enum": [
+                        "Shipment Cancelled Successfully"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "Version number of API"
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "enum": [
+                        400
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "FAILURE"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "enum": [
+                        "Shipment Delete was requested for a tracking number already in a deleted state."
+                      ]
+                    }
+                  },
+                  "example": {
+                    "Version": "1.0.0.0",
+                    "StatusCode": 400,
+                    "Message": "FAILURE",
+                    "Result": "Shipment Delete was requested for a tracking number already in a deleted state."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ShippingRequest": {
+        "required": [
+          "DELIVERYNO",
+          "ERP",
+          "PLANTID"
+        ],
+        "type": "object",
+        "properties": {
+          "ERP": {
+            "type": "string",
+            "description": "Erp name"
+          },
+          "PLANTID": {
+            "type": "string",
+            "description": "Location id"
+          },
+          "DELIVERYNO": {
+            "type": "string",
+            "description": "Deliver number used to uniquely identify the shipment."
+          },
+          "OPERATION": {
+            "type": "string",
+            "description": "Operation type"
+          },
+          "CUSTOMERID": {
+            "type": "string",
+            "description": "Unique id of company"
+          },
+          "FEEDERSYSTEMNAME": {
+            "type": "string",
+            "description": " Feeder system name"
+          },
+          "ORDERTYPE": {
+            "type": "string",
+            "description": "Type of order",
+            "enum": [
+              "PWS",
+              "RE",
+              "HAND",
+              "SALES",
+              "PO",
+              "STO",
+              "DN",
+              "SR"
+            ]
+          }
+        },
+        "example": {
+          "ERP": "Sage X3 V12",
+          "PLANTID": "1",
+          "DELIVERYNO": "SHPZA0110040",
+          "OPERATION": "GETDETAILS",
+          "CUSTOMERID": "9243700001",
+          "FEEDERSYSTEMNAME": "Sage X3",
+          "ORDERTYPE": "PWS"
+        }
+      },
+      "CancelShippingRequest": {
+        "required": [
+          "Carrier",
+          "PlantId",
+          "ShipDate"
+        ],
+        "type": "object",
+        "properties": {
+          "TrackingNumber": {
+            "type": "string",
+            "description": "Tracking number of shipment"
+          },
+          "PlantId": {
+            "type": "string",
+            "description": "Location id"
+          },
+          "Carrier": {
+            "type": "string",
+            "description": "Type of carrier",
+            "enum": [
+              "UPS",
+              "FedEx",
+              "DHL",
+              "ABF",
+              "Conway",
+              "UPS Freight",
+              "Roadrunner",
+              "FedEx Freight",
+              "YRC Freight",
+              "USPS",
+              "CEVALOGISTICS",
+              "AACargo",
+              "Speedee",
+              "CEVA LOGISTICS",
+              "DBSchenker",
+              "Kuehneandnagel",
+              "DBSchenker",
+              "FedEx",
+              "CanadaPost",
+              "YUSUN",
+              "Expeditors",
+              "BOLLORE",
+              "Other"
+            ]
+          },
+          "ShipDate": {
+            "type": "string",
+            "description": "Shipping date of shipment"
+          },
+          "DeliveryNumber": {
+            "type": "string",
+            "description": "Delivery number of shipment."
+          }
+        },
+        "example": {
+          "TrackingNumber": "794603019280",
+          "PlantId": "1",
+          "Carrier": "FEDEX",
+          "ShipDate": "01/07/2023",
+          "DeliveryNumber": "PWDN002256"
+        }
+      },
+      "ShippingResult": {
+        "type": "object",
+        "properties": {
+          "Status": {
+            "type": "string",
+            "description": "Status"
+          },
+          "Message": {
+            "type": "object",
+            "properties": {
+              "ERPResponse": {
+                "type": "string",
+                "description": "Let the user know the response message from ERP shipping engine. Can be success or any error."
+              },
+              "ECSResponse": {
+                "type": "string",
+                "description": "Let the user know the response message from shipping engine. Can be success or any error."
+              },
+              "ManifestResponse": {
+                "type": "string",
+                "description": "Let the user know the response message from Manifest service. Can be success or any error."
+              },
+              "SourceOfError": {
+                "type": "string",
+                "description": "Source of Error",
+                "enum": [
+                  "Api",
+                  "Database",
+                  "Shipping engine"
+                ]
+              }
+            }
+          },
+          "OrderNo": {
+            "type": "integer",
+            "description": "Equivalent to delivery number sent from the payload"
+          },
+          "Carrier": {
+            "type": "string",
+            "description": "Carrier Name"
+          },
+          "Service": {
+            "type": "string",
+            "description": "Service Level name"
+          },
+          "TrackingNo": {
+            "type": "integer",
+            "description": "Tracking number generated for the shipment"
+          },
+          "PublishedFreight": {
+            "type": "number",
+            "description": "Rate for publishedFreight"
+          },
+          "DiscountedFreight": {
+            "type": "number",
+            "description": "Rate for DiscountedFreight"
+          },
+          "Documents": {
+            "type": "object",
+            "properties": {
+              "DOCUMENT": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "PROVIDER": {
+                      "type": "string",
+                      "description": "Provider of documents"
+                    },
+                    "DOCUMENTTYPE": {
+                      "type": "string",
+                      "description": "Type of document"
+                    },
+                    "DOCUMENTDESCRIPTION": {
+                      "type": "string",
+                      "description": "Description of document"
+                    },
+                    "NUMBEROFDOCUMENTS": {
+                      "type": "integer",
+                      "description": "Number of document"
+                    },
+                    "DOCUMENTURL": {
+                      "type": "string",
+                      "description": "Url of document"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Document generated for shipment"
+          }
+        },
+        "example": {
+          "Version": "1.0.0.0",
+          "StatusCode": 201,
+          "Message": "SUCCESS",
+          "Result": {
+            "Status": "SUCCESS",
+            "Message": {
+              "ERPResponse": "SUCCESS",
+              "ECSResponse": "SUCCESS",
+              "ManifestResponse": "Shipment saved successfully"
+            },
+            "OrderNo": "111",
+            "Carrier": "FedEx",
+            "Service": "FEDEX_GROUND",
+            "TrackingNo": "794666855696",
+            "PublishedFreight": "0",
+            "DiscountedFreight": "0",
+            "Documents": {
+              "DOCUMENT": [
+                {
+                  "PROVIDER": "FedEx",
+                  "DOCUMENTTYPE": "Label",
+                  "DOCUMENTDESCRIPTION": "FedEx Label",
+                  "NUMBEROFDOCUMENTS": 1,
+                  "DOCUMENTURL": "https://demo.myxcarrier.com/ECSAPI/Labels/794666855696.PNG"
+                },
+                {
+                  "PROVIDER": "FedEx",
+                  "DOCUMENTTYPE": "Form",
+                  "DOCUMENTDESCRIPTION": "Paperless Invoice Form",
+                  "NUMBEROFDOCUMENTS": 1,
+                  "DOCUMENTURL": "794666855696.PDF"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "name": "XCARRIER-SECURITY-KEY",
+        "in": "header"
+      }
+    }
+  }
+}

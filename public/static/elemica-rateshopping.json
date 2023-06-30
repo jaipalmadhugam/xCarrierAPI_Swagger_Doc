@@ -1,0 +1,814 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "",
+    "version": "1.0.0",
+    "title": "Elemica Api Documentation",
+    "termsOfService": "",
+    "contact": {
+      "email": ""
+    }
+  },
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic"
+    },
+    "apiKey": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "XCARRIER-SECURITY-KEY"
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "scheme": "basic"
+      }
+    }
+  },
+  "host": "xcdemo.myxcarrier.com:8443",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "Rate Shopping",
+      "description": "Get Rate Shopping Date"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/rateshopping": {
+      "post": {
+        "tags": [
+          "Rate Shopping"
+        ],
+        "summary": "Get rates for the shipping package based on filters",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rateshoppingRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Version": {
+                  "type": "string"
+                },
+                "StatusCode": {
+                  "type": "integer",
+                  "format": "int32",
+                  "enum": [
+                    200
+                  ]
+                },
+                "Message": {
+                  "type": "string",
+                  "enum": [
+                    ""
+                  ]
+                },
+                "Result": {
+                  "$ref": "#/definitions/rateshoppingResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "rateshoppingResult": {
+      "type": "array",
+      "example": [
+        {
+          "Rate": [
+            {
+              "Carrier": "FedEx",
+              "Service": "FEDEX FIRST OVERNIGHT",
+              "CarrierServiceCode": "FIRST_OVERNIGHT",
+              "PublishedRate": 165.83,
+              "DiscountedRate": 165.83,
+              "BaseServiceCharge": 148.73,
+              "TransportationCharges": 148.73,
+              "ServiceOptionsCharges": 17.1,
+              "Fual": 17.1,
+              "TransitDays": 0,
+              "EstimatedTime": "2022-07-22T08:00:00 AM"
+            },
+            {
+              "Carrier": "FedEx",
+              "Service": "FEDEX PRIORITY OVERNIGHT",
+              "CarrierServiceCode": "PRIORITY_OVERNIGHT",
+              "PublishedRate": 131.27,
+              "DiscountedRate": 131.27,
+              "BaseServiceCharge": 117.73,
+              "TransportationCharges": 117.73,
+              "ServiceOptionsCharges": 13.54,
+              "Fual": 13.54,
+              "TransitDays": 0,
+              "EstimatedTime": "2022-07-22T10:30:00 AM"
+            },
+            {
+              "Carrier": "FedEx",
+              "Service": "FEDEX STANDARD OVERNIGHT",
+              "CarrierServiceCode": "STANDARD_OVERNIGHT",
+              "PublishedRate": 118,
+              "DiscountedRate": 118,
+              "BaseServiceCharge": 105.83,
+              "TransportationCharges": 105.83,
+              "ServiceOptionsCharges": 12.17,
+              "Fual": 12.17,
+              "TransitDays": 0,
+              "EstimatedTime": "2022-07-22T04:30:00 PM"
+            },
+            {
+              "Carrier": "FedEx",
+              "Service": "FEDEX 2DAY A.M.",
+              "CarrierServiceCode": "FEDEX_2_DAY_AM",
+              "PublishedRate": 79.44,
+              "DiscountedRate": 79.44,
+              "BaseServiceCharge": 71.25,
+              "TransportationCharges": 71.25,
+              "ServiceOptionsCharges": 8.19,
+              "Fual": 8.19,
+              "TransitDays": 2,
+              "EstimatedTime": "2022-07-25T10:30:00 AM"
+            },
+            {
+              "Carrier": "FedEx",
+              "Service": "FEDEX 2DAY",
+              "CarrierServiceCode": "FEDEX_2_DAY",
+              "PublishedRate": 66.06,
+              "DiscountedRate": 66.06,
+              "BaseServiceCharge": 59.25,
+              "TransportationCharges": 59.25,
+              "ServiceOptionsCharges": 6.81,
+              "Fual": 6.81,
+              "TransitDays": 2,
+              "EstimatedTime": "2022-07-25T04:30:00 PM"
+            },
+            {
+              "Carrier": "FedEx",
+              "Service": "FEDEX EXPRESS SAVER",
+              "CarrierServiceCode": "FEDEX_EXPRESS_SAVER",
+              "PublishedRate": 48.54,
+              "DiscountedRate": 48.54,
+              "BaseServiceCharge": 43.53,
+              "TransportationCharges": 43.53,
+              "ServiceOptionsCharges": 5.01,
+              "Fual": 5.01,
+              "TransitDays": 3,
+              "EstimatedTime": "2022-07-26T04:30:00 PM"
+            },
+            {
+              "Carrier": "FedEx",
+              "Service": "FEDEX GROUND",
+              "CarrierServiceCode": "FEDEX_GROUND",
+              "PublishedRate": 18.05,
+              "DiscountedRate": 18.05,
+              "BaseServiceCharge": 16.15,
+              "TransportationCharges": 16.15,
+              "ServiceOptionsCharges": 1.9,
+              "Fual": 1.9,
+              "TransitDays": 4,
+              "EstimatedTime": "2022-07-27T04:30:00 PM"
+            }
+          ],
+          "ERRORRESPONSE": ""
+        }
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "Rate": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "Carrier": {
+                  "type": "string"
+                },
+                "Service": {
+                  "type": "string"
+                },
+                "CarrierServiceCode": {
+                  "type": "string"
+                },
+                "PublishedRate": {
+                  "type": "number"
+                },
+                "DiscountedRate": {
+                  "type": "number"
+                },
+                "BaseServiceCharge": {
+                  "type": "number"
+                },
+                "TransportationCharges": {
+                  "type": "number"
+                },
+                "ServiceOptionsCharges": {
+                  "type": "number"
+                },
+                "Fual": {
+                  "type": "number"
+                },
+                "TransitDays": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "EstmatedTime": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "ERRORRESPONSE": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "rateshoppingRequest": {
+      "type": "object",
+      "example": {
+        "PlantId": "1",
+        "CarrierDetails": [
+          "ALL"
+        ],
+        "CarrierType": "PARCEL",
+        "CustomerId": "9243700001",
+        "ServiceType": "",
+        "CustomerTransactionId": "12345",
+        "DimensionUnit": "IN",
+        "WeightUnits": "LBS",
+        "ShipDate": "01/10/2023",
+        "CurrencyCode": "USD",
+        "PackageDetails": [
+          {
+            "WeightValue": 5,
+            "Length": 5,
+            "Width": 5,
+            "Height": 5,
+            "NumberOfBoxes": 55,
+            "Class": "70",
+            "NMFCCode": "004620-03",
+            "PackageType": "PALLET"
+          }
+        ],
+        "itemSets": [
+          {
+            "orderId": "9119547",
+            "refId": 7329009,
+            "quantity": 11,
+            "weight": 1.33,
+            "dimensions": {
+              "z": 47.5,
+              "y": 5,
+              "x": 4.5
+            },
+            "name": "DRIVER IRON",
+            "color": "",
+            "sequence": "",
+            "centerOfMass": {
+              "z": null,
+              "y": null,
+              "x": null
+            }
+          }
+        ],
+        "boxTypes": [
+          {
+            "name": "DRIVER BOX",
+            "dimensions": {
+              "z": 47.5,
+              "y": 14,
+              "x": 7.75
+            },
+            "weightMax": 65,
+            "rateTable": {
+              "carrier": "FedEx",
+              "service": "Ground",
+              "zone": "3"
+            },
+            "weightTare": null,
+            "refId": null,
+            "price": null,
+            "centerOfMass": {
+              "z": null,
+              "y": null,
+              "x": null
+            }
+          }
+        ],
+        "boxTypeChoiceGoal": "lowest-cost",
+        "rules": [
+          {
+            "itemRefId": 7329009,
+            "operation": "compact-pattern",
+            "options": {
+              "alternating": true,
+              "compactibleAxes": [
+                0,
+                1
+              ],
+              "compactProperties": [
+                {
+                  "targetRefId": null,
+                  "compactibleAxisDimensionChange": [
+                    {
+                      "x": -2.3
+                    },
+                    {
+                      "y": -0.7
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "SpecialService": {
+          "SaturdayDelivery": "false",
+          "SaturdayPickup": "false",
+          "InsideDelivery": "false",
+          "InsidePickup": "false",
+          "SignatureRequired": "true",
+          "CODAmount": "true",
+          "CODCurrencyCode": "true",
+          "Residential": "true",
+          "DeclaredValue": "true",
+          "DeclaredValueCurrency": "true",
+          "ReturnServiceCode": "2"
+        },
+        "Recipient": {
+          "CompanyName": "ABC Log",
+          "Contact": "Test",
+          "StreetLine1": "23456",
+          "StreetLine2": "2345",
+          "StreetLine3": "",
+          "City": "Fremont",
+          "StateOrProvinceCode": "CA",
+          "PostalCode": "94536",
+          "CountryCode": "US",
+          "Phone": "999999999",
+          "Email": ""
+        },
+        "Sender": {
+          "CompanyName": "CLARIDGE PRODUCTS",
+          "Contact": "Rafe Devlin",
+          "StreetLine1": "PANSY DANIEL",
+          "StreetLine2": "PO BOX 910",
+          "StreetLine3": "",
+          "City": "HARRISON",
+          "StateOrProvinceCode": "AR",
+          "PostalCode": "72601",
+          "CountryCode": "US",
+          "Phone": "8707432200",
+          "Email": "ABC@TEST.COM"
+        }
+      },
+      "properties": {
+        "PlantId": {
+          "type": "string"
+        },
+        "CarrierDetails": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "CarrierType": {
+          "type": "string",
+          "enum": [
+            "Both",
+            "LTL",
+            "Parcel"
+          ]
+        },
+        "CustomerId": {
+          "type": "string"
+        },
+        "ServiceType": {
+          "type": "string"
+        },
+        "CustomerTransactionId": {
+          "type": "string"
+        },
+        "DimensionUnit": {
+          "type": "string"
+        },
+        "WeightUnits": {
+          "type": "string"
+        },
+        "ShipDate": {
+          "type": "string"
+        },
+        "CurrencyCode": {
+          "type": "string"
+        },
+        "PackageDetails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "WeightValue": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "Length": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "Width": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "Height": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "NumberOfBoxes": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "Class": {
+                "type": "string"
+              },
+              "NMFCCode": {
+                "type": "string"
+              },
+              "PackageType": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "itemRefId": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "operation": {
+                "type": "string"
+              },
+              "options": {
+                "type": "object",
+                "properties": {
+                  "alternating": {
+                    "type": "bool"
+                  },
+                  "compactibleAxes": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "format": "int32"
+                    }
+                  },
+                  "compactProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "type": "number"
+                        },
+                        "y": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "boxTypes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "weightMax": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "dimensions": {
+                "type": "object",
+                "properties": {
+                  "z": {
+                    "type": "string"
+                  },
+                  "y": {
+                    "type": "string"
+                  },
+                  "x": {
+                    "type": "string"
+                  }
+                }
+              },
+              "rateTable": {
+                "type": "object",
+                "properties": {
+                  "carrier": {
+                    "type": "string"
+                  },
+                  "service": {
+                    "type": "string"
+                  },
+                  "zone": {
+                    "type": "string"
+                  }
+                }
+              },
+              "weightTare": {
+                "type": "string"
+              },
+              "refId": {
+                "type": "string"
+              },
+              "price": {
+                "type": "string"
+              },
+              "centerOfMass": {
+                "type": "object",
+                "properties": {
+                  "z": {
+                    "type": "string"
+                  },
+                  "y": {
+                    "type": "string"
+                  },
+                  "x": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "boxTypeChoiceGoal": {
+          "type": "string"
+        },
+        "itemSets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "dimensions": {
+                "type": "object",
+                "properties": {
+                  "z": {
+                    "type": "string"
+                  },
+                  "y": {
+                    "type": "string"
+                  },
+                  "x": {
+                    "type": "string"
+                  }
+                }
+              },
+              "centerOfMass": {
+                "type": "object",
+                "properties": {
+                  "z": {
+                    "type": "string"
+                  },
+                  "y": {
+                    "type": "string"
+                  },
+                  "x": {
+                    "type": "string"
+                  }
+                }
+              },
+              "orderId": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "refId": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "quantity": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "weight": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "name": {
+                "type": "string"
+              },
+              "color": {
+                "type": "string"
+              },
+              "sequence": {
+                "type": "string"
+              },
+              "PackageType": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Recipient": {
+          "type": "object",
+          "properties": {
+            "CompanyName": {
+              "type": "string"
+            },
+            "Contact": {
+              "type": "string"
+            },
+            "StreetLine1": {
+              "type": "string"
+            },
+            "StreetLine2": {
+              "type": "string"
+            },
+            "StreetLine3": {
+              "type": "string"
+            },
+            "City": {
+              "type": "string"
+            },
+            "StateOrProvinceCode": {
+              "type": "string"
+            },
+            "PostalCode": {
+              "type": "string"
+            },
+            "CountryCode": {
+              "type": "string"
+            },
+            "Phone": {
+              "type": "string"
+            },
+            "Email": {
+              "type": "string"
+            }
+          }
+        },
+        "Sender": {
+          "type": "object",
+          "properties": {
+            "CompanyName": {
+              "type": "string"
+            },
+            "Contact": {
+              "type": "string"
+            },
+            "StreetLine1": {
+              "type": "string"
+            },
+            "StreetLine2": {
+              "type": "string"
+            },
+            "StreetLine3": {
+              "type": "string"
+            },
+            "City": {
+              "type": "string"
+            },
+            "StateOrProvinceCode": {
+              "type": "string"
+            },
+            "PostalCode": {
+              "type": "string"
+            },
+            "CountryCode": {
+              "type": "string"
+            },
+            "Phone": {
+              "type": "string"
+            },
+            "Email": {
+              "type": "string"
+            }
+          }
+        },
+        "SpecialService": {
+          "type": "object",
+          "properties": {
+            "SaturdayDelivery": {
+              "type": "string",
+              "enum": [
+                "True",
+                "False"
+              ]
+            },
+            "SaturdayPickup": {
+              "type": "string",
+              "enum": [
+                "True",
+                "False"
+              ]
+            },
+            "ReturnServiceCode": {
+              "type": "string"
+            },
+            "DeclaredValueCurrency": {
+              "type": "string",
+              "enum": [
+                "True",
+                "False"
+              ]
+            },
+            "DeclaredValue": {
+              "type": "string",
+              "enum": [
+                "True",
+                "False"
+              ]
+            },
+            "Residential": {
+              "type": "string",
+              "enum": [
+                "True",
+                "False"
+              ]
+            },
+            "CODCurrencyCode": {
+              "type": "string",
+              "enum": [
+                "True",
+                "False"
+              ]
+            },
+            "CODAmount": {
+              "type": "string",
+              "enum": [
+                "True",
+                "False"
+              ]
+            },
+            "InsideDelivery": {
+              "type": "string",
+              "enum": [
+                "True",
+                "False"
+              ]
+            },
+            "InsidePickup": {
+              "type": "string",
+              "enum": [
+                "True",
+                "False"
+              ]
+            },
+            "SignatureRequired": {
+              "type": "string",
+              "enum": [
+                "True",
+                "False"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

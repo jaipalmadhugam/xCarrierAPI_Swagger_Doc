@@ -1,0 +1,426 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Elemica Api Documentation",
+    "description": "",
+    "termsOfService": "",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://xcdemo.myxcarrier.com:8443/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Tracking",
+      "description": "Tracking details"
+    }
+  ],
+  "paths": {
+    "/track": {
+      "post": {
+        "tags": [
+          "Tracking"
+        ],
+        "summary": "Get Tracking details",
+        "operationId": "GetTrackingDetails",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/trackingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string"
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "description": "Status Code Dependes on API Response like:200(OK.),201 (Created),400(Bad Request),401(Unauthorized)",
+                      "format": "int32",
+                      "enum": [
+                        200,
+                        201,
+                        400,
+                        401,
+                        500
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "SUCCESS"
+                      ]
+                    },
+                    "Result": {
+                      "$ref": "#/components/schemas/TrackingResult"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TrackingResult": {
+        "type": "object",
+        "properties": {
+          "Tracking": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "Error": {
+                  "type": "string"
+                },
+                "Carrier": {
+                  "type": "string",
+                  "description": "CarrierName of Shipment"
+                },
+                "Account": {
+                  "type": "string",
+                  "description": "Account Number"
+                },
+                "Type": {
+                  "type": "string",
+                  "description": "Type of shipment",
+                  "enum": [
+                    "OUTBOUND",
+                    "INTERNAL"
+                  ]
+                },
+                "Event": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Status": {
+                        "type": "string",
+                        "description": "status of shipment",
+                        "enum": [
+                          "Shipped",
+                          "In-Transit",
+                          "Delivered"
+                        ]
+                      },
+                      "Date": {
+                        "type": "string",
+                        "description": "data of shipment"
+                      },
+                      "Location": {
+                        "type": "string",
+                        "description": "location of shipment"
+                      }
+                    }
+                  }
+                },
+                "TrackingNumber": {
+                  "type": "string",
+                  "description": "shipment tracking number"
+                },
+                "InternalTrackingNumber": {
+                  "type": "string",
+                  "description": "Internal tracking number is tracking inbound shipments"
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "Tracking": [
+            {
+              "Carrier": "FEDEX",
+              "Account": "52R1E3",
+              "Type": "OUTBOUND",
+              "Event": [
+                {
+                  "Status": "delivered",
+                  "Date": "07/15/2022",
+                  "Location": "newyork"
+                },
+                {
+                  "Status": "out for delivery",
+                  "Date": "07/10/2022",
+                  "Location": "newyork"
+                },
+                {
+                  "Status": "pickedup",
+                  "Date": "06/15/2022",
+                  "Location": "newyork"
+                },
+                {
+                  "Status": "shipped",
+                  "Date": "06/10/2022",
+                  "Location": "newyork"
+                }
+              ],
+              "TrackingNumber": "RPS000000252"
+            },
+            {
+              "Carrier": "",
+              "Account": "",
+              "Type": "INTERNAL",
+              "Event": [
+                {
+                  "Status": "Request Created",
+                  "Date": "08/17/2022",
+                  "Location": ""
+                }
+              ],
+              "TrackingNumber": "RPS000000253",
+              "InternalTrackingNumber": "1234565789"
+            },
+            {
+              "Carrier": "",
+              "Account": "",
+              "Type": "INTERNAL",
+              "Event": [
+                {
+                  "Status": "Request Created",
+                  "Date": "08/17/2022",
+                  "Location": ""
+                }
+              ],
+              "TrackingNumber": "RPS000000249",
+              "InternalTrackingNumber": "2345676890"
+            },
+            {
+              "Carrier": "",
+              "Account": "",
+              "Type": "INTERNAL",
+              "Event": [
+                {
+                  "Status": "Request Created",
+                  "Date": "08/17/2022",
+                  "Location": ""
+                }
+              ],
+              "TrackingNumber": "RPS000000250",
+              "InternalTrackingNumber": "12345676890"
+            },
+            {
+              "Carrier": "",
+              "Account": "",
+              "Type": "INTERNAL",
+              "Event": [
+                {
+                  "Status": "Request Created",
+                  "Date": "08/17/2022",
+                  "Location": ""
+                }
+              ],
+              "TrackingNumber": "RPS000000248",
+              "InternalTrackingNumber": "42345676890"
+            },
+            {
+              "Carrier": "",
+              "Account": "",
+              "Type": "INTERNAL",
+              "Event": [
+                {
+                  "Status": "Received",
+                  "Date": "06/29/2022",
+                  "Location": ""
+                }
+              ],
+              "TrackingNumber": "RPS000000246",
+              "InternalTrackingNumber": "62345676890"
+            },
+            {
+              "Carrier": "FEDEX FREIGHT",
+              "Account": "",
+              "Type": "BOTH",
+              "Event": [
+                {
+                  "Status": "Received",
+                  "Date": "08/16/2022",
+                  "Location": ""
+                },
+                {
+                  "Status": "Received",
+                  "Date": "08/16/2022",
+                  "Location": ""
+                }
+              ],
+              "TrackingNumber": "RPS000000245",
+              "InternalTrackingNumber": "2345676890"
+            },
+            {
+              "Carrier": "FEDEX FREIGHT",
+              "Account": "",
+              "Type": "BOTH",
+              "Event": [
+                {
+                  "Status": "Received",
+                  "Date": "08/16/2022",
+                  "Location": ""
+                },
+                {
+                  "Status": "Received",
+                  "Date": "08/16/2022",
+                  "Location": ""
+                }
+              ],
+              "TrackingNumber": "RPS000000244",
+              "InternalTrackingNumber": "234qq5676890"
+            },
+            {
+              "Carrier": "",
+              "Account": "",
+              "Type": "INTERNAL",
+              "Event": [
+                {
+                  "Status": "Received",
+                  "Date": "08/16/2022",
+                  "Location": ""
+                }
+              ],
+              "TrackingNumber": "RPS000000243",
+              "InternalTrackingNumber": "234567qw6890"
+            },
+            {
+              "Carrier": "",
+              "Account": "",
+              "Type": "INTERNAL",
+              "Event": [
+                {
+                  "Status": "Cancelled",
+                  "Date": "08/17/2022",
+                  "Location": ""
+                }
+              ],
+              "TrackingNumber": "RPS000000247",
+              "InternalTrackingNumber": "234562376890"
+            }
+          ]
+        }
+      },
+      "trackingRequest": {
+        "required": [
+          "PlantId"
+        ],
+        "type": "object",
+        "properties": {
+          "PlantId": {
+            "type": "string",
+            "description": "Location ID"
+          },
+          "Type": {
+            "type": "string",
+            "description": "Type of Shipment",
+            "enum": [
+              "BOTH",
+              "INTERNAL",
+              "OUTBOUND"
+            ]
+          },
+          "User": {
+            "type": "string"
+          },
+          "Carrier": {
+            "type": "string",
+            "description": "CarrierName of Shipment"
+          },
+          "ShipFromDate": {
+            "type": "string",
+            "description": "It is Tracking filter use to sort out shipment on the basis of ShipFromDate"
+          },
+          "ShipToDate": {
+            "type": "string",
+            "description": " It is Tracking filter use to sort out shipment on the basis of ShipToDate"
+          },
+          "Payment": {
+            "type": "string",
+            "description": "Payment Type like:Sender/Receiver etc...",
+            "enum": [
+              "Sender",
+              "Receiver"
+            ]
+          },
+          "ShipperName": {
+            "type": "string",
+            "description": "Name of the Person who Shipped."
+          },
+          "DeliveryNumber": {
+            "type": "string",
+            "description": "Delivery Number of Shipment."
+          },
+          "FeederSystem": {
+            "type": "string",
+            "description": "Name of Feeder System."
+          },
+          "TrackingNumber": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "user can send muliple tracking number for track shipment, in array format."
+            }
+          },
+          "Status": {
+            "type": "string",
+            "description": "Tracking Status of Shipment like: Shipped/Cancelled/Open etc...",
+            "enum": [
+              "Shipped",
+              "Cancelled",
+              "Open"
+            ]
+          }
+        },
+        "example": {
+          "PlantId": "1",
+          "User": "ALL",
+          "Carrier": "",
+          "ShipFromDate": "",
+          "ShipToDate": "",
+          "Payment": "",
+          "ShipperName": "",
+          "DeliveryNumber": "",
+          "FeederSystem": "",
+          "TrackingNumber": [],
+          "Status": "",
+          "Type": "OUTBOUND"
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "name": "XCARRIER-SECURITY-KEY",
+        "in": "header"
+      }
+    }
+  }
+}

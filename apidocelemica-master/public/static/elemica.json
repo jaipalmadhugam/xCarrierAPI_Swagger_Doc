@@ -1,0 +1,3157 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "",
+    "version": "1.0.0",
+    "title": "Elemica Api Documentation",
+    "termsOfService": ""
+  },
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic"
+    },
+    "apiKey": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "XCARRIER-SECURITY-KEY"
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "scheme": "basic"
+      }
+    }
+  },
+  "host": "xcdemo.myxcarrier.com:8443",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "ShipRequest",
+      "description": "Ship Request"
+    },
+    {
+      "name": "Shipment",
+      "description": "Shipment Data"
+    },
+    {
+      "name": "Master Data",
+      "description": "Master Data"
+    },
+    {
+      "name": "Tracking",
+      "description": "Tracking details"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/GetMasterDataDetails": {
+      "get": {
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ],
+        "tags": [
+          "Master Data"
+        ],
+        "summary": "This service returns all Master Data",
+        "description": "",
+        "operationId": "GetMasterData",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "shipdate",
+            "in": "query",
+            "description": "Ship Date",
+            "required": true,
+            "type": "string",
+            "format": "date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/MasterDataDetails"
+            }
+          }
+        }
+      }
+    },
+    "/ShipRequest/{id}": {
+      "get": {
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ],
+        "tags": [
+          "ShipRequest"
+        ],
+        "summary": "This service returns ship request",
+        "description": "",
+        "operationId": "GetShipRequest",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of Shiprequest to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/GetShipRequest"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "ShipRequest"
+        ],
+        "summary": "This service creates a new shipment request",
+        "description": "",
+        "operationId": "UpdateShipRequest",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of Shiprequest to update",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Ship Request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatchRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/ResponsePatchShipRequest"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/ShipRequest": {
+      "post": {
+        "tags": [
+          "ShipRequest"
+        ],
+        "summary": "This service creates a new shipment request",
+        "description": "",
+        "operationId": "CreateShipRequest",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Ship Request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShipRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/ResponsePostShipRequest"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/Shipping": {
+      "post": {
+        "tags": [
+          "Shipment"
+        ],
+        "summary": "Get Shipping details",
+        "description": "",
+        "operationId": "ShippingApi",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/erpRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Version": {
+                  "type": "string"
+                },
+                "StatusCode": {
+                  "type": "integer",
+                  "format": "int32",
+                  "enum": [
+                    200
+                  ]
+                },
+                "Message": {
+                  "type": "string",
+                  "enum": [
+                    "Ship Request Updated"
+                  ]
+                },
+                "Result": {
+                  "$ref": "#/definitions/ShippingResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/tracking": {
+      "post": {
+        "tags": [
+          "Tracking"
+        ],
+        "summary": "Get Tracking details",
+        "description": "",
+        "operationId": "GetTrackingDetails",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/trackingRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Version": {
+                  "type": "string"
+                },
+                "StatusCode": {
+                  "type": "integer",
+                  "format": "int32",
+                  "enum": [
+                    200
+                  ]
+                },
+                "Message": {
+                  "type": "string",
+                  "enum": [
+                    ""
+                  ]
+                },
+                "Result": {
+                  "$ref": "#/definitions/TrackingResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "TrackingResult": {
+      "type": "object",
+      "example": {
+        "Tracking": [
+          {
+            "Carrier": "UPS",
+            "Account": "52R1E4",
+            "TrackingNumber": "1Z88XW192098592539",
+            "Event": [
+              {
+                "Status": "ORIGIN SCAN",
+                "Date": "1/3/2017 8:03:00 PM",
+                "Location": "DULUTH,US"
+              },
+              {
+                "Status": "DEPARTURE SCAN",
+                "Date": "1/3/2017 8:44:00 PM",
+                "Location": "DULUTH,US"
+              },
+              {
+                "Status": "ARRIVAL SCAN",
+                "Date": "1/4/2017 12:11:00 AM",
+                "Location": "EAGAN,US"
+              },
+              {
+                "Status": "DESTINATION SCAN",
+                "Date": "1/7/2017 8:16:00 AM",
+                "Location": "ANAHEIM,US"
+              },
+              {
+                "Status": "OUT FOR DELIVERY",
+                "Date": "1/9/2017 5:52:00 AM",
+                "Location": "ANAHEIM,US"
+              },
+              {
+                "Status": "DELIVERED",
+                "Date": "1/9/2017 10:42:00 AM",
+                "Location": "SANTA ANA,US"
+              }
+            ]
+          },
+          {
+            "Carrier": "UPS",
+            "Account": "52R1E4",
+            "TrackingNumber": "1Z88XW192098592539",
+            "Event": [
+              {
+                "Status": "ORIGIN SCAN",
+                "Date": "1/3/2017 8:03:00 PM",
+                "Location": "DULUTH,US"
+              },
+              {
+                "Status": "DEPARTURE SCAN",
+                "Date": "1/3/2017 8:44:00 PM",
+                "Location": "DULUTH,US"
+              },
+              {
+                "Status": "ARRIVAL SCAN",
+                "Date": "1/4/2017 12:11:00 AM",
+                "Location": "EAGAN,US"
+              },
+              {
+                "Status": "DESTINATION SCAN",
+                "Date": "1/7/2017 8:16:00 AM",
+                "Location": "ANAHEIM,US"
+              },
+              {
+                "Status": "OUT FOR DELIVERY",
+                "Date": "1/9/2017 5:52:00 AM",
+                "Location": "ANAHEIM,US"
+              },
+              {
+                "Status": "DELIVERED",
+                "Date": "1/9/2017 10:42:00 AM",
+                "Location": "SANTA ANA,US"
+              }
+            ]
+          },
+          {
+            "Error": "Data Not Available For This Tracking Number",
+            "TrackingNumber": "5555555555555555555"
+          }
+        ]
+      },
+      "properties": {
+        "Tracking": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "Carrier": {
+                "type": "string"
+              },
+              "Account": {
+                "type": "string"
+              },
+              "TrackingNumber": {
+                "type": "string"
+              },
+              "Event": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "Status": {
+                      "type": "string"
+                    },
+                    "Date": {
+                      "type": "string"
+                    },
+                    "Location": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "Status",
+                    "Date",
+                    "Location"
+                  ]
+                }
+              },
+              "Error": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "TrackingNumber"
+            ]
+          }
+        }
+      },
+      "required": [
+        "Tracking"
+      ]
+    },
+    "trackingRequest": {
+      "type": "object",
+      "example": {
+        "TrackingNumber": [
+          "212345678901234567",
+          "1a2b3c4d5e6f7g8h9i",
+          "5555555555555555555"
+        ]
+      },
+      "properties": {
+        "CarrierDetails": {
+          "type": "object",
+          "properties": {
+            "TrackingNumber": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": []
+        }
+      },
+      "required": [
+        "CarrierDetails"
+      ]
+    },
+    "ShipRequest": {
+      "type": "object",
+      "properties": {
+        "FeederInfo": {
+          "type": "object",
+          "properties": {
+            "SHIPDATE": {
+              "type": "string"
+            },
+            "FEEDERSYSTEMName": {
+              "type": "string"
+            },
+            "ORDERTYPE": {
+              "type": "string"
+            },
+            "EXPECTEDDATE": {
+              "type": "string"
+            },
+            "EXPECTEDTIME": {
+              "type": "string"
+            },
+            "SHIPMENTTYPE": {
+              "type": "string"
+            }
+          }
+        },
+        "ShipperInfo": {
+          "type": "object",
+          "properties": {
+            "CustomerId": {
+              "type": "string"
+            },
+            "PlantId": {
+              "type": "string"
+            },
+            "PlantName": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "Company": {
+              "type": "string"
+            },
+            "Contact": {
+              "type": "string"
+            },
+            "AddressLine1": {
+              "type": "string"
+            },
+            "AddressLine2": {
+              "type": "string"
+            },
+            "AddressLine3": {
+              "type": "string"
+            },
+            "City": {
+              "type": "string"
+            },
+            "State": {
+              "type": "string"
+            },
+            "Country": {
+              "type": "string"
+            },
+            "ZipCode": {
+              "type": "string"
+            },
+            "Phone": {
+              "type": "string"
+            },
+            "Fax": {
+              "type": "string"
+            },
+            "CurrencyCode": {
+              "type": "string"
+            },
+            "Dimension": {
+              "type": "string"
+            },
+            "Weight": {
+              "type": "string"
+            },
+            "Email": {
+              "type": "string"
+            },
+            "SHIPTYPE": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "CreatedBy": {
+              "type": "string"
+            },
+            "SHIPFROMTAXId": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "Language": {
+              "type": "string"
+            },
+            "SHIPPERId": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "APPLICATIONId": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "TOKENId": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "DEVELOPERId": {
+              "type": "string",
+              "format": "nullable"
+            }
+          }
+        },
+        "ShipToInfo": {
+          "type": "object",
+          "properties": {
+            "Id": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "ADDRESSBOOKId": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "CompanyName": {
+              "type": "string"
+            },
+            "Contact": {
+              "type": "string"
+            },
+            "AddressLine1": {
+              "type": "string"
+            },
+            "AddressLine2": {
+              "type": "string"
+            },
+            "AddressLine3": {
+              "type": "string"
+            },
+            "City": {
+              "type": "string"
+            },
+            "State": {
+              "type": "string"
+            },
+            "Country": {
+              "type": "string"
+            },
+            "ZipCode": {
+              "type": "string"
+            },
+            "Phone": {
+              "type": "string"
+            },
+            "Fax": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "Email": {
+              "type": "string"
+            },
+            "CreatedBy": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "UpdatedBy": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "CreatedOn": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "UpdatedOn": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "ActiveADDRESS": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "PlantId": {
+              "type": "string"
+            },
+            "CustomerId": {
+              "type": "string"
+            },
+            "ADDRESSTYPE": {
+              "type": "string"
+            },
+            "RecordCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "SHIPTYPE": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "PlantName": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "GLOBAL": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "EXTENSION": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "ADDRESSCustomerId": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "Department": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "OPERATION": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "Count": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "ActiveCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "InActiveCount": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "ShipFromInfo": {
+          "type": "object",
+          "properties": {
+            "CustomerId": {
+              "type": "string"
+            },
+            "PlantId": {
+              "type": "string"
+            },
+            "PlantName": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "Company": {
+              "type": "string"
+            },
+            "Contact": {
+              "type": "string"
+            },
+            "AddressLine1": {
+              "type": "string"
+            },
+            "AddressLine2": {
+              "type": "string"
+            },
+            "AddressLine3": {
+              "type": "string"
+            },
+            "City": {
+              "type": "string"
+            },
+            "State": {
+              "type": "string"
+            },
+            "Country": {
+              "type": "string"
+            },
+            "ZipCode": {
+              "type": "string"
+            },
+            "Phone": {
+              "type": "string"
+            },
+            "Fax": {
+              "type": "string"
+            },
+            "CurrencyCode": {
+              "type": "string"
+            },
+            "Dimension": {
+              "type": "string"
+            },
+            "Weight": {
+              "type": "string"
+            },
+            "Email": {
+              "type": "string"
+            },
+            "SHIPTYPE": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "CreatedBy": {
+              "type": "string"
+            },
+            "SHIPFROMTAXId": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "Language": {
+              "type": "string"
+            },
+            "SHIPPERId": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "APPLICATIONId": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "TOKENId": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "DEVELOPERId": {
+              "type": "string",
+              "format": "nullable"
+            }
+          }
+        },
+        "ShipMethodInfo": {
+          "type": "object",
+          "properties": {
+            "PAYMENTTERM": {
+              "type": "string"
+            },
+            "CarrierDESCRIPTION": {
+              "type": "string"
+            },
+            "CarrierACCountNUM": {
+              "type": "string"
+            },
+            "THIRDPARTYACCountNUM": {
+              "type": "string"
+            },
+            "CarrierId": {
+              "type": "string"
+            },
+            "SERVICELEVELName": {
+              "type": "string"
+            },
+            "CostCenterId": {
+              "type": "string"
+            },
+            "REFERENCE": {
+              "type": "string"
+            },
+            "REFERENCE2": {
+              "type": "string"
+            },
+            "NOTES": {
+              "type": "string"
+            },
+            "SERVICELEVELCode": {
+              "type": "string"
+            },
+            "SHIPDATATYPE": {
+              "type": "string"
+            }
+          }
+        },
+        "PackingItemsInfo": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "Id": {
+                "type": "string"
+              },
+              "SNO": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "ITEMNUM": {
+                "type": "string"
+              },
+              "ITEMDESCRIPTION": {
+                "type": "string"
+              },
+              "TOTALITEMQUANTITY": {
+                "type": "string"
+              },
+              "PACKAGEWeight": {
+                "type": "string"
+              },
+              "Dimension": {
+                "type": "string"
+              },
+              "INSURENCEAMOUNT": {
+                "type": "string"
+              },
+              "UNITVALUE": {
+                "type": "string"
+              },
+              "UNITMEASURE": {
+                "type": "string"
+              },
+              "CLASS": {
+                "type": "string"
+              },
+              "EXPORTLICENSE": {
+                "type": "string"
+              },
+              "SKUITEMUPS": {
+                "type": "string"
+              },
+              "CATEGORY": {
+                "type": "string"
+              },
+              "ECCN": {
+                "type": "string"
+              },
+              "HARMONISEDCode": {
+                "type": "string"
+              },
+              "CountryORIGIN": {
+                "type": "string"
+              },
+              "ROWINDEX": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        }
+      }
+    },
+    "GetShipRequest": {
+      "type": "object",
+      "properties": {
+        "Version": {
+          "type": "string"
+        },
+        "StatusCode": {
+          "type": "integer",
+          "format": "int32",
+          "enum": [
+            200,
+            404,
+            403
+          ]
+        },
+        "Message": {
+          "type": "string"
+        },
+        "Result": {
+          "type": "object",
+          "properties": {
+            "Id": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "FEEDERSYSTEMName": {
+              "type": "string"
+            },
+            "SHIPREQId": {
+              "type": "string"
+            },
+            "PlantId": {
+              "type": "string"
+            },
+            "CarrierId": {
+              "type": "string"
+            },
+            "CarrierDESCRIPTION": {
+              "type": "string"
+            },
+            "SERVICELEVELName": {
+              "type": "string"
+            },
+            "PAYMENTTERM": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "PO": {
+              "type": "string"
+            },
+            "INVOICE": {
+              "type": "string"
+            },
+            "CUSTOMEVALUE": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "NOTES": {
+              "type": "string"
+            },
+            "ADDREESSBOOKId": {
+              "type": "string"
+            },
+            "SHIPTOCompany": {
+              "type": "string"
+            },
+            "SHIPTOContact": {
+              "type": "string"
+            },
+            "SHIPTOAddressLine1": {
+              "type": "string"
+            },
+            "SHIPTOAddressLine2": {
+              "type": "string"
+            },
+            "SHIPTOAddressLine3": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "SHIPTOCity": {
+              "type": "string"
+            },
+            "SHIPTOState": {
+              "type": "string"
+            },
+            "SHIPTOCountry": {
+              "type": "string"
+            },
+            "SHIPTOZipCode": {
+              "type": "string"
+            },
+            "SHIPTOPhone": {
+              "type": "string"
+            },
+            "SHIPTOFAX": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "SHIPTOEmail": {
+              "type": "string"
+            },
+            "SHIPFROMCompany": {
+              "type": "string"
+            },
+            "SHIPFROMContact": {
+              "type": "string"
+            },
+            "SHIPFROMAddressLine1": {
+              "type": "string"
+            },
+            "SHIPFROMAddressLine3": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "SHIPFROMAddressLine2": {
+              "type": "string"
+            },
+            "SHIPFROMCity": {
+              "type": "string"
+            },
+            "SHIPFROMState": {
+              "type": "string"
+            },
+            "SHIPFROMCountry": {
+              "type": "string"
+            },
+            "SHIPFROMZipCode": {
+              "type": "string"
+            },
+            "SHIPFROMPhone": {
+              "type": "string"
+            },
+            "SHIPFROMFAX": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "SHIPFROMEmail": {
+              "type": "string"
+            },
+            "BILLERCompany": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "BILLERContact": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "BILLERAddressLine1": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "BILLERAddressLine2": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "BILLERAddressLine3": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "BILLERCity": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "BILLERState": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "BILLERCountry": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "BILLERZipCode": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "BILLERPhone": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "BILLERFAX": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "BILLEREmail": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "BILLINGCHKADD": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "SHIPPINGNUM": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "THIRDPARTYACCountNUM": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "THIRDPARTYZipCode": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "THIRDPARTYCountryCode": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "CreatedBy": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "UpdatedBy": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "CreatedOn": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "UpdatedOn": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "ActiveSHIPREQ": {
+              "type": "boolean"
+            },
+            "ReturnMessage": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "CustomerId": {
+              "type": "string"
+            },
+            "BILLINGACCountNUM": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "TRACKINGNUM": {
+              "type": "string"
+            },
+            "FREIGHT": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "REFERENCE": {
+              "type": "string"
+            },
+            "TOTALCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "OPENCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "SHIPPEDCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "CANCELLEDCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "STATUS": {
+              "type": "string"
+            },
+            "ORDERTYPE": {
+              "type": "string"
+            },
+            "SHIPREQDATE": {
+              "type": "string"
+            },
+            "FROMDATE": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "TODATE": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "CostCenter": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "LoginId": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "PROFILEId": {
+              "type": "string"
+            },
+            "PROFILEDESC": {
+              "type": "string"
+            },
+            "SHIPDATATYPE": {
+              "type": "string"
+            },
+            "EXPECTEDDATE": {
+              "type": "string"
+            },
+            "UserRole": {
+              "type": "string",
+              "format": "nullable"
+            }
+          }
+        }
+      }
+    },
+    "PatchRequest": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PatchDocument"
+      }
+    },
+    "PatchDocument": {
+      "description": "A JSONPatch document as defined by RFC 6902",
+      "required": [
+        "op",
+        "path"
+      ],
+      "properties": {
+        "op": {
+          "type": "string",
+          "description": "The operation to be performed",
+          "enum": [
+            "add",
+            "remove",
+            "replace",
+            "copy"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "description": "A JSON-Pointer"
+        },
+        "value": {
+          "type": "object",
+          "description": "The value to be used within the operations."
+        }
+      },
+      "example": [
+        {
+          "op": "remove",
+          "path": "/ShipToInfo/Contact"
+        },
+        {
+          "op": "replace",
+          "path": "/FeederInfo/SHIPMENTTYPE",
+          "value": "DG"
+        },
+        {
+          "op": "add",
+          "path": "/PackingItemsInfo/-",
+          "value": {
+            "PlantId": null,
+            "HANDLINGUNIT": 0,
+            "DELIVERYNUM": null,
+            "SHIPREQId": null,
+            "ITEMNUM": "AB324",
+            "PRODUCTNUM": null,
+            "SERIALNUM": null,
+            "ITEMDESCRIPTION": "Mobile",
+            "PREFERENCERITERION": null,
+            "Currency": null,
+            "TOTALITEMQUANTITY": 1,
+            "BALENCEQUANTITY": 0,
+            "PARTIALQUANTITY": null,
+            "ITEMWeight": null,
+            "UNCode": null,
+            "LoginId": null,
+            "CreatedBy": null,
+            "UpdatedBy": null,
+            "CreatedOn": "0001-01-01T00:00:00",
+            "UpdatedOn": "0001-01-01T00:00:00",
+            "ActivePACKAGE": null,
+            "PackCount": 0,
+            "SNO": null,
+            "Dimension": "Select",
+            "PACKAGEWeight": 1,
+            "INSURENCEAMOUNT": "",
+            "UNITVALUE": "80000",
+            "UNITMEASURE": "Box",
+            "HARMONISEDCode": "ASDE321",
+            "CLASS": "First",
+            "EXPORTLICENSE": "ASDF4321",
+            "SKUITEMUPS": "1234567890",
+            "CountryORIGIN": "AS",
+            "CATEGORY": "First",
+            "ECCN": "12345667",
+            "DGTEMPLATECode": null,
+            "ISSERIAL": null,
+            "ISBATCH": null,
+            "SERIALNUMBER": null,
+            "LOTNUMBER": null,
+            "TOTALWeight": null,
+            "DGFLAG": null,
+            "UNITS": null,
+            "OPT1": null,
+            "OPT2": null,
+            "OPT3": null,
+            "OPT4": null,
+            "OPT5": null,
+            "OPT6": null,
+            "OPT7": null,
+            "OPT8": null,
+            "OPT9": null,
+            "OPT10": null,
+            "DELIVERYDATE": null,
+            "SCHEDLINE": null,
+            "SERIALNO": "1",
+            "UOM": null,
+            "ITEMNMFC": null,
+            "ITEMNMFCCLASS": null,
+            "ITEMPACKTYPE": null,
+            "XMLOPTIONALPARAMETER": null
+          }
+        }
+      ]
+    },
+    "ResponsePatchShipRequest": {
+      "type": "object",
+      "properties": {
+        "Version": {
+          "type": "string"
+        },
+        "StatusCode": {
+          "type": "integer",
+          "format": "int32",
+          "enum": [
+            200
+          ]
+        },
+        "Message": {
+          "type": "string",
+          "enum": [
+            "Ship Request Updated"
+          ]
+        },
+        "Result": {
+          "type": "object",
+          "properties": {
+            "ShipRequestId": {
+              "type": "string",
+              "example": "PWO000069"
+            }
+          }
+        }
+      }
+    },
+    "ResponsePostShipRequest": {
+      "type": "object",
+      "properties": {
+        "Version": {
+          "type": "string"
+        },
+        "StatusCode": {
+          "type": "integer",
+          "format": "int32",
+          "enum": [
+            201
+          ]
+        },
+        "Message": {
+          "type": "string",
+          "enum": [
+            "Ship Request Created"
+          ]
+        },
+        "Result": {
+          "type": "object",
+          "properties": {
+            "ShipRequestId": {
+              "type": "string",
+              "example": "PWO000069"
+            }
+          }
+        }
+      }
+    },
+    "MasterDataDetails": {
+      "type": "object",
+      "properties": {
+        "lstxCarrierCompany": {
+          "$id": "#root/lstxCarrierCompany",
+          "title": "LstxcarrierCompany",
+          "type": "array",
+          "example": [
+            {
+              "Id": 1,
+              "CompanyId": "9243700001",
+              "CompanyName": "ABC Inc...",
+              "Contact": "Warehouse Manager",
+              "AddressLine1": "6406 Ivy lane",
+              "AddressLine2": null,
+              "AddressLine3": null,
+              "City": null,
+              "State": "TX",
+              "Country": "US",
+              "ZipCode": null,
+              "Phone": "123456",
+              "Email": "info@processweaver.com",
+              "ActiveCompany": true,
+              "NoOfPlants": 1,
+              "NoOfUsers": null,
+              "Server": null,
+              "DbName": null,
+              "ConnectionString": null,
+              "UserName": null,
+              "Password": "**********",
+              "Currency": null,
+              "CreatedBy": "Shipping Manager",
+              "UpdatedBy": "Shipping Manager",
+              "CreatedOn": "2018-02-06T09:57:58.467",
+              "UpdatedOn": "2018-02-06T09:57:58.467",
+              "FirstName": null,
+              "LastName": null,
+              "JobTitle": null,
+              "CompanyColor": "#000000",
+              "CompanyLogo": "https://xcdemo.myxcarrier.com/Documents/9243700001/CompanyLogo/9243700001.jpg"
+            }
+          ],
+          "default": [],
+          "items": {
+            "$id": "#root/lstxCarrierCompany/items",
+            "title": "Items",
+            "type": "object",
+            "required": [
+              "Id",
+              "CompanyId",
+              "CompanyName",
+              "Contact",
+              "AddressLine1",
+              "AddressLine2",
+              "AddressLine3",
+              "City",
+              "State",
+              "Country",
+              "ZipCode",
+              "Phone",
+              "Email",
+              "ActiveCompany",
+              "NoOfPlants",
+              "NoOfUsers",
+              "Server",
+              "DbName",
+              "ConnectionString",
+              "UserName",
+              "Password",
+              "Currency",
+              "CreatedBy",
+              "UpdatedBy",
+              "CreatedOn",
+              "UpdatedOn",
+              "FirstName",
+              "LastName",
+              "JobTitle",
+              "CompanyColor",
+              "CompanyLogo"
+            ],
+            "properties": {
+              "Id": {
+                "$id": "#root/lstxCarrierCompany/items/Id",
+                "title": "Id",
+                "type": "integer",
+                "examples": [
+                  1
+                ],
+                "default": 0
+              },
+              "CompanyId": {
+                "$id": "#root/lstxCarrierCompany/items/CompanyId",
+                "title": "Companyid",
+                "type": "string",
+                "default": "",
+                "example": "9243700001",
+                "pattern": "^.*$"
+              },
+              "CompanyName": {
+                "$id": "#root/lstxCarrierCompany/items/CompanyName",
+                "title": "Companyname",
+                "type": "string",
+                "default": "",
+                "example": "ABC Inc...",
+                "pattern": "^.*$"
+              },
+              "Contact": {
+                "$id": "#root/lstxCarrierCompany/items/Contact",
+                "title": "Contact",
+                "type": "string",
+                "default": "",
+                "example": "Warehouse Manager",
+                "pattern": "^.*$"
+              },
+              "AddressLine1": {
+                "$id": "#root/lstxCarrierCompany/items/AddressLine1",
+                "title": "Addressline1",
+                "type": "string",
+                "default": "",
+                "example": "6406 Ivy lane",
+                "pattern": "^.*$"
+              },
+              "AddressLine2": {
+                "$id": "#root/lstxCarrierCompany/items/AddressLine2",
+                "title": "Addressline2",
+                "type": "null",
+                "default": null
+              },
+              "AddressLine3": {
+                "$id": "#root/lstxCarrierCompany/items/AddressLine3",
+                "title": "Addressline3",
+                "type": "null",
+                "default": null
+              },
+              "City": {
+                "$id": "#root/lstxCarrierCompany/items/City",
+                "title": "City",
+                "type": "null",
+                "default": null
+              },
+              "State": {
+                "$id": "#root/lstxCarrierCompany/items/State",
+                "title": "State",
+                "type": "string",
+                "default": "",
+                "example": "TX",
+                "pattern": "^.*$"
+              },
+              "Country": {
+                "$id": "#root/lstxCarrierCompany/items/Country",
+                "title": "Country",
+                "type": "string",
+                "default": "",
+                "example": "US",
+                "pattern": "^.*$"
+              },
+              "ZipCode": {
+                "$id": "#root/lstxCarrierCompany/items/ZipCode",
+                "title": "Zipcode",
+                "type": "null",
+                "default": null
+              },
+              "Phone": {
+                "$id": "#root/lstxCarrierCompany/items/Phone",
+                "title": "Phone",
+                "type": "string",
+                "default": "",
+                "example": "123456",
+                "pattern": "^.*$"
+              },
+              "Email": {
+                "$id": "#root/lstxCarrierCompany/items/Email",
+                "title": "Email",
+                "type": "string",
+                "default": "",
+                "example": "info@processweaver.com",
+                "pattern": "^.*$"
+              },
+              "ActiveCompany": {
+                "$id": "#root/lstxCarrierCompany/items/ActiveCompany",
+                "title": "ActiveCompany",
+                "type": "boolean",
+                "examples": [
+                  true
+                ],
+                "default": true
+              },
+              "NoOfPlants": {
+                "$id": "#root/lstxCarrierCompany/items/NoOfPlants",
+                "title": "Noofplants",
+                "type": "integer",
+                "examples": [
+                  1
+                ],
+                "default": 0
+              },
+              "NoOfUsers": {
+                "$id": "#root/lstxCarrierCompany/items/NoOfUsers",
+                "title": "Noofusers",
+                "type": "null",
+                "default": null
+              },
+              "Server": {
+                "$id": "#root/lstxCarrierCompany/items/Server",
+                "title": "Server",
+                "type": "null",
+                "default": null
+              },
+              "DbName": {
+                "$id": "#root/lstxCarrierCompany/items/DbName",
+                "title": "Dbname",
+                "type": "null",
+                "default": null
+              },
+              "ConnectionString": {
+                "$id": "#root/lstxCarrierCompany/items/ConnectionString",
+                "title": "Connectionstring",
+                "type": "null",
+                "default": null
+              },
+              "UserName": {
+                "$id": "#root/lstxCarrierCompany/items/UserName",
+                "title": "Username",
+                "type": "null",
+                "default": null
+              },
+              "Password": {
+                "$id": "#root/lstxCarrierCompany/items/Password",
+                "title": "Password",
+                "type": "string",
+                "default": "",
+                "example": "**********",
+                "pattern": "^.*$"
+              },
+              "Currency": {
+                "$id": "#root/lstxCarrierCompany/items/Currency",
+                "title": "Currency",
+                "type": "null",
+                "default": null
+              },
+              "CreatedBy": {
+                "$id": "#root/lstxCarrierCompany/items/CreatedBy",
+                "title": "Createdby",
+                "type": "string",
+                "default": "",
+                "example": "Shipping Manager",
+                "pattern": "^.*$"
+              },
+              "UpdatedBy": {
+                "$id": "#root/lstxCarrierCompany/items/UpdatedBy",
+                "title": "Updatedby",
+                "type": "string",
+                "default": "",
+                "example": "Shipping Manager",
+                "pattern": "^.*$"
+              },
+              "CreatedOn": {
+                "$id": "#root/lstxCarrierCompany/items/CreatedOn",
+                "title": "Createdon",
+                "type": "string",
+                "default": "",
+                "example": "2018-02-06T09:57:58.467",
+                "pattern": "^.*$"
+              },
+              "UpdatedOn": {
+                "$id": "#root/lstxCarrierCompany/items/UpdatedOn",
+                "title": "Updatedon",
+                "type": "string",
+                "default": "",
+                "example": "2018-02-06T09:57:58.467",
+                "pattern": "^.*$"
+              },
+              "FirstName": {
+                "$id": "#root/lstxCarrierCompany/items/FirstName",
+                "title": "Firstname",
+                "type": "null",
+                "default": null
+              },
+              "LastName": {
+                "$id": "#root/lstxCarrierCompany/items/LastName",
+                "title": "Lastname",
+                "type": "null",
+                "default": null
+              },
+              "JobTitle": {
+                "$id": "#root/lstxCarrierCompany/items/JobTitle",
+                "title": "Jobtitle",
+                "type": "null",
+                "default": null
+              },
+              "CompanyColor": {
+                "$id": "#root/lstxCarrierCompany/items/CompanyColor",
+                "title": "Companycolor",
+                "type": "string",
+                "default": "",
+                "example": "#000000",
+                "pattern": "^.*$"
+              },
+              "CompanyLogo": {
+                "$id": "#root/lstxCarrierCompany/items/CompanyLogo",
+                "title": "Companylogo",
+                "type": "string",
+                "default": "",
+                "example": "https://xcdemo.myxcarrier.com/Documents/9243700001/CompanyLogo/9243700001.jpg",
+                "pattern": "^.*$"
+              }
+            }
+          }
+        },
+        "lstxCarrierLocations": {
+          "$id": "#root/lstxCarrierLocations",
+          "title": "Lstxcarrierlocations",
+          "type": "array",
+          "default": [],
+          "example": [
+            {
+              "Id": 6,
+              "CustomerId": "9243700001",
+              "PlantId": "1",
+              "PlantName": "BASF",
+              "Company": "ABC Inc...",
+              "Contact": "Warehouse Manager",
+              "AddressLine1": "2600 North Central Expressway ",
+              "AddressLine2": "apt 30",
+              "AddressLine3": null,
+              "City": "Richardson",
+              "State": "TX",
+              "Country": "US",
+              "ZipCode": "75080",
+              "Phone": "8889328373",
+              "Fax": null,
+              "CurrencyCode": "USD",
+              "Dimension": "IN",
+              "Weight": "LBS",
+              "Email": "info@processweaver.com",
+              "CreatedBy": "ProcessWeaver",
+              "UpdatedBy": "Tyler",
+              "CreatedOn": "2016-08-30T05:47:50",
+              "UpdatedOn": "2021-09-13T12:22:34",
+              "ActivePlant": true,
+              "TimeZone": "Pacific Standard Time",
+              "DateFormat": "MM/dd/yyyy",
+              "AddrValidation": true,
+              "BRS": false,
+              "RoutingGuideFlag": false,
+              "RecordCount": 0
+            }
+          ],
+          "items": {
+            "$id": "#root/lstxCarrierLocations/items",
+            "title": "Items",
+            "type": "object",
+            "required": [
+              "Id",
+              "CustomerId",
+              "PlantId",
+              "PlantName",
+              "Company",
+              "Contact",
+              "AddressLine1",
+              "AddressLine2",
+              "AddressLine3",
+              "City",
+              "State",
+              "Country",
+              "ZipCode",
+              "Phone",
+              "Fax",
+              "CurrencyCode",
+              "Dimension",
+              "Weight",
+              "Email",
+              "CreatedBy",
+              "UpdatedBy",
+              "CreatedOn",
+              "UpdatedOn",
+              "ActivePlant",
+              "TimeZone",
+              "DateFormat",
+              "AddrValidation",
+              "BRS",
+              "RoutingGuideFlag",
+              "RecordCount"
+            ],
+            "properties": {
+              "Id": {
+                "$id": "#root/lstxCarrierLocations/items/Id",
+                "title": "Id",
+                "type": "integer",
+                "examples": [
+                  6
+                ],
+                "default": 0
+              },
+              "CustomerId": {
+                "$id": "#root/lstxCarrierLocations/items/CustomerId",
+                "title": "Customerid",
+                "type": "string",
+                "default": "",
+                "example": "9243700001",
+                "pattern": "^.*$"
+              },
+              "PlantId": {
+                "$id": "#root/lstxCarrierLocations/items/PlantId",
+                "title": "Plantid",
+                "type": "string",
+                "default": "",
+                "example": "1",
+                "pattern": "^.*$"
+              },
+              "PlantName": {
+                "$id": "#root/lstxCarrierLocations/items/PlantName",
+                "title": "Plantname",
+                "type": "string",
+                "default": "",
+                "example": "BASF",
+                "pattern": "^.*$"
+              },
+              "Company": {
+                "$id": "#root/lstxCarrierLocations/items/Company",
+                "title": "Company",
+                "type": "string",
+                "default": "",
+                "example": "ABC Inc...",
+                "pattern": "^.*$"
+              },
+              "Contact": {
+                "$id": "#root/lstxCarrierLocations/items/Contact",
+                "title": "Contact",
+                "type": "string",
+                "default": "",
+                "example": "Warehouse Manager",
+                "pattern": "^.*$"
+              },
+              "AddressLine1": {
+                "$id": "#root/lstxCarrierLocations/items/AddressLine1",
+                "title": "Addressline1",
+                "type": "string",
+                "default": "",
+                "example": "2600 North Central Expressway ",
+                "pattern": "^.*$"
+              },
+              "AddressLine2": {
+                "$id": "#root/lstxCarrierLocations/items/AddressLine2",
+                "title": "Addressline2",
+                "type": "string",
+                "default": "",
+                "example": "apt 30",
+                "pattern": "^.*$"
+              },
+              "AddressLine3": {
+                "$id": "#root/lstxCarrierLocations/items/AddressLine3",
+                "title": "Addressline3",
+                "type": "null",
+                "default": null
+              },
+              "City": {
+                "$id": "#root/lstxCarrierLocations/items/City",
+                "title": "City",
+                "type": "string",
+                "default": "",
+                "example": "Richardson",
+                "pattern": "^.*$"
+              },
+              "State": {
+                "$id": "#root/lstxCarrierLocations/items/State",
+                "title": "State",
+                "type": "string",
+                "default": "",
+                "example": "TX",
+                "pattern": "^.*$"
+              },
+              "Country": {
+                "$id": "#root/lstxCarrierLocations/items/Country",
+                "title": "Country",
+                "type": "string",
+                "default": "",
+                "example": "US",
+                "pattern": "^.*$"
+              },
+              "ZipCode": {
+                "$id": "#root/lstxCarrierLocations/items/ZipCode",
+                "title": "Zipcode",
+                "type": "string",
+                "default": "",
+                "example": "75080",
+                "pattern": "^.*$"
+              },
+              "Phone": {
+                "$id": "#root/lstxCarrierLocations/items/Phone",
+                "title": "Phone",
+                "type": "string",
+                "default": "",
+                "example": "8889328373",
+                "pattern": "^.*$"
+              },
+              "Fax": {
+                "$id": "#root/lstxCarrierLocations/items/Fax",
+                "title": "Fax",
+                "type": "null",
+                "default": null
+              },
+              "CurrencyCode": {
+                "$id": "#root/lstxCarrierLocations/items/CurrencyCode",
+                "title": "Currencycode",
+                "type": "string",
+                "default": "",
+                "example": "USD",
+                "pattern": "^.*$"
+              },
+              "Dimension": {
+                "$id": "#root/lstxCarrierLocations/items/Dimension",
+                "title": "Dimension",
+                "type": "string",
+                "default": "",
+                "example": "IN",
+                "pattern": "^.*$"
+              },
+              "Weight": {
+                "$id": "#root/lstxCarrierLocations/items/Weight",
+                "title": "Weight",
+                "type": "string",
+                "default": "",
+                "example": "LBS",
+                "pattern": "^.*$"
+              },
+              "Email": {
+                "$id": "#root/lstxCarrierLocations/items/Email",
+                "title": "Email",
+                "type": "string",
+                "default": "",
+                "example": "info@processweaver.com",
+                "pattern": "^.*$"
+              },
+              "CreatedBy": {
+                "$id": "#root/lstxCarrierLocations/items/CreatedBy",
+                "title": "Createdby",
+                "type": "string",
+                "default": "",
+                "example": "ProcessWeaver",
+                "pattern": "^.*$"
+              },
+              "UpdatedBy": {
+                "$id": "#root/lstxCarrierLocations/items/UpdatedBy",
+                "title": "Updatedby",
+                "type": "string",
+                "default": "",
+                "example": "Tyler",
+                "pattern": "^.*$"
+              },
+              "CreatedOn": {
+                "$id": "#root/lstxCarrierLocations/items/CreatedOn",
+                "title": "Createdon",
+                "type": "string",
+                "default": "",
+                "example": "2016-08-30T05:47:50",
+                "pattern": "^.*$"
+              },
+              "UpdatedOn": {
+                "$id": "#root/lstxCarrierLocations/items/UpdatedOn",
+                "title": "Updatedon",
+                "type": "string",
+                "default": "",
+                "example": "2021-09-13T12:22:34",
+                "pattern": "^.*$"
+              },
+              "ActivePlant": {
+                "$id": "#root/lstxCarrierLocations/items/ActivePlant",
+                "title": "Activeplant",
+                "type": "boolean",
+                "examples": [
+                  true
+                ],
+                "default": true
+              },
+              "TimeZone": {
+                "$id": "#root/lstxCarrierLocations/items/TimeZone",
+                "title": "Timezone",
+                "type": "string",
+                "default": "",
+                "example": "Pacific Standard Time",
+                "pattern": "^.*$"
+              },
+              "DateFormat": {
+                "$id": "#root/lstxCarrierLocations/items/DateFormat",
+                "title": "Dateformat",
+                "type": "string",
+                "default": "",
+                "example": "MM/dd/yyyy",
+                "pattern": "^.*$"
+              },
+              "AddrValidation": {
+                "$id": "#root/lstxCarrierLocations/items/AddrValidation",
+                "title": "Addrvalidation",
+                "type": "boolean",
+                "examples": [
+                  true
+                ],
+                "default": true
+              },
+              "BRS": {
+                "$id": "#root/lstxCarrierLocations/items/BRS",
+                "title": "Brs",
+                "type": "boolean",
+                "examples": [
+                  false
+                ],
+                "default": true
+              },
+              "RoutingGuideFlag": {
+                "$id": "#root/lstxCarrierLocations/items/RoutingGuideFlag",
+                "title": "RoutingguideFlag",
+                "type": "boolean",
+                "examples": [
+                  false
+                ],
+                "default": true
+              },
+              "RecordCount": {
+                "$id": "#root/lstxCarrierLocations/items/RecordCount",
+                "title": "Recordcount",
+                "type": "integer",
+                "examples": [
+                  0
+                ],
+                "default": 0
+              }
+            }
+          }
+        },
+        "lstxCarrierCompanyModules": {
+          "$id": "#root/lstxCarrierCompanyModules",
+          "title": "LstxcarrierCompanymodules",
+          "type": "array",
+          "default": [],
+          "example": [
+            {
+              "CompanyId": "9243700001",
+              "ModuleName": "TotalLocationsCarriers",
+              "FunctionName": "TotalLocations"
+            }
+          ],
+          "items": {
+            "$id": "#root/lstxCarrierCompanyModules/items",
+            "title": "Items",
+            "type": "object",
+            "required": [
+              "CompanyId",
+              "ModuleName",
+              "FunctionName"
+            ],
+            "properties": {
+              "CompanyId": {
+                "$id": "#root/lstxCarrierCompanyModules/items/CompanyId",
+                "title": "Companyid",
+                "type": "string",
+                "default": "",
+                "example": "9243700001",
+                "pattern": "^.*$"
+              },
+              "ModuleName": {
+                "$id": "#root/lstxCarrierCompanyModules/items/ModuleName",
+                "title": "Modulename",
+                "type": "string",
+                "default": "",
+                "example": "TotalLocationsCarriers",
+                "pattern": "^.*$"
+              },
+              "FunctionName": {
+                "$id": "#root/lstxCarrierCompanyModules/items/FunctionName",
+                "title": "Functionname",
+                "type": "string",
+                "default": "",
+                "example": "TotalLocations",
+                "pattern": "^.*$"
+              }
+            }
+          }
+        },
+        "lstxCarrierCarrierUser": {
+          "$id": "#root/lstxCarrierCarrierUser",
+          "title": "Lstxcarriercarrieruser",
+          "type": "array",
+          "default": [],
+          "example": [
+            {
+              "Id": 1,
+              "LoginId": 5015,
+              "UserName": "info",
+              "Password": "**********",
+              "PlantId": "1",
+              "CompanyId": "9243700001",
+              "EmployeeId": null,
+              "FirstName": "Warehouse",
+              "LastName": "Manager",
+              "Designation": null,
+              "Department": null,
+              "AddressLine1": "2600 North Central Expressway ",
+              "AddressLine2": null,
+              "AddressLine3": "",
+              "City": "Richardson",
+              "State": "TX",
+              "Country": "US",
+              "ZipCode": "75080",
+              "Phone": "8889328373",
+              "Fax": "info@processweaver.com",
+              "Email": "info@processweaver.com",
+              "CreatedBy": "Warehouse",
+              "UpdatedBy": "Warehouse",
+              "CreatedOn": "2018-03-09T10:01:51",
+              "UpdatedOn": "2021-05-07T06:51:34",
+              "ActiveUser": true,
+              "UserRole": "Admin",
+              "Global": "0",
+              "LastLoginDateTime": "2022-06-16T11:59:46.12",
+              "PlantName": "ProcessWeaver Inc",
+              "ProfileImageUrl": "9243700001/PI50159243700001.png",
+              "BuildingNo": null,
+              "MailStop": null,
+              "CostCenter": null,
+              "DgSignatureId": null,
+              "Contact": null,
+              "Signature": null,
+              "Carrier": null,
+              "Count": 0,
+              "ActiveCount": 0,
+              "InActiveCount": 0,
+              "Flag": 0,
+              "ShippingEngineLabelPath": null,
+              "ERPEnginePath": null,
+              "BatchShipmentUrl": null,
+              "LoginPath": null,
+              "Language": null,
+              "TimeZoneName": null,
+              "DateFormat": null,
+              "CompanyLogo": null,
+              "CompanyColor": null,
+              "ChkCostCenter": null,
+              "ChkTotalBalQty": null,
+              "CustomerName": null,
+              "LoginUserName": null,
+              "ReturnMsg": null,
+              "ShippingEngine": null,
+              "ShipmentProcessFlag": null
+            }
+          ],
+          "items": {
+            "$id": "#root/lstxCarrierCarrierUser/items",
+            "title": "Items",
+            "type": "object",
+            "required": [
+              "Id",
+              "LoginId",
+              "UserName",
+              "Password",
+              "PlantId",
+              "CompanyId",
+              "EmployeeId",
+              "FirstName",
+              "LastName",
+              "Designation",
+              "Department",
+              "AddressLine1",
+              "AddressLine2",
+              "AddressLine3",
+              "City",
+              "State",
+              "Country",
+              "ZipCode",
+              "Phone",
+              "Fax",
+              "Email",
+              "CreatedBy",
+              "UpdatedBy",
+              "CreatedOn",
+              "UpdatedOn",
+              "ActiveUser",
+              "UserRole",
+              "Global",
+              "LastLoginDateTime",
+              "PlantName",
+              "ProfileImageUrl",
+              "BuildingNo",
+              "MailStop",
+              "CostCenter",
+              "DgSignatureId",
+              "Contact",
+              "Signature",
+              "Carrier",
+              "Count",
+              "ActiveCount",
+              "InActiveCount",
+              "Flag",
+              "ShippingEngineLabelPath",
+              "ERPEnginePath",
+              "BatchShipmentUrl",
+              "LoginPath",
+              "Language",
+              "TimeZoneName",
+              "DateFormat",
+              "CompanyLogo",
+              "CompanyColor",
+              "ChkCostCenter",
+              "ChkTotalBalQty",
+              "CustomerName",
+              "LoginUserName",
+              "ReturnMsg",
+              "ShippingEngine",
+              "ShipmentProcessFlag"
+            ],
+            "properties": {
+              "Id": {
+                "$id": "#root/lstxCarrierCarrierUser/items/Id",
+                "title": "Id",
+                "type": "integer",
+                "examples": [
+                  1
+                ],
+                "default": 0
+              },
+              "LoginId": {
+                "$id": "#root/lstxCarrierCarrierUser/items/LoginId",
+                "title": "Loginid",
+                "type": "integer",
+                "examples": [
+                  5015
+                ],
+                "default": 0
+              },
+              "UserName": {
+                "$id": "#root/lstxCarrierCarrierUser/items/UserName",
+                "title": "Username",
+                "type": "string",
+                "default": "",
+                "example": "info",
+                "pattern": "^.*$"
+              },
+              "Password": {
+                "$id": "#root/lstxCarrierCarrierUser/items/Password",
+                "title": "Password",
+                "type": "string",
+                "default": "",
+                "example": "**********",
+                "pattern": "^.*$"
+              },
+              "PlantId": {
+                "$id": "#root/lstxCarrierCarrierUser/items/PlantId",
+                "title": "Plantid",
+                "type": "string",
+                "default": "",
+                "example": "1",
+                "pattern": "^.*$"
+              },
+              "CompanyId": {
+                "$id": "#root/lstxCarrierCarrierUser/items/CompanyId",
+                "title": "Companyid",
+                "type": "string",
+                "default": "",
+                "example": "9243700001",
+                "pattern": "^.*$"
+              },
+              "EmployeeId": {
+                "$id": "#root/lstxCarrierCarrierUser/items/EmployeeId",
+                "title": "Employeeid",
+                "type": "null",
+                "default": null
+              },
+              "FirstName": {
+                "$id": "#root/lstxCarrierCarrierUser/items/FirstName",
+                "title": "Firstname",
+                "type": "string",
+                "default": "",
+                "example": "Warehouse",
+                "pattern": "^.*$"
+              },
+              "LastName": {
+                "$id": "#root/lstxCarrierCarrierUser/items/LastName",
+                "title": "Lastname",
+                "type": "string",
+                "default": "",
+                "example": "Manager",
+                "pattern": "^.*$"
+              },
+              "Designation": {
+                "$id": "#root/lstxCarrierCarrierUser/items/Designation",
+                "title": "Designation",
+                "type": "null",
+                "default": null
+              },
+              "Department": {
+                "$id": "#root/lstxCarrierCarrierUser/items/Department",
+                "title": "Department",
+                "type": "null",
+                "default": null
+              },
+              "AddressLine1": {
+                "$id": "#root/lstxCarrierCarrierUser/items/AddressLine1",
+                "title": "Addressline1",
+                "type": "string",
+                "default": "",
+                "example": "2600 North Central Expressway ",
+                "pattern": "^.*$"
+              },
+              "AddressLine2": {
+                "$id": "#root/lstxCarrierCarrierUser/items/AddressLine2",
+                "title": "Addressline2",
+                "type": "null",
+                "default": null
+              },
+              "AddressLine3": {
+                "$id": "#root/lstxCarrierCarrierUser/items/AddressLine3",
+                "title": "Addressline3",
+                "type": "string",
+                "default": "",
+                "example": "",
+                "pattern": "^.*$"
+              },
+              "City": {
+                "$id": "#root/lstxCarrierCarrierUser/items/City",
+                "title": "City",
+                "type": "string",
+                "default": "",
+                "example": "Richardson",
+                "pattern": "^.*$"
+              },
+              "State": {
+                "$id": "#root/lstxCarrierCarrierUser/items/State",
+                "title": "State",
+                "type": "string",
+                "default": "",
+                "example": "TX",
+                "pattern": "^.*$"
+              },
+              "Country": {
+                "$id": "#root/lstxCarrierCarrierUser/items/Country",
+                "title": "Country",
+                "type": "string",
+                "default": "",
+                "example": "US",
+                "pattern": "^.*$"
+              },
+              "ZipCode": {
+                "$id": "#root/lstxCarrierCarrierUser/items/ZipCode",
+                "title": "Zipcode",
+                "type": "string",
+                "default": "",
+                "example": "75080",
+                "pattern": "^.*$"
+              },
+              "Phone": {
+                "$id": "#root/lstxCarrierCarrierUser/items/Phone",
+                "title": "Phone",
+                "type": "string",
+                "default": "",
+                "example": "8889328373",
+                "pattern": "^.*$"
+              },
+              "Fax": {
+                "$id": "#root/lstxCarrierCarrierUser/items/Fax",
+                "title": "Fax",
+                "type": "string",
+                "default": "",
+                "example": "info@processweaver.com",
+                "pattern": "^.*$"
+              },
+              "Email": {
+                "$id": "#root/lstxCarrierCarrierUser/items/Email",
+                "title": "Email",
+                "type": "string",
+                "default": "",
+                "example": "info@processweaver.com",
+                "pattern": "^.*$"
+              },
+              "CreatedBy": {
+                "$id": "#root/lstxCarrierCarrierUser/items/CreatedBy",
+                "title": "Createdby",
+                "type": "string",
+                "default": "",
+                "example": "Warehouse",
+                "pattern": "^.*$"
+              },
+              "UpdatedBy": {
+                "$id": "#root/lstxCarrierCarrierUser/items/UpdatedBy",
+                "title": "Updatedby",
+                "type": "string",
+                "default": "",
+                "example": "Warehouse",
+                "pattern": "^.*$"
+              },
+              "CreatedOn": {
+                "$id": "#root/lstxCarrierCarrierUser/items/CreatedOn",
+                "title": "Createdon",
+                "type": "string",
+                "default": "",
+                "example": "2018-03-09T10:01:51",
+                "pattern": "^.*$"
+              },
+              "UpdatedOn": {
+                "$id": "#root/lstxCarrierCarrierUser/items/UpdatedOn",
+                "title": "Updatedon",
+                "type": "string",
+                "default": "",
+                "example": "2021-05-07T06:51:34",
+                "pattern": "^.*$"
+              },
+              "ActiveUser": {
+                "$id": "#root/lstxCarrierCarrierUser/items/ActiveUser",
+                "title": "Activeuser",
+                "type": "boolean",
+                "examples": [
+                  true
+                ],
+                "default": true
+              },
+              "UserRole": {
+                "$id": "#root/lstxCarrierCarrierUser/items/UserRole",
+                "title": "Userrole",
+                "type": "string",
+                "default": "",
+                "example": "Admin",
+                "pattern": "^.*$"
+              },
+              "Global": {
+                "$id": "#root/lstxCarrierCarrierUser/items/Global",
+                "title": "Global",
+                "type": "string",
+                "default": "",
+                "example": "0",
+                "pattern": "^.*$"
+              },
+              "LastLoginDateTime": {
+                "$id": "#root/lstxCarrierCarrierUser/items/LastLoginDateTime",
+                "title": "Lastlogindatetime",
+                "type": "string",
+                "default": "",
+                "example": "2022-06-16T11:59:46.12",
+                "pattern": "^.*$"
+              },
+              "PlantName": {
+                "$id": "#root/lstxCarrierCarrierUser/items/PlantName",
+                "title": "Plantname",
+                "type": "string",
+                "default": "",
+                "example": "ProcessWeaver Inc",
+                "pattern": "^.*$"
+              },
+              "ProfileImageUrl": {
+                "$id": "#root/lstxCarrierCarrierUser/items/ProfileImageUrl",
+                "title": "Profileimageurl",
+                "type": "string",
+                "default": "",
+                "example": "9243700001/PI50159243700001.png",
+                "pattern": "^.*$"
+              },
+              "BuildingNo": {
+                "$id": "#root/lstxCarrierCarrierUser/items/BuildingNo",
+                "title": "Buildingno",
+                "type": "null",
+                "default": null
+              },
+              "MailStop": {
+                "$id": "#root/lstxCarrierCarrierUser/items/MailStop",
+                "title": "Mailstop",
+                "type": "null",
+                "default": null
+              },
+              "CostCenter": {
+                "$id": "#root/lstxCarrierCarrierUser/items/CostCenter",
+                "title": "Costcenter",
+                "type": "null",
+                "default": null
+              },
+              "DgSignatureId": {
+                "$id": "#root/lstxCarrierCarrierUser/items/DgSignatureId",
+                "title": "Dgsignatureid",
+                "type": "null",
+                "default": null
+              },
+              "Contact": {
+                "$id": "#root/lstxCarrierCarrierUser/items/Contact",
+                "title": "Contact",
+                "type": "null",
+                "default": null
+              },
+              "Signature": {
+                "$id": "#root/lstxCarrierCarrierUser/items/Signature",
+                "title": "Signature",
+                "type": "null",
+                "default": null
+              },
+              "Carrier": {
+                "$id": "#root/lstxCarrierCarrierUser/items/Carrier",
+                "title": "Carrier",
+                "type": "null",
+                "default": null
+              },
+              "Count": {
+                "$id": "#root/lstxCarrierCarrierUser/items/Count",
+                "title": "Count",
+                "type": "integer",
+                "examples": [
+                  0
+                ],
+                "default": 0
+              },
+              "ActiveCount": {
+                "$id": "#root/lstxCarrierCarrierUser/items/ActiveCount",
+                "title": "Activecount",
+                "type": "integer",
+                "examples": [
+                  0
+                ],
+                "default": 0
+              },
+              "InActiveCount": {
+                "$id": "#root/lstxCarrierCarrierUser/items/InActiveCount",
+                "title": "Inactivecount",
+                "type": "integer",
+                "examples": [
+                  0
+                ],
+                "default": 0
+              },
+              "Flag": {
+                "$id": "#root/lstxCarrierCarrierUser/items/Flag",
+                "title": "Flag",
+                "type": "integer",
+                "examples": [
+                  0
+                ],
+                "default": 0
+              },
+              "ShippingEngineLabelPath": {
+                "$id": "#root/lstxCarrierCarrierUser/items/ShippingEngineLabelPath",
+                "title": "Shippingenginelabelpath",
+                "type": "null",
+                "default": null
+              },
+              "ERPEnginePath": {
+                "$id": "#root/lstxCarrierCarrierUser/items/ERPEnginePath",
+                "title": "Erpenginepath",
+                "type": "null",
+                "default": null
+              },
+              "BatchShipmentUrl": {
+                "$id": "#root/lstxCarrierCarrierUser/items/BatchShipmentUrl",
+                "title": "Batchshipmenturl",
+                "type": "null",
+                "default": null
+              },
+              "LoginPath": {
+                "$id": "#root/lstxCarrierCarrierUser/items/LoginPath",
+                "title": "Loginpath",
+                "type": "null",
+                "default": null
+              },
+              "Language": {
+                "$id": "#root/lstxCarrierCarrierUser/items/Language",
+                "title": "Language",
+                "type": "null",
+                "default": null
+              },
+              "TimeZoneName": {
+                "$id": "#root/lstxCarrierCarrierUser/items/TimeZoneName",
+                "title": "Timezonename",
+                "type": "null",
+                "default": null
+              },
+              "DateFormat": {
+                "$id": "#root/lstxCarrierCarrierUser/items/DateFormat",
+                "title": "Dateformat",
+                "type": "null",
+                "default": null
+              },
+              "CompanyLogo": {
+                "$id": "#root/lstxCarrierCarrierUser/items/CompanyLogo",
+                "title": "Companylogo",
+                "type": "null",
+                "default": null
+              },
+              "CompanyColor": {
+                "$id": "#root/lstxCarrierCarrierUser/items/CompanyColor",
+                "title": "Companycolor",
+                "type": "null",
+                "default": null
+              },
+              "ChkCostCenter": {
+                "$id": "#root/lstxCarrierCarrierUser/items/ChkCostCenter",
+                "title": "Chkcostcenter",
+                "type": "null",
+                "default": null
+              },
+              "ChkTotalBalQty": {
+                "$id": "#root/lstxCarrierCarrierUser/items/ChkTotalBalQty",
+                "title": "Chktotalbalqty",
+                "type": "null",
+                "default": null
+              },
+              "CustomerName": {
+                "$id": "#root/lstxCarrierCarrierUser/items/CustomerName",
+                "title": "Customername",
+                "type": "null",
+                "default": null
+              },
+              "LoginUserName": {
+                "$id": "#root/lstxCarrierCarrierUser/items/LoginUserName",
+                "title": "Loginusername",
+                "type": "null",
+                "default": null
+              },
+              "ReturnMsg": {
+                "$id": "#root/lstxCarrierCarrierUser/items/ReturnMsg",
+                "title": "ReturnMsg",
+                "type": "null",
+                "default": null
+              },
+              "ShippingEngine": {
+                "$id": "#root/lstxCarrierCarrierUser/items/ShippingEngine",
+                "title": "Shippingengine",
+                "type": "null",
+                "default": null
+              },
+              "ShipmentProcessFlag": {
+                "$id": "#root/lstxCarrierCarrierUser/items/ShipmentProcessFlag",
+                "title": "ShipmentprocessFlag",
+                "type": "null",
+                "default": null
+              }
+            }
+          }
+        },
+        "lstxCarrierLocationCarriers": {
+          "$id": "#root/lstxCarrierLocationCarriers",
+          "title": "Lstxcarrierlocationcarriers",
+          "type": "array",
+          "default": [],
+          "example": [
+            {
+              "CarrierId": "C1001",
+              "Carrier": "FedEx",
+              "LocationId": "2",
+              "CompanyId": "9243700001"
+            }
+          ],
+          "items": {
+            "$id": "#root/lstxCarrierLocationCarriers/items",
+            "title": "Items",
+            "type": "object",
+            "required": [
+              "CarrierId",
+              "Carrier",
+              "LocationId",
+              "CompanyId"
+            ],
+            "properties": {
+              "CarrierId": {
+                "$id": "#root/lstxCarrierLocationCarriers/items/CarrierId",
+                "title": "Carrierid",
+                "type": "string",
+                "default": "",
+                "example": "C1001",
+                "pattern": "^.*$"
+              },
+              "Carrier": {
+                "$id": "#root/lstxCarrierLocationCarriers/items/Carrier",
+                "title": "Carrier",
+                "type": "string",
+                "default": "",
+                "example": "FedEx",
+                "pattern": "^.*$"
+              },
+              "LocationId": {
+                "$id": "#root/lstxCarrierLocationCarriers/items/LocationId",
+                "title": "Locationid",
+                "type": "string",
+                "default": "",
+                "example": "2",
+                "pattern": "^.*$"
+              },
+              "CompanyId": {
+                "$id": "#root/lstxCarrierLocationCarriers/items/CompanyId",
+                "title": "Companyid",
+                "type": "string",
+                "default": "",
+                "example": "9243700001",
+                "pattern": "^.*$"
+              }
+            }
+          }
+        },
+        "lstxCarrierTotalShipments": {
+          "$id": "#root/lstxCarrierTotalShipments",
+          "title": "Lstxcarriertotalshipments",
+          "type": "array",
+          "default": [],
+          "example": [
+            {
+              "CompanyId": "9243700001",
+              "ShippedCount": 0,
+              "VoidCount": 0
+            }
+          ],
+          "items": {
+            "$id": "#root/lstxCarrierTotalShipments/items",
+            "title": "Items",
+            "type": "object",
+            "required": [
+              "CompanyId",
+              "ShippedCount",
+              "VoidCount"
+            ],
+            "properties": {
+              "CompanyId": {
+                "$id": "#root/lstxCarrierTotalShipments/items/CompanyId",
+                "title": "Companyid",
+                "type": "string",
+                "default": "",
+                "example": "9243700001",
+                "pattern": "^.*$"
+              },
+              "ShippedCount": {
+                "$id": "#root/lstxCarrierTotalShipments/items/ShippedCount",
+                "title": "Shippedcount",
+                "type": "integer",
+                "examples": [
+                  0
+                ],
+                "default": 0
+              },
+              "VoidCount": {
+                "$id": "#root/lstxCarrierTotalShipments/items/VoidCount",
+                "title": "Voidcount",
+                "type": "integer",
+                "examples": [
+                  0
+                ],
+                "default": 0
+              }
+            }
+          }
+        },
+        "lstxCarrierHUS": {
+          "$id": "#root/lstxCarrierHUS",
+          "title": "Lstxcarrierhus",
+          "type": "array",
+          "default": [],
+          "example": [
+            {
+              "PlantId": "1",
+              "TotalHuCount": 6489
+            }
+          ],
+          "items": {
+            "$id": "#root/lstxCarrierHUS/items",
+            "title": "Items",
+            "type": "object",
+            "required": [
+              "PlantId",
+              "TotalHuCount"
+            ],
+            "properties": {
+              "PlantId": {
+                "$id": "#root/lstxCarrierHUS/items/PlantId",
+                "title": "Plantid",
+                "type": "string",
+                "default": "",
+                "example": "1",
+                "pattern": "^.*$"
+              },
+              "TotalHuCount": {
+                "$id": "#root/lstxCarrierHUS/items/TotalHuCount",
+                "title": "Totalhucount",
+                "type": "integer",
+                "examples": [
+                  6489
+                ],
+                "default": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "erpRequest": {
+      "type": "object",
+      "required": [
+        "ERP",
+        "PlantId",
+        "DELIVERYNO",
+        "OPERATION",
+        "CustomerId",
+        "FEEDERSYSTEMName",
+        "ORDERTYPE",
+        "AUTOSCAN"
+      ],
+      "properties": {
+        "ERP": {
+          "$id": "#root/ERP",
+          "title": "Erp",
+          "type": "string",
+          "default": "",
+          "example": "Sage X3 V12",
+          "pattern": "^.*$"
+        },
+        "PlantId": {
+          "$id": "#root/PlantId",
+          "title": "Plantid",
+          "type": "integer",
+          "example": 1,
+          "default": 0
+        },
+        "DELIVERYNO": {
+          "$id": "#root/DELIVERYNO",
+          "title": "Deliveryno",
+          "type": "string",
+          "default": "",
+          "example": "SHPNA0110057",
+          "pattern": "^.*$"
+        },
+        "OPERATION": {
+          "$id": "#root/OPERATION",
+          "title": "Operation",
+          "type": "string",
+          "default": "",
+          "example": "GETDETAILS",
+          "enum": [
+            "GETDETAILS"
+          ]
+        },
+        "CustomerId": {
+          "$id": "#root/CustomerId",
+          "title": "Customerid",
+          "type": "string",
+          "default": "",
+          "example": "9243700004",
+          "pattern": "^.*$"
+        },
+        "FEEDERSYSTEMName": {
+          "$id": "#root/FEEDERSYSTEMName",
+          "title": "Feedersystemname",
+          "type": "string",
+          "default": "",
+          "example": "Sage X3 V12",
+          "pattern": "^.*$"
+        },
+        "ORDERTYPE": {
+          "$id": "#root/ORDERTYPE",
+          "title": "Ordertype",
+          "type": "string",
+          "default": "",
+          "example": "DN",
+          "enum": "^.*$"
+        },
+        "AUTOSCAN": {
+          "$id": "#root/AUTOSCAN",
+          "title": "Autoscan",
+          "type": "string",
+          "default": "",
+          "example": "OFF",
+          "enum": [
+            "ON",
+            "OFF"
+          ]
+        }
+      }
+    },
+    "ShippingResult": {
+      "$id": "#root/Result",
+      "title": "Result",
+      "type": "object",
+      "required": [
+        "Order"
+      ],
+      "properties": {
+        "Order": {
+          "$id": "#root/Result/Order",
+          "title": "Order",
+          "type": "object",
+          "required": [
+            "Status",
+            "ErrorMessage",
+            "OrderNo",
+            "Carrier",
+            "Service",
+            "TrackingNo",
+            "PublishedFreight",
+            "DiscountedFreight",
+            "XFORMSANDLABELS"
+          ],
+          "properties": {
+            "Status": {
+              "$id": "#root/Result/Order/Status",
+              "title": "Status",
+              "type": "string",
+              "default": "",
+              "example": "Shipped",
+              "pattern": "^.*$"
+            },
+            "ErrorMessage": {
+              "$id": "#root/Result/Order/ErrorMessage",
+              "title": "Errormessage",
+              "type": "string",
+              "default": "",
+              "example": "",
+              "pattern": "^.*$"
+            },
+            "OrderNo": {
+              "$id": "#root/Result/Order/OrderNo",
+              "title": "Orderno",
+              "type": "integer",
+              "examples": [
+                1886829
+              ],
+              "default": 0
+            },
+            "Carrier": {
+              "$id": "#root/Result/Order/Carrier",
+              "title": "Carrier",
+              "type": "string",
+              "default": "",
+              "example": "FedEx",
+              "pattern": "^.*$"
+            },
+            "Service": {
+              "$id": "#root/Result/Order/Service",
+              "title": "Service",
+              "type": "string",
+              "default": "",
+              "example": "FedEx Ground Home Delivery",
+              "pattern": "^.*$"
+            },
+            "TrackingNo": {
+              "$id": "#root/Result/Order/TrackingNo",
+              "title": "Trackingno",
+              "type": "integer",
+              "examples": [
+                273467783887
+              ],
+              "default": 0
+            },
+            "PublishedFreight": {
+              "$id": "#root/Result/Order/PublishedFreight",
+              "title": "Publishedfreight",
+              "type": "number",
+              "examples": [
+                24.77
+              ],
+              "default": 0
+            },
+            "DiscountedFreight": {
+              "$id": "#root/Result/Order/DiscountedFreight",
+              "title": "Discountedfreight",
+              "type": "number",
+              "examples": [
+                17.39
+              ],
+              "default": 0
+            },
+            "XFORMSANDLABELS": {
+              "$id": "#root/Result/Order/XFORMSANDLABELS",
+              "title": "Xformsandlabels",
+              "type": "object",
+              "required": [
+                "DOCUMENT",
+                "XDOCUMENTS"
+              ],
+              "properties": {
+                "DOCUMENT": {
+                  "$id": "#root/Result/Order/XFORMSANDLABELS/DOCUMENT",
+                  "title": "Document",
+                  "type": "object",
+                  "required": [
+                    "PROVIdER",
+                    "DOCUMENTTYPE",
+                    "DOCUMENTDESCRIPTION",
+                    "NUMBEROFDOCUMENTS",
+                    "DOCUMENTURL"
+                  ],
+                  "properties": {
+                    "PROVIdER": {
+                      "$id": "#root/Result/Order/XFORMSANDLABELS/DOCUMENT/PROVIdER",
+                      "title": "Provider",
+                      "type": "string",
+                      "default": "",
+                      "example": "FEDEX",
+                      "pattern": "^.*$"
+                    },
+                    "DOCUMENTTYPE": {
+                      "$id": "#root/Result/Order/XFORMSANDLABELS/DOCUMENT/DOCUMENTTYPE",
+                      "title": "Documenttype",
+                      "type": "string",
+                      "default": "",
+                      "example": "Label",
+                      "pattern": "^.*$"
+                    },
+                    "DOCUMENTDESCRIPTION": {
+                      "$id": "#root/Result/Order/XFORMSANDLABELS/DOCUMENT/DOCUMENTDESCRIPTION",
+                      "title": "Documentdescription",
+                      "type": "string",
+                      "default": "",
+                      "example": "FEDEX Label",
+                      "pattern": "^.*$"
+                    },
+                    "NUMBEROFDOCUMENTS": {
+                      "$id": "#root/Result/Order/XFORMSANDLABELS/DOCUMENT/NUMBEROFDOCUMENTS",
+                      "title": "Numberofdocuments",
+                      "type": "integer",
+                      "examples": [
+                        1
+                      ],
+                      "default": 0
+                    },
+                    "DOCUMENTURL": {
+                      "$id": "#root/Result/Order/XFORMSANDLABELS/DOCUMENT/DOCUMENTURL",
+                      "title": "Documenturl",
+                      "type": "string",
+                      "default": "",
+                      "example": "http://18.209.136.117/ECSAPI/Labels/doc273467783887.PNG",
+                      "pattern": "^.*$"
+                    }
+                  }
+                },
+                "XDOCUMENTS": {
+                  "$id": "#root/Result/Order/XFORMSANDLABELS/XDOCUMENTS",
+                  "title": "Xdocuments",
+                  "type": "object",
+                  "required": [
+                    "DOCUMENT"
+                  ],
+                  "properties": {
+                    "DOCUMENT": {
+                      "$id": "#root/Result/Order/XFORMSANDLABELS/XDOCUMENTS/DOCUMENT",
+                      "title": "Document",
+                      "type": "object",
+                      "required": [
+                        "PRINTTYPE",
+                        "PROVIdER",
+                        "DOCUMENTTYPE",
+                        "DOCUMENTDESCRIPTION",
+                        "NUMBEROFDOCUMENTS",
+                        "DOCUMENTURL"
+                      ],
+                      "properties": {
+                        "PRINTTYPE": {
+                          "$id": "#root/Result/Order/XFORMSANDLABELS/XDOCUMENTS/DOCUMENT/PRINTTYPE",
+                          "title": "Printtype",
+                          "type": "string",
+                          "default": "",
+                          "example": "",
+                          "pattern": "^.*$"
+                        },
+                        "PROVIdER": {
+                          "$id": "#root/Result/Order/XFORMSANDLABELS/XDOCUMENTS/DOCUMENT/PROVIdER",
+                          "title": "Provider",
+                          "type": "string",
+                          "default": "",
+                          "example": "Internal",
+                          "pattern": "^.*$"
+                        },
+                        "DOCUMENTTYPE": {
+                          "$id": "#root/Result/Order/XFORMSANDLABELS/XDOCUMENTS/DOCUMENT/DOCUMENTTYPE",
+                          "title": "Documenttype",
+                          "type": "string",
+                          "default": "",
+                          "example": "Report",
+                          "pattern": "^.*$"
+                        },
+                        "DOCUMENTDESCRIPTION": {
+                          "$id": "#root/Result/Order/XFORMSANDLABELS/XDOCUMENTS/DOCUMENT/DOCUMENTDESCRIPTION",
+                          "title": "Documentdescription",
+                          "type": "string",
+                          "default": "",
+                          "example": "PACKING SLIP",
+                          "pattern": "^.*$"
+                        },
+                        "NUMBEROFDOCUMENTS": {
+                          "$id": "#root/Result/Order/XFORMSANDLABELS/XDOCUMENTS/DOCUMENT/NUMBEROFDOCUMENTS",
+                          "title": "Numberofdocuments",
+                          "type": "integer",
+                          "examples": [
+                            1
+                          ],
+                          "default": 0
+                        },
+                        "DOCUMENTURL": {
+                          "$id": "#root/Result/Order/XFORMSANDLABELS/XDOCUMENTS/DOCUMENT/DOCUMENTURL",
+                          "title": "Documenturl",
+                          "type": "string",
+                          "default": "",
+                          "example": "http://18.209.136.117/ESLRServices/Preview/ssrsdspackcl273467783887.pdf",
+                          "pattern": "^.*$"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1492 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Elemica Api Documentation",
+    "description": "",
+    "termsOfService": "",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://xcdemo.myxcarrier.com:8443/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "ShipRequest",
+      "description": "Ship Request"
+    }
+  ],
+  "paths": {
+    "/shiprequest/{id}": {
+      "get": {
+        "tags": [
+          "ShipRequest"
+        ],
+        "summary": "This service returns ship request",
+        "operationId": "GetShipRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetShipRequest"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "ShipRequest"
+        ],
+        "summary": "This service Cancels/Re-open ship request",
+        "operationId": "CancelShipRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Shiprequest ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "Version number of API"
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "enum": [
+                        200
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "Ship Request Cancelled Successfully",
+                        "Ship Request Re-Opened Successfully"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string",
+                      "enum": [
+                        "Success"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Version": {
+                      "type": "string",
+                      "description": "Version number of API"
+                    },
+                    "StatusCode": {
+                      "type": "integer",
+                      "format": "int32",
+                      "enum": [
+                        400
+                      ]
+                    },
+                    "Message": {
+                      "type": "string",
+                      "enum": [
+                        "Ship Request Cannot Be Updated"
+                      ]
+                    },
+                    "Result": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "ShipRequest"
+        ],
+        "summary": "This service updates an existing shipment request",
+        "operationId": "UpdateShipRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of Shiprequest to update",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Ship Request",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePatchShipRequest"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/shiprequest": {
+      "post": {
+        "tags": [
+          "ShipRequest"
+        ],
+        "summary": "This service creates a new shipment request",
+        "operationId": "CreateShipRequest",
+        "requestBody": {
+          "description": "Ship Request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShipRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePostShipRequest"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [
+              "write"
+            ]
+          },
+          {
+            "apiKey": [
+              "write"
+            ]
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ShipRequest": {
+        "required": [
+          "FeederInfo",
+          "ShipMethodInfo",
+          "ShipToInfo",
+          "ShipperInfo",
+          "listpackingItemsInfo"
+        ],
+        "type": "object",
+        "properties": {
+          "FeederInfo": {
+            "required": [
+              "OrderType",
+              "ShipDate",
+              "ShipmentType"
+            ],
+            "type": "object",
+            "properties": {
+              "ShipDate": {
+                "type": "string",
+                "description": "Shipment date. Format should be MM/dd/yyyy"
+              },
+              "FeederSystemName": {
+                "type": "string",
+                "description": "Feeder System name"
+              },
+              "OrderType": {
+                "type": "string",
+                "description": "Order Type Code. Value should be based on Location and Company.",
+                "enum": [
+                  "PO",
+                  "SR",
+                  "PWS",
+                  "HAND",
+                  "SALES",
+                  "STO",
+                  "DN",
+                  "RE",
+                  "HU",
+                  "SO",
+                  "PWSS",
+                  "TEST"
+                ]
+              },
+              "ExpectedDeliveryDate": {
+                "type": "string",
+                "description": "Expected date. Format should be MM/dd/yyyy"
+              },
+              "ExpectedDeliveryTime": {
+                "type": "string",
+                "description": "Expected time"
+              },
+              "ShipmentType": {
+                "type": "string",
+                "description": "Shipment Type",
+                "enum": [
+                  "Personal",
+                  "Business",
+                  "Inter Company"
+                ]
+              }
+            }
+          },
+          "ShipperInfo": {
+            "required": [
+              "CustomerId",
+              "PlantId"
+            ],
+            "type": "object",
+            "properties": {
+              "CustomerId": {
+                "type": "string",
+                "description": "Shipper Company Id"
+              },
+              "PlantId": {
+                "type": "string",
+                "description": "Shipper location Id"
+              },
+              "PlantName": {
+                "type": "string",
+                "description": "Shipper Location name",
+                "format": "nullable"
+              },
+              "Company": {
+                "type": "string",
+                "description": "Shipper Company name"
+              },
+              "Contact": {
+                "type": "string",
+                "description": "Shipper Contact"
+              },
+              "AddressLine1": {
+                "type": "string",
+                "description": "Shipper Address Line 1"
+              },
+              "AddressLine2": {
+                "type": "string",
+                "description": "Shipper Address Line 2"
+              },
+              "AddressLine3": {
+                "type": "string",
+                "description": "Shipper Address Line 3"
+              },
+              "City": {
+                "type": "string",
+                "description": "Shipper City"
+              },
+              "State": {
+                "type": "string",
+                "description": "Shipper State"
+              },
+              "Country": {
+                "type": "string",
+                "description": "Shipper Country"
+              },
+              "ZipCode": {
+                "type": "string",
+                "description": "Shipper Zip/Postal Code"
+              },
+              "Phone": {
+                "type": "string",
+                "description": "Shipper Phone"
+              },
+              "Fax": {
+                "type": "string",
+                "description": "Shipper Fax"
+              },
+              "CurrencyCode": {
+                "type": "string",
+                "description": "Shipper Currency Code"
+              },
+              "Dimension": {
+                "type": "string",
+                "description": "Shipper Dimension. Format should be Length X Width X Heigth"
+              },
+              "Email": {
+                "type": "string",
+                "description": "Shipper Email"
+              },
+              "Weight": {
+                "type": "string",
+                "description": "Define weight of shipment"
+              },
+              "CountryRegion": {
+                "type": "string",
+                "description": "Define CountryRegion"
+              }
+            }
+          },
+          "ShipToInfo": {
+            "required": [
+              "AddressLine1",
+              "City",
+              "CompanyName",
+              "Contact",
+              "Country",
+              "Email",
+              "Phone",
+              "State",
+              "ZipCode"
+            ],
+            "type": "object",
+            "properties": {
+              "CompanyName": {
+                "type": "string",
+                "description": "Ship to Company name"
+              },
+              "Contact": {
+                "type": "string",
+                "description": "Ship to Contact name"
+              },
+              "AddressLine1": {
+                "type": "string",
+                "description": "Ship to AddressLine1"
+              },
+              "AddressLine2": {
+                "type": "string",
+                "description": "Ship to AddressLine2"
+              },
+              "AddressLine3": {
+                "type": "string",
+                "description": "Ship to AddressLine3"
+              },
+              "City": {
+                "type": "string",
+                "description": "Ship to City"
+              },
+              "State": {
+                "type": "string",
+                "description": "Ship to State"
+              },
+              "Country": {
+                "type": "string",
+                "description": "Ship to Country"
+              },
+              "ZipCode": {
+                "type": "string",
+                "description": "Ship to Zip/Postal Code"
+              },
+              "Phone": {
+                "type": "string",
+                "description": "Ship to Phone"
+              },
+              "Fax": {
+                "type": "string",
+                "description": "Ship to Fax",
+                "format": "nullable"
+              },
+              "Email": {
+                "type": "string",
+                "description": "Ship to Email"
+              }
+            }
+          },
+          "ShipFromInfo": {
+            "type": "object",
+            "properties": {
+              "CustomerId": {
+                "type": "string",
+                "description": "Ship from Company Id"
+              },
+              "PlantId": {
+                "type": "string",
+                "description": "ship from location Id"
+              },
+              "PlantName": {
+                "type": "string",
+                "description": "ship from  plant name",
+                "format": "nullable"
+              },
+              "Company": {
+                "type": "string",
+                "description": "Ship from Company name"
+              },
+              "Contact": {
+                "type": "string",
+                "description": "Ship from Contact name"
+              },
+              "AddressLine1": {
+                "type": "string",
+                "description": "Ship from AddressLine1"
+              },
+              "AddressLine2": {
+                "type": "string",
+                "description": "Ship from AddressLine2"
+              },
+              "AddressLine3": {
+                "type": "string",
+                "description": "Ship from AddressLine3"
+              },
+              "City": {
+                "type": "string",
+                "description": "Ship from City"
+              },
+              "State": {
+                "type": "string",
+                "description": "Ship from State"
+              },
+              "Country": {
+                "type": "string",
+                "description": "Ship from Country"
+              },
+              "ZipCode": {
+                "type": "string",
+                "description": "Ship from Zip/Postal Code"
+              },
+              "Phone": {
+                "type": "string",
+                "description": "Ship from Phone"
+              },
+              "Fax": {
+                "type": "string",
+                "description": "Ship from Fax"
+              },
+              "CurrencyCode": {
+                "type": "string",
+                "description": "Ship from Currency Code"
+              },
+              "Dimension": {
+                "type": "string",
+                "description": "Dimension of the package. It is in the following format: Length X Width X Height"
+              },
+              "Weight": {
+                "type": "string",
+                "description": "Total weight of the shipment"
+              },
+              "Email": {
+                "type": "string",
+                "description": "Ship from Email"
+              },
+              "CreatedBy": {
+                "type": "string",
+                "description": "Created By"
+              },
+              "ShipFromTaxId": {
+                "type": "string",
+                "description": "ShipFromTaxId if applicable",
+                "format": "nullable"
+              },
+              "ShipperId": {
+                "type": "string",
+                "description": "Ship from Shipper Id",
+                "format": "nullable"
+              }
+            },
+            "description": "Ship from details(Origin details)."
+          },
+          "ShipMethodInfo": {
+            "required": [
+              "CarrierDescription",
+              "ServiceLevelName"
+            ],
+            "type": "object",
+            "properties": {
+              "PaymentTerm": {
+                "type": "string",
+                "description": "Payment type for the shipment",
+                "enum": [
+                  "SENDER",
+                  "RECEIVER"
+                ]
+              },
+              "CarrierDescription": {
+                "type": "string",
+                "description": "Carrier Name"
+              },
+              "CarrierAccountNum": {
+                "type": "string",
+                "description": "Carrier Account number"
+              },
+              "ThirdPartyAccountNum": {
+                "type": "string",
+                "description": "Third Party Account Number,if applicable"
+              },
+              "CarrierId": {
+                "type": "string",
+                "description": "Carrier Id"
+              },
+              "ServiceLevelName": {
+                "type": "string",
+                "description": "Carrier Service level name.Carrier Service used for the shipment"
+              },
+              "CostCenterId": {
+                "type": "string",
+                "description": "Cost Center ID"
+              },
+              "Reference": {
+                "type": "string",
+                "description": "Reference details,if applicable"
+              },
+              "Reference2": {
+                "type": "string",
+                "description": "Reference details,if applicable"
+              },
+              "Notes": {
+                "type": "string",
+                "description": "Any Notes/Instructions,if applicable"
+              },
+              "ServiceLevelCode": {
+                "type": "string",
+                "description": "Carrier Service level name code"
+              },
+              "ShipDataType": {
+                "type": "string",
+                "description": "Shipment date. Format should be MM/dd/yyyy"
+              }
+            },
+            "description": "Shipment method Details"
+          },
+          "listpackingItemsInfo": {
+            "type": "array",
+            "description": "Items to be packed in the shipment",
+            "items": {
+              "required": [
+                "Eccn",
+                "ItemDescription",
+                "ItemNum"
+              ],
+              "type": "object",
+              "properties": {
+                "Id": {
+                  "type": "string",
+                  "description": "Item Id"
+                },
+                "Sno": {
+                  "type": "integer",
+                  "description": "Serial number of the item ",
+                  "format": "int32"
+                },
+                "ItemNum": {
+                  "type": "string",
+                  "description": "Item Number"
+                },
+                "ItemDescription": {
+                  "type": "string",
+                  "description": "Item/Product description"
+                },
+                "PackageWeight": {
+                  "type": "string",
+                  "description": "Weight of package"
+                },
+                "Dimension": {
+                  "type": "string",
+                  "description": "Dimension of the package. It is in the following format: Length X Breadth X Height"
+                },
+                "InsuranceAmount": {
+                  "type": "string",
+                  "description": "Insurance Amount,if applicable"
+                },
+                "UnitValue": {
+                  "type": "string",
+                  "description": "Value of packing item/product(used for customs)"
+                },
+                "UnitMeasure": {
+                  "type": "string",
+                  "description": "Measurement unit for unit value"
+                },
+                "Class": {
+                  "type": "string",
+                  "description": "Class of the item packed in the package"
+                },
+                "ExportLicense": {
+                  "type": "string",
+                  "description": "Export license of the item. Used for International Shipments"
+                },
+                "Category": {
+                  "type": "string",
+                  "description": "Category of the item. Example: First"
+                },
+                "Eccn": {
+                  "type": "string",
+                  "description": "ECCN(Export Control Classification Number) number. Used for International Shipments"
+                },
+                "HarmonisedCode": {
+                  "type": "string",
+                  "description": "Harmonised code.Used for International Shipments"
+                },
+                "CountryOrigin": {
+                  "type": "string",
+                  "description": "Country of the origin of the item. Used for International Shipments"
+                },
+                "RowIndex": {
+                  "type": "integer",
+                  "description": "Index of row",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "FeederInfo": {
+            "ShipDate": "12/15/2022",
+            "FeederSystemName": "Manual",
+            "OrderType": "PWS",
+            "ShipmentType": "Personal",
+            "ExpectedDeliveryDate": "12/15/2022",
+            "ExpectedDeliveryTime": "00:00"
+          },
+          "ShipperInfo": {
+            "CustomerId": "9243700001",
+            "PlantId": "1",
+            "PlantName": "Microsoft",
+            "Company": "Processweaver Inc",
+            "Contact": "Info User",
+            "AddressLine1": "Evince Apartment",
+            "AddressLine2": "G2",
+            "AddressLine3": "hjdfhj",
+            "City": "Hyderabad123",
+            "State": "AZ",
+            "Country": "US",
+            "ZipCode": "500090",
+            "Phone": "9887645",
+            "Fax": "",
+            "CurrencyCode": "",
+            "Dimension": "",
+            "Weight": "",
+            "Email": "lalit.joshi@freshgravity.com"
+          },
+          "ShipToInfo": {
+            "CompanyName": "XYZ Company name",
+            "Contact": "Lalit",
+            "AddressLine1": "Andrew road 123",
+            "AddressLine2": "kjdf",
+            "AddressLine3": "askkjwe",
+            "City": "New Delhi",
+            "State": "DL",
+            "Country": "IN",
+            "ZipCode": "110023",
+            "Phone": "8527760665",
+            "Fax": "56655656-7878-7878 67 676",
+            "Email": "lalit.joshi@freshgravity.com"
+          },
+          "ShipFromInfo": {
+            "Company": "ProcessWeaver Inc",
+            "Contact": "kumar",
+            "AddressLine1": "3600 pennsylvania ave",
+            "AddressLine2": "apt 30",
+            "AddressLine3": "123",
+            "City": "Fremont",
+            "State": "CA",
+            "Country": "US",
+            "ZipCode": "94538",
+            "Phone": "9874563210",
+            "Fax": "4545-2323-4545",
+            "CurrencyCode": "USD",
+            "Dimension": "1X1X1",
+            "Weight": "67.5",
+            "Email": "info@processweaver.com",
+            "CreatedBy": "Sachin"
+          },
+          "ShipMethodInfo": {
+            "PaymentTerm": "Sender",
+            "CarrierDescription": "DHL",
+            "CarrierAccountNum": "sdfsdf",
+            "ThirdPartyAccountNum": "",
+            "CarrierId": "C1003",
+            "ServiceLevelName": "DOMESTIC EXPRESS 12:00(DOT)",
+            "CostCenterId": "CC0",
+            "Reference": "ref1",
+            "Referenc2": "ref2",
+            "Notes": "notessssss",
+            "ServiceLevelCode": "codexxx",
+            "ShipDataType": "SHIPREQTYPE"
+          },
+          "listpackingItemsInfo": [
+            {
+              "Id": "55",
+              "SerialNo": 0,
+              "SHIPREQ_ID": "",
+              "ItemNum": "AB324",
+              "ItemDescription": "Mobile",
+              "TotalItemQuantity": "1",
+              "Dimension": "Select",
+              "PackageWeight": "1",
+              "InsurenceAmount": "",
+              "UnitValue": "80000",
+              "UnitMeasure": "Box",
+              "HarmonisedCode": "ASDE321",
+              "Class": "First",
+              "ExportLicense": "ASDF4321",
+              "SkuItemUps": "1234567890",
+              "CountryOrigin": "AS",
+              "Category": "First",
+              "ECCN": "12345667"
+            }
+          ]
+        }
+      },
+      "GetShipRequest": {
+        "type": "object",
+        "properties": {
+          "Version": {
+            "type": "string",
+            "description": "Version number of API"
+          },
+          "StatusCode": {
+            "type": "integer",
+            "format": "int32",
+            "enum": [
+              200,
+              404,
+              403
+            ]
+          },
+          "Message": {
+            "type": "string"
+          },
+          "Result": {
+            "type": "object",
+            "properties": {
+              "FeederInfo": {
+                "type": "object",
+                "properties": {
+                  "ShipDate": {
+                    "type": "string",
+                    "description": "Shipment date. Format should be MM/dd/yyyy"
+                  },
+                  "FeederSystemName": {
+                    "type": "string"
+                  },
+                  "OrderType": {
+                    "type": "string",
+                    "description": "Order Type Code. Value should be based on Location and Company.",
+                    "enum": [
+                      "PO",
+                      "SR",
+                      "PWS",
+                      "HAND",
+                      "SALES",
+                      "STO",
+                      "DN",
+                      "RE",
+                      "HU",
+                      "SO",
+                      "PWSS",
+                      "TEST"
+                    ]
+                  },
+                  "ExpectedDeliveryDate": {
+                    "type": "string",
+                    "description": "Expected date. Format should be MM/dd/yyyy"
+                  },
+                  "ExpectedDeliveryTime": {
+                    "type": "string",
+                    "description": "Expected time"
+                  },
+                  "ShipmentType": {
+                    "type": "string",
+                    "description": "Shipment Type",
+                    "enum": [
+                      "Personal",
+                      "Business",
+                      "Inter Company"
+                    ]
+                  }
+                }
+              },
+              "ShipperInfo": {
+                "type": "object",
+                "properties": {
+                  "CustomerId": {
+                    "type": "string",
+                    "description": "Shipper Company Id"
+                  },
+                  "PlantId": {
+                    "type": "string",
+                    "description": "Shipper location Id"
+                  },
+                  "PlantName": {
+                    "type": "string",
+                    "description": "Shipper Location name",
+                    "format": "nullable"
+                  },
+                  "Company": {
+                    "type": "string",
+                    "description": "Shipper Company name"
+                  },
+                  "Contact": {
+                    "type": "string",
+                    "description": "Shipper Contact"
+                  },
+                  "AddressLine1": {
+                    "type": "string",
+                    "description": "Shipper Address Line 1"
+                  },
+                  "AddressLine2": {
+                    "type": "string",
+                    "description": "Shipper Address Line 2"
+                  },
+                  "AddressLine3": {
+                    "type": "string",
+                    "description": "Shipper Address Line 3"
+                  },
+                  "City": {
+                    "type": "string",
+                    "description": "Shipper City"
+                  },
+                  "State": {
+                    "type": "string",
+                    "description": "Shipper State"
+                  },
+                  "Country": {
+                    "type": "string",
+                    "description": "Shipper Country"
+                  },
+                  "ZipCode": {
+                    "type": "string",
+                    "description": "Shipper Zip/Postal Code"
+                  },
+                  "Phone": {
+                    "type": "string",
+                    "description": "Shipper Phone"
+                  },
+                  "Fax": {
+                    "type": "string",
+                    "description": "Shipper Fax"
+                  },
+                  "CurrencyCode": {
+                    "type": "string",
+                    "description": "Shipper Currency Code"
+                  },
+                  "Dimension": {
+                    "type": "string",
+                    "description": "Shipper Dimension. Format should be Length X Width X Heigth"
+                  },
+                  "Email": {
+                    "type": "string",
+                    "description": "Shipper Email"
+                  },
+                  "Weight": {
+                    "type": "string",
+                    "description": "Define weight of shipment"
+                  },
+                  "CountryRegion": {
+                    "type": "string",
+                    "description": "Define CountryRegion"
+                  }
+                }
+              },
+              "ShipToInfo": {
+                "type": "object",
+                "properties": {
+                  "Id": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "CompanyName": {
+                    "type": "string",
+                    "description": "Ship to Company name"
+                  },
+                  "Contact": {
+                    "type": "string",
+                    "description": "Ship to Contact name"
+                  },
+                  "AddressLine1": {
+                    "type": "string",
+                    "description": "Ship to AddressLine1"
+                  },
+                  "AddressLine2": {
+                    "type": "string",
+                    "description": "Ship to AddressLine2"
+                  },
+                  "AddressLine3": {
+                    "type": "string",
+                    "description": "Ship to AddressLine3"
+                  },
+                  "City": {
+                    "type": "string",
+                    "description": "Ship to City"
+                  },
+                  "State": {
+                    "type": "string",
+                    "description": "Ship to State"
+                  },
+                  "Country": {
+                    "type": "string",
+                    "description": "Ship to Country"
+                  },
+                  "ZipCode": {
+                    "type": "string",
+                    "description": "Ship to Zip/Postal Code"
+                  },
+                  "Phone": {
+                    "type": "string",
+                    "description": "Ship to Phone"
+                  },
+                  "Fax": {
+                    "type": "string",
+                    "description": "Ship to Fax",
+                    "format": "nullable"
+                  },
+                  "Email": {
+                    "type": "string",
+                    "description": "Ship to Email"
+                  }
+                }
+              },
+              "ShipFromInfo": {
+                "type": "object",
+                "properties": {
+                  "CustomerId": {
+                    "type": "string",
+                    "description": "Ship from Company Id"
+                  },
+                  "PlantId": {
+                    "type": "string",
+                    "description": "ship from location Id"
+                  },
+                  "PlantName": {
+                    "type": "string",
+                    "description": "ship from  plant name",
+                    "format": "nullable"
+                  },
+                  "Company": {
+                    "type": "string",
+                    "description": "Ship from Company name"
+                  },
+                  "Contact": {
+                    "type": "string",
+                    "description": "Ship from Contact name"
+                  },
+                  "AddressLine1": {
+                    "type": "string",
+                    "description": "Ship from AddressLine1"
+                  },
+                  "AddressLine2": {
+                    "type": "string",
+                    "description": "Ship from AddressLine2"
+                  },
+                  "AddressLine3": {
+                    "type": "string",
+                    "description": "Ship from AddressLine3"
+                  },
+                  "City": {
+                    "type": "string",
+                    "description": "Ship from City"
+                  },
+                  "State": {
+                    "type": "string",
+                    "description": "Ship from State"
+                  },
+                  "Country": {
+                    "type": "string",
+                    "description": "Ship from Country"
+                  },
+                  "ZipCode": {
+                    "type": "string",
+                    "description": "Ship from Zip/Postal Code"
+                  },
+                  "Phone": {
+                    "type": "string",
+                    "description": "Ship from Phone"
+                  },
+                  "Fax": {
+                    "type": "string",
+                    "description": "Ship from Fax"
+                  },
+                  "CurrencyCode": {
+                    "type": "string",
+                    "description": "Ship from Currency Code"
+                  },
+                  "Dimension": {
+                    "type": "string",
+                    "description": "Dimension of the package. It is in the following format: Length X Width X Height"
+                  },
+                  "Weight": {
+                    "type": "string"
+                  },
+                  "Email": {
+                    "type": "string",
+                    "description": "Ship from Email"
+                  },
+                  "ShipType": {
+                    "type": "string",
+                    "description": "type of shipment",
+                    "format": "nullable"
+                  },
+                  "ShipFromTaxId": {
+                    "type": "string",
+                    "description": "ShipFromTaxId if applicable",
+                    "format": "nullable"
+                  },
+                  "ShipperId": {
+                    "type": "string",
+                    "description": "Ship from Shipper Id",
+                    "format": "nullable"
+                  }
+                }
+              },
+              "ShipMethodInfo": {
+                "type": "object",
+                "properties": {
+                  "PaymentTerm": {
+                    "type": "string",
+                    "description": "Payment type for the shipment",
+                    "enum": [
+                      "SENDER",
+                      "RECEIVER"
+                    ]
+                  },
+                  "CarrierDescription": {
+                    "type": "string",
+                    "description": "Carrier Name"
+                  },
+                  "CarrierAccountNum": {
+                    "type": "string",
+                    "description": "Carrier Account number"
+                  },
+                  "ThirdPartyAccountNum": {
+                    "type": "string",
+                    "description": "Third Party Account Number,if applicable"
+                  },
+                  "CarrierId": {
+                    "type": "string",
+                    "description": "Carrier Id"
+                  },
+                  "ServiceLevelName": {
+                    "type": "string",
+                    "description": "Carrier Service level name.Carrier Service used for the shipment"
+                  },
+                  "CostCenterId": {
+                    "type": "string",
+                    "description": "Cost Center ID"
+                  },
+                  "Reference": {
+                    "type": "string",
+                    "description": "Reference details,if applicable"
+                  },
+                  "Reference2": {
+                    "type": "string",
+                    "description": "Reference details,if applicable"
+                  },
+                  "Notes": {
+                    "type": "string",
+                    "description": "Any Notes/Instructions,if applicable"
+                  },
+                  "ServiceLevelCode": {
+                    "type": "string",
+                    "description": "Carrier Service level name code"
+                  },
+                  "ShipDataType": {
+                    "type": "string",
+                    "description": "Shipment date. Format should be MM/dd/yyyy"
+                  }
+                }
+              },
+              "listpackingItemsInfo": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "string",
+                      "description": "Item Id"
+                    },
+                    "Sno": {
+                      "type": "integer",
+                      "description": "Serial number of the item ",
+                      "format": "int32"
+                    },
+                    "ItemNum": {
+                      "type": "string",
+                      "description": "Item Number"
+                    },
+                    "ItemDescription": {
+                      "type": "string",
+                      "description": "Item/Product description"
+                    },
+                    "TotalItemQuantity": {
+                      "type": "string",
+                      "description": "Total number of items"
+                    },
+                    "PackageWeight": {
+                      "type": "string",
+                      "description": "weight of package"
+                    },
+                    "Dimension": {
+                      "type": "string",
+                      "description": "Dimension of the package. It is in the following format: Length X Breadth X Height"
+                    },
+                    "InsuranceAmount": {
+                      "type": "string",
+                      "description": "Insurance Amount,if applicable"
+                    },
+                    "UnitValue": {
+                      "type": "string",
+                      "description": "Value of packing item/product(used for customs)"
+                    },
+                    "UnitMeasure": {
+                      "type": "string",
+                      "description": "Measurement unit for unit value"
+                    },
+                    "Class": {
+                      "type": "string",
+                      "description": "Class of the item packed in the package"
+                    },
+                    "ExportLicense": {
+                      "type": "string",
+                      "description": "Export license of the item. Used for International Shipments"
+                    },
+                    "Category": {
+                      "type": "string",
+                      "description": "Category of the item. Example: First"
+                    },
+                    "Eccn": {
+                      "type": "string",
+                      "description": "ECCN(Export Control Classification Number) number. Used for International Shipments"
+                    },
+                    "HarmonisedCode": {
+                      "type": "string",
+                      "description": "Harmonised code.Used for International Shipments"
+                    },
+                    "CountryOrigin": {
+                      "type": "string",
+                      "description": "Country of the origin of the item. Used for International Shipments"
+                    },
+                    "RowIndex": {
+                      "type": "integer",
+                      "description": "Index of row",
+                      "format": "int32"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "Version": "1.0.0.0",
+          "StatusCode": 200,
+          "Message": "Ship Request Found",
+          "Result": {
+            "FeederInfo": {
+              "ShipDate": "01/07/2023",
+              "FeederSystemName": "manual",
+              "LoginId": "5015",
+              "OrderType": "dn",
+              "ShipmentType": "Personal",
+              "ExpectedDeliveryDate": "01/07/2023",
+              "ExpectedDeliveryTime": "00:00",
+              "ShipStatus": "Open"
+            },
+            "ShipperInfo": {
+              "CustomerId": "9243700001",
+              "PlantId": "1",
+              "Company": "ProcessWeaver Inc",
+              "Contact": "Warehouse Manager",
+              "AddressLine1": "no road 456",
+              "AddressLine2": "",
+              "AddressLine3": "",
+              "City": "Richardson",
+              "State": "TX",
+              "Country": "US",
+              "ZipCode": "75080",
+              "Phone": "8889328373",
+              "Fax": "",
+              "CurrencyCode": "",
+              "Dimension": "",
+              "Weight": "",
+              "Email": "info@processweaver.com"
+            },
+            "ShipToInfo": {
+              "Contact": "SENDER",
+              "CompanyName": "Processweaver Inc",
+              "AddressLine1": "Andrew road 123",
+              "AddressLine2": "",
+              "AddressLine3": "",
+              "City": "Nepean",
+              "State": "ON",
+              "Country": "CA",
+              "ZipCode": "K1A 0A4",
+              "Phone": "16137272683",
+              "Fax": "",
+              "Email": "Barrhaven@gamil.com"
+            },
+            "ShipFromInfo": {
+              "CustomerId": "9243700001",
+              "PlantId": "1",
+              "Company": "ProcessWeaver Inc",
+              "Contact": "kumar",
+              "AddressLine1": "3600 pennsylvania ave",
+              "AddressLine2": "apt 30",
+              "AddressLine3": "123",
+              "City": "Fremont",
+              "State": "CA",
+              "Country": "US",
+              "ZipCode": "94538",
+              "Phone": "9874563210",
+              "Fax": "",
+              "Email": "info@processweaver.com",
+              "CreatedBy": "5015"
+            },
+            "ShipMethodInfo": {
+              "PaymentTerm": "",
+              "CarrierDescription": "FedEx",
+              "ThirdPartyAccountNum": "",
+              "CarrierId": "C1003",
+              "ServiceLevelName": "FedEx International Economy",
+              "Reference": "",
+              "Reference2": "",
+              "Notes": "",
+              "ShipDataType": ""
+            },
+            "listpackingItemsInfo": [
+              {
+                "Id": "5161",
+                "SerialNo": "",
+                "ItemNum": "LC99900",
+                "ItemDescription": "Mobile",
+                "TotalItemQuantity": "1",
+                "PackageWeight": "1",
+                "Dimension": "",
+                "InsurenceAmount": " ",
+                "UnitValue": "80000",
+                "UnitMeasure": "Box",
+                "Class": "First",
+                "ExportLicense": "ASDF4321",
+                "SkuItemUps": "1234567890",
+                "Category": "First",
+                "ECCN": "12345667",
+                "HarmonisedCode": "",
+                "CountryOrigin": "AS"
+              }
+            ]
+          }
+        }
+      },
+      "PatchRequest": {
+        "required": [
+          "op",
+          "path"
+        ],
+        "type": "object",
+        "properties": {
+          "op": {
+            "type": "string",
+            "description": "The operation to be performed",
+            "enum": [
+              "add",
+              "remove",
+              "replace",
+              "copy"
+            ]
+          },
+          "path": {
+            "type": "string",
+            "description": "A JSON-Pointer"
+          },
+          "value": {
+            "type": "object",
+            "properties": {},
+            "description": "The value to be used within the operations."
+          }
+        },
+        "description": "A JSONPatch document as defined by RFC 6902",
+        "example": [
+          {
+            "op": "remove",
+            "path": "/ShipToInfo/Contact"
+          },
+          {
+            "op": "replace",
+            "path": "/FeederInfo/ShipmentType",
+            "value": "DG"
+          },
+          {
+            "op": "add",
+            "path": "/listpackingItemsInfo/-",
+            "value": {
+              "Id": 5086,
+              "SerialNo": "0",
+              "ItemNum": "AB324",
+              "ItemDescription": "Mobile",
+              "TotalItemQuantity": 1,
+              "PackageWeight": 1,
+              "Dimension": "Select",
+              "InsurenceAmount": "",
+              "UnitValue": "80000",
+              "UnitMeasure": "Box",
+              "Class": "First",
+              "ExportLicense": "ASDF4321",
+              "SkuItemUps": "1234567890",
+              "Category": "First",
+              "ECCN": "12345667",
+              "HarmonisedCode": "ASDE321",
+              "CountryOrigin": "AS"
+            }
+          }
+        ]
+      },
+      "ResponsePatchShipRequest": {
+        "type": "object",
+        "properties": {
+          "Version": {
+            "type": "string",
+            "description": "Version number of API"
+          },
+          "StatusCode": {
+            "type": "integer",
+            "format": "int32",
+            "enum": [
+              200
+            ]
+          },
+          "Message": {
+            "type": "string",
+            "enum": [
+              "Ship Request Updated"
+            ]
+          },
+          "Result": {
+            "type": "object",
+            "properties": {
+              "ShipRequestId": {
+                "type": "string",
+                "example": "PWO000069"
+              }
+            }
+          }
+        }
+      },
+      "ResponsePostShipRequest": {
+        "type": "object",
+        "properties": {
+          "Version": {
+            "type": "string",
+            "description": "Version number of API"
+          },
+          "StatusCode": {
+            "type": "integer",
+            "format": "int32",
+            "enum": [
+              201
+            ]
+          },
+          "Message": {
+            "type": "string",
+            "enum": [
+              "Ship Request Created"
+            ]
+          },
+          "Result": {
+            "type": "object",
+            "properties": {
+              "ShipRequestId": {
+                "type": "string",
+                "example": "PWO000069"
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "name": "XCARRIER-SECURITY-KEY",
+        "in": "header"
+      }
+    }
+  }
+}
